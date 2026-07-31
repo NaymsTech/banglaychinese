@@ -3,13 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Banglay Chinese — বাংলা থেকে চীনা ভাষা শিখুন। HSK প্রস্তুতি, স্পিকিং কোর্স, কিডস প্রোগ্রাম ও স্কলারশিপ গাইডেন্স।">
-    <title>Banglay Chinese | বাংলা থেকে চীনা ভাষা শিখুন</title>
-    <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}">
+    <title>Banglay Chinese | Best Learn Chinese for Bangladeshi Students — HSK, Scholarship & Study in China</title>
+
+    {{-- Primary SEO --}}
+    <meta name="description" content="Banglay Chinese — Best learn Chinese and study in China for Bangladeshi, all in one solution. HSK 1–4 preparation, live speaking classes, kids program, and China scholarship admission guidance in Bengali.">
+    <meta name="keywords" content="learn chinese, bangla to chinese, HSK preparation, study in china for bangladeshi, china scholarship, chinese language course, banglay chinese">
+    <meta name="author" content="Banglay Chinese">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta name="theme-color" content="#006B3F">
+
+    {{-- Open Graph --}}
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Banglay Chinese">
+    <meta property="og:title" content="Banglay Chinese | Best Learn Chinese for Bangladeshi Students">
+    <meta property="og:description" content="HSK 1–4 preparation, live small-group classes, AI word map, kids program, and China scholarship admission guidance — everything in one place.">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('assets/logo-full.jpeg') }}">
+    <meta property="og:locale" content="bn_BD">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Banglay Chinese | Best Learn Chinese for Bangladeshi Students">
+    <meta name="twitter:description" content="Learn Chinese in Bengali — HSK, speaking, kids & scholarship mentorship. Study in China all-in-one solution.">
+    <meta name="twitter:image" content="{{ asset('assets/logo-full.jpeg') }}">
+
+    <link rel="icon" type="image/png" href="{{ asset('assets/logo.jpeg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@600;700;800&display=swap" rel="stylesheet">
+
+    {{-- Structured Data (JSON-LD) for AI/SEO --}}
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "Banglay Chinese",
+        "alternateName": "banglaychinese.com",
+        "slogan": "Best Learn Chinese and study in China for Bangladeshi – all in one solution",
+        "description": "Online Chinese language learning platform for Bengali speakers — HSK preparation, live speaking classes, kids program and China scholarship mentorship.",
+        "url": "{{ url('/') }}",
+        "logo": "{{ asset('assets/logo.jpeg') }}",
+        "image": "{{ asset('assets/logo-full.jpeg') }}",
+        "email": "info@banglaychinese.com",
+        "telephone": "+86-23-33190493",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "学府大道 (Xuefu Avenue), 南岸区 (Nan'an District)",
+            "addressLocality": "重庆市 (Chongqing)",
+            "addressCountry": "CN"
+        },
+        "contactPoint": [
+            {
+                "@type": "ContactPoint",
+                "telephone": "+86-182-2324-9514",
+                "contactType": "customer support",
+                "availableLanguage": ["Bengali", "English", "Chinese"]
+            },
+            {
+                "@type": "ContactPoint",
+                "telephone": "+86-182-2324-9524",
+                "contactType": "sales",
+                "availableLanguage": ["Bengali", "English", "Chinese"]
+            }
+        ],
+        "sameAs": [
+            "https://wa.me/8618223249514",
+            "https://wa.me/8618223249524"
+        ]
+    }
+    </script>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 antialiased">
 
@@ -17,7 +78,7 @@
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
         <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <a href="{{ url('/') }}" class="flex items-center gap-2">
-                <img src="{{ asset('assets/logo.png') }}" alt="Banglay Chinese Logo" class="h-10 w-auto">
+                <img src="{{ asset('assets/logo.jpeg') }}" alt="Banglay Chinese Logo" class="h-10 w-auto">
                 <span class="text-xl font-extrabold tracking-tight text-slate-900">
                     Banglay <span class="text-primary-600">Chinese</span>
                 </span>
@@ -27,7 +88,7 @@
                 <a href="#why-us" class="transition hover:text-primary-600">কেন আমরা</a>
                 <a href="#scholarship" class="transition hover:text-primary-600">Scholarship Mentorship</a>
             </div>
-            <a href="#courses" class="rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary-600/30 transition hover:bg-primary-700">
+            <a href="#courses" class="rounded-full bg-accent-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition hover:bg-accent-500">
                 এখনই শুরু করুন
             </a>
         </nav>
@@ -37,16 +98,16 @@
     <section class="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-red-950 text-white">
         {{-- Decorative circles --}}
         <div class="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-white/5"></div>
-        <div class="pointer-events-none absolute top-40 -left-32 h-96 w-96 rounded-full bg-gold-500/10"></div>
+        <div class="pointer-events-none absolute top-40 -left-32 h-96 w-96 rounded-full bg-accent-500/10"></div>
         <div class="pointer-events-none absolute bottom-0 right-1/3 h-64 w-64 rounded-full bg-white/5"></div>
 
         <div class="relative mx-auto flex max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
             <span class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-medium backdrop-blur">
-                <span class="h-2 w-2 animate-pulse rounded-full bg-gold-400"></span>
+                <span class="h-2 w-2 animate-pulse rounded-full bg-accent-400"></span>
                 বাংলাদেশের জন্য অনলাইন চাইনিজ লার্নিং
             </span>
             <h1 class="max-w-4xl text-4xl font-extrabold leading-tight tracking-tight font-display sm:text-5xl lg:text-6xl">
-                সহজ উপায়ে <span class="text-gold-400">বাংলা থেকে</span><br>
+                সহজ উপায়ে <span class="text-accent-400">বাংলা থেকে</span><br>
                 চীনা ভাষা শিখুন
             </h1>
             <p class="mt-6 max-w-2xl text-lg leading-relaxed text-red-100 sm:text-xl">
@@ -54,7 +115,7 @@
                 এবং চায়না স্কলারশিপ অ্যাডমিশন গাইডেন্স — সব এক জায়গায়।
             </p>
             <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-                <a href="#courses" class="group inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-4 text-lg font-bold text-slate-900 shadow-xl shadow-black/20 transition hover:bg-gold-400">
+                <a href="#courses" class="group inline-flex items-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/20 transition hover:bg-accent-500">
                     কোার্সসমূহ দেখুন
                     <svg class="h-5 w-5 transition group-hover:translate-y-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
                 </a>
@@ -64,19 +125,19 @@
             </div>
             <div class="mt-14 grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
                 <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-gold-400">{{ $courses->count() }}+</p>
+                    <p class="text-3xl font-extrabold text-accent-400">{{ $courses->count() }}+</p>
                     <p class="mt-1 text-sm text-red-100">লাইভ প্রোগ্রাম</p>
                 </div>
                 <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-gold-400">HSK ১–৪</p>
+                    <p class="text-3xl font-extrabold text-accent-400">HSK ১–৪</p>
                     <p class="mt-1 text-sm text-red-100">কমপ্লিট ট্র্যাক</p>
                 </div>
                 <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-gold-400">৮–১৩</p>
+                    <p class="text-3xl font-extrabold text-accent-400">৮–১৩</p>
                     <p class="mt-1 text-sm text-red-100">কিডস প্রোগ্রাম</p>
                 </div>
                 <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-gold-400">১০০%</p>
+                    <p class="text-3xl font-extrabold text-accent-400">১০০%</p>
                     <p class="mt-1 text-sm text-red-100">বাংলা সাপোর্ট</p>
                 </div>
             </div>
@@ -109,7 +170,7 @@
                         $badgeColors = match ($badgeSlug) {
                             'fun-chinese-for-kids' => 'bg-emerald-100 text-emerald-700',
                             'chinese-speaking-mastery' => 'bg-sky-100 text-sky-700',
-                            'hsk-intensive-program' => 'bg-gold-500 text-slate-900',
+                            'hsk-intensive-program' => 'bg-accent-600 text-white',
                             default => 'bg-primary-100 text-primary-700',
                         };
                     @endphp
@@ -121,7 +182,7 @@
                             </div>
                             <div class="mt-8 flex items-center gap-2">
                                 <span class="rounded-lg bg-white/20 px-2.5 py-1 text-xs font-bold text-white">HSK {{ $course->hsk_level }}</span>
-                                <span class="rounded-lg bg-gold-500 px-2.5 py-1 text-xs font-extrabold text-slate-900">BDT {{ number_format($course->price) }}</span>
+                                <span class="rounded-lg bg-accent-600 px-2.5 py-1 text-xs font-extrabold text-white">BDT {{ number_format($course->price) }}</span>
                             </div>
                         </div>
                         <div class="flex flex-1 flex-col p-6">
@@ -187,14 +248,14 @@
     {{-- ===== SCHOLARSHIP CTA ===== --}}
     <section id="scholarship" class="scroll-mt-24 bg-gradient-to-br from-slate-900 to-slate-800 px-4 py-20 text-white sm:px-6">
         <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
-            <span class="mb-4 inline-flex items-center gap-2 rounded-full border border-gold-500/40 bg-gold-500/10 px-4 py-1.5 text-sm font-semibold text-gold-400">
+            <span class="mb-4 inline-flex items-center gap-2 rounded-full border border-accent-500/40 bg-accent-500/10 px-4 py-1.5 text-sm font-semibold text-accent-400">
                 🎓 চায়না স্কলারশিপ ২০২৬
             </span>
             <h2 class="text-3xl font-extrabold font-display sm:text-4xl">স্কলারশিপ ডেডলাইনের প্রস্তুতি নিন আজই</h2>
             <p class="mt-4 max-w-2xl text-lg text-slate-300">
                 HSK ইনটেনসিভ প্রোগ্রামে ভর্তি হয়ে আসন্ন স্কলারশিপ ডেডলাইনের আগেই HSK ১–৪ সম্পন্ন করুন।
             </p>
-            <a href="#courses" class="mt-8 inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-4 text-lg font-bold text-slate-900 shadow-xl shadow-black/30 transition hover:bg-gold-400">
+            <a href="#courses" class="mt-8 inline-flex items-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/30 transition hover:bg-accent-500">
                 HSK Intensive Program
                 <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>
@@ -206,7 +267,7 @@
         <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
             <div>
                 <a href="{{ url('/') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('assets/logo.png') }}" alt="Banglay Chinese Logo" class="h-9 w-auto">
+                    <img src="{{ asset('assets/logo.jpeg') }}" alt="Banglay Chinese Logo" class="h-9 w-auto">
                     <span class="text-lg font-extrabold text-white">Banglay <span class="text-primary-500">Chinese</span></span>
                 </a>
                 <p class="mt-4 text-sm leading-relaxed">
@@ -216,18 +277,18 @@
             <div>
                 <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-white">Quick Links</h3>
                 <ul class="space-y-3 text-sm">
-                    <li><a href="#courses" class="transition hover:text-gold-400">কোর্সসমূহ</a></li>
-                    <li><a href="#why-us" class="transition hover:text-gold-400">কেন আমরা</a></li>
-                    <li><a href="#scholarship" class="transition hover:text-gold-400">Scholarship Mentorship</a></li>
+                    <li><a href="#courses" class="transition hover:text-accent-400">কোর্সসমূহ</a></li>
+                    <li><a href="#why-us" class="transition hover:text-accent-400">কেন আমরা</a></li>
+                    <li><a href="#scholarship" class="transition hover:text-accent-400">Scholarship Mentorship</a></li>
                 </ul>
             </div>
             <div>
                 <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-white">HSK Preparation</h3>
                 <ul class="space-y-3 text-sm">
-                    <li><a href="#courses" class="transition hover:text-gold-400">HSK Standard Track</a></li>
-                    <li><a href="#courses" class="transition hover:text-gold-400">HSK Intensive Program</a></li>
-                    <li><a href="#courses" class="transition hover:text-gold-400">Chinese Speaking Mastery</a></li>
-                    <li><a href="#courses" class="transition hover:text-gold-400">Fun Chinese for Kids</a></li>
+                    <li><a href="#courses" class="transition hover:text-accent-400">HSK Standard Track</a></li>
+                    <li><a href="#courses" class="transition hover:text-accent-400">HSK Intensive Program</a></li>
+                    <li><a href="#courses" class="transition hover:text-accent-400">Chinese Speaking Mastery</a></li>
+                    <li><a href="#courses" class="transition hover:text-accent-400">Fun Chinese for Kids</a></li>
                 </ul>
             </div>
             <div>
@@ -235,15 +296,19 @@
                 <ul class="space-y-3 text-sm">
                     <li class="flex items-center gap-2">
                         <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        hello@banglaychinese.com
+                        <a href="mailto:info@banglaychinese.com" class="transition hover:text-accent-400">info@banglaychinese.com</a>
                     </li>
                     <li class="flex items-center gap-2">
                         <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        +880 1XXX-XXXXXX
+                        <a href="https://wa.me/8618223249514" target="_blank" rel="noopener" class="transition hover:text-accent-400">WhatsApp: +86 182 2324 9514</a>
+                    </li>
+                    <li class="flex items-center gap-2">
+                        <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        <a href="https://wa.me/8618223249524" target="_blank" rel="noopener" class="transition hover:text-accent-400">WhatsApp: +86 182 2324 9524</a>
                     </li>
                     <li class="flex items-center gap-2">
                         <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
-                        ঢাকা, বাংলাদেশ
+                        <span>重庆市南岸区学府大道<br>Chongqing, China</span>
                     </li>
                 </ul>
             </div>

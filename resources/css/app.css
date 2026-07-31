@@ -1,9 +1,30 @@
 @import 'tailwindcss';
 
+@plugin "@tailwindcss/forms";
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../../resources/views/**/*.blade.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Brand colors — primary red & gold */
+    --color-primary-50: #fef2f2;
+    --color-primary-100: #fee2e2;
+    --color-primary-200: #fecaca;
+    --color-primary-300: #fca5a5;
+    --color-primary-400: #f87171;
+    --color-primary-500: #ef4444;
+    --color-primary-600: #dc2626;
+    --color-primary-700: #b91c1c;
+    --color-primary-800: #991b1b;
+    --color-primary-900: #7f1d1d;
+
+    --color-gold-400: #fbbf24;
+    --color-gold-500: #f59e0b;
+    --color-gold-600: #d97706;
+
+    /* Bengali-friendly fonts */
+    --font-sans: 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Noto Serif Bengali', serif;
 }

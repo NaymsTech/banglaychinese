@@ -5,38 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Banglay Chinese — বাংলা থেকে চীনা ভাষা শিখুন। HSK প্রস্তুতি, স্পিকিং কোর্স, কিডস প্রোগ্রাম ও স্কলারশিপ গাইডেন্স।">
     <title>Banglay Chinese | বাংলা থেকে চীনা ভাষা শিখুন</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#fef2f2',
-                            100: '#fee2e2',
-                            200: '#fecaca',
-                            300: '#fca5a5',
-                            400: '#f87171',
-                            500: '#ef4444',
-                            600: '#dc2626',
-                            700: '#b91c1c',
-                            800: '#991b1b',
-                            900: '#7f1d1d',
-                        },
-                        gold: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                        },
-                    },
-                    fontFamily: {
-                        sans: ['Noto Sans Bengali', 'Hind Siliguri', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                        display: ['Noto Serif Bengali', 'serif'],
-                    },
-                },
-            },
-        }
-    </script>
+    <link rel="icon" type="image/png" href="{{ asset('assets/logo.png') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Noto+Serif+Bengali:wght@600;700;800&display=swap" rel="stylesheet">
@@ -47,7 +17,7 @@
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
         <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
             <a href="{{ url('/') }}" class="flex items-center gap-2">
-                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-600 to-primary-800 text-xl font-extrabold text-white shadow-md">中</span>
+                <img src="{{ asset('assets/logo.png') }}" alt="Banglay Chinese Logo" class="h-10 w-auto">
                 <span class="text-xl font-extrabold tracking-tight text-slate-900">
                     Banglay <span class="text-primary-600">Chinese</span>
                 </span>
@@ -236,7 +206,7 @@
         <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
             <div>
                 <a href="{{ url('/') }}" class="flex items-center gap-2">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary-600 to-primary-800 text-lg font-extrabold text-white">中</span>
+                    <img src="{{ asset('assets/logo.png') }}" alt="Banglay Chinese Logo" class="h-9 w-auto">
                     <span class="text-lg font-extrabold text-white">Banglay <span class="text-primary-500">Chinese</span></span>
                 </a>
                 <p class="mt-4 text-sm leading-relaxed">

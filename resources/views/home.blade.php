@@ -1,322 +1,375 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banglay Chinese | Best Learn Chinese for Bangladeshi Students — HSK, Scholarship & Study in China</title>
-
-    {{-- Primary SEO --}}
-    <meta name="description" content="Banglay Chinese — Best learn Chinese and study in China for Bangladeshi, all in one solution. HSK 1–4 preparation, live speaking classes, kids program, and China scholarship admission guidance in Bengali.">
-    <meta name="keywords" content="learn chinese, bangla to chinese, HSK preparation, study in china for bangladeshi, china scholarship, chinese language course, banglay chinese">
-    <meta name="author" content="Banglay Chinese">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url()->current() }}">
-    <meta name="theme-color" content="#006B3F">
-
-    {{-- Open Graph --}}
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Banglay Chinese">
-    <meta property="og:title" content="Banglay Chinese | Best Learn Chinese for Bangladeshi Students">
-    <meta property="og:description" content="HSK 1–4 preparation, live small-group classes, AI word map, kids program, and China scholarship admission guidance — everything in one place.">
-    <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('assets/logo-full.jpeg') }}">
-    <meta property="og:locale" content="bn_BD">
-
-    {{-- Twitter Card --}}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Banglay Chinese | Best Learn Chinese for Bangladeshi Students">
-    <meta name="twitter:description" content="Learn Chinese in Bengali — HSK, speaking, kids & scholarship mentorship. Study in China all-in-one solution.">
-    <meta name="twitter:image" content="{{ asset('assets/logo-full.jpeg') }}">
-
-    <link rel="icon" type="image/png" href="{{ asset('assets/logo.jpeg') }}">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-    {{-- Structured Data (JSON-LD) for AI/SEO --}}
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
-        "name": "Banglay Chinese",
-        "alternateName": "banglaychinese.com",
-        "slogan": "Best Learn Chinese and study in China for Bangladeshi – all in one solution",
-        "description": "Online Chinese language learning platform for Bengali speakers — HSK preparation, live speaking classes, kids program and China scholarship mentorship.",
-        "url": "{{ url('/') }}",
-        "logo": "{{ asset('assets/logo.jpeg') }}",
-        "image": "{{ asset('assets/logo-full.jpeg') }}",
-        "email": "info@banglaychinese.com",
-        "telephone": "+86-23-33190493",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "学府大道 (Xuefu Avenue), 南岸区 (Nan'an District)",
-            "addressLocality": "重庆市 (Chongqing)",
-            "addressCountry": "CN"
-        },
-        "contactPoint": [
-            {
-                "@type": "ContactPoint",
-                "telephone": "+86-182-2324-9514",
-                "contactType": "customer support",
-                "availableLanguage": ["Bengali", "English", "Chinese"]
-            },
-            {
-                "@type": "ContactPoint",
-                "telephone": "+86-182-2324-9524",
-                "contactType": "sales",
-                "availableLanguage": ["Bengali", "English", "Chinese"]
-            }
-        ],
-        "sameAs": [
-            "https://wa.me/8618223249514",
-            "https://wa.me/8618223249524"
-        ]
-    }
-    </script>
-</head>
-<body class="bg-slate-50 font-sans text-slate-800 antialiased">
-
-    {{-- ===== NAVBAR ===== --}}
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md shadow-sm">
-        <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-            <a href="{{ url('/') }}" class="flex items-center gap-2">
-                <img src="{{ asset('assets/logo.jpeg') }}" alt="Banglay Chinese Logo" class="h-10 w-auto">
-                <span class="text-xl font-extrabold tracking-tight text-slate-900">
-                    Banglay <span class="text-primary-600">Chinese</span>
-                </span>
-            </a>
-            <div class="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
-                <a href="#courses" class="transition hover:text-primary-600">কোর্সসমূহ</a>
-                <a href="#why-us" class="transition hover:text-primary-600">কেন আমরা</a>
-                <a href="#scholarship" class="transition hover:text-primary-600">Scholarship Mentorship</a>
-            </div>
-            <a href="#courses" class="rounded-full bg-accent-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-accent-600/30 transition hover:bg-accent-500">
-                এখনই শুরু করুন
-            </a>
-        </nav>
-    </header>
-
+<x-app-layout
+    :metaTitle="$metaTitle"
+    :metaDescription="$metaDescription"
+    :courseJsonLd="$courseJsonLd"
+    :faqJsonLd="$faqJsonLd"
+>
     {{-- ===== HERO ===== --}}
-    <section class="relative overflow-hidden bg-gradient-to-br from-primary-700 via-primary-800 to-red-950 text-white">
+    <section class="relative overflow-hidden bg-gradient-to-br from-[#0F5132] via-[#0D5A38] to-[#052e16] text-white">
         {{-- Decorative circles --}}
         <div class="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-white/5"></div>
         <div class="pointer-events-none absolute top-40 -left-32 h-96 w-96 rounded-full bg-accent-500/10"></div>
         <div class="pointer-events-none absolute bottom-0 right-1/3 h-64 w-64 rounded-full bg-white/5"></div>
 
-        <div class="relative mx-auto flex max-w-7xl flex-col items-center px-4 py-24 text-center sm:px-6 sm:py-32 lg:px-8">
+        <div class="relative mx-auto flex max-w-7xl flex-col items-center px-4 py-20 text-center sm:px-6 sm:py-28 lg:px-8">
             <span class="mb-6 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-sm font-medium backdrop-blur">
                 <span class="h-2 w-2 animate-pulse rounded-full bg-accent-400"></span>
-                বাংলাদেশের জন্য অনলাইন চাইনিজ লার্নিং
+                নতুন ব্যাচ শুরু — লাইভ ক্লাসে জায়গা সীমিত
             </span>
-            <h1 class="max-w-4xl text-4xl font-extrabold leading-tight tracking-tight font-display sm:text-5xl lg:text-6xl">
-                সহজ উপায়ে <span class="text-accent-400">বাংলা থেকে</span><br>
-                চীনা ভাষা শিখুন
+
+            <h1 class="max-w-4xl text-3xl font-extrabold leading-tight tracking-tight font-display sm:text-5xl lg:text-[3.4rem]">
+                সরাসরি চীন থেকে এক্সক্লুসিভ মেন্টরশিপে<br class="hidden sm:block">
+                <span class="text-accent-400">স্কলারশিপ ও চাইনীজ ভাষা</span> শিখুন
             </h1>
-            <p class="mt-6 max-w-2xl text-lg leading-relaxed text-red-100 sm:text-xl">
-                HSK ১ থেকে ৪ পর্যন্ত প্রমাণিত রোডম্যাপ, লাইভ স্মল-গ্রুপ ক্লাস, AI ওয়ার্ড ম্যাপ
-                এবং চায়না স্কলারশিপ অ্যাডমিশন গাইডেন্স — সব এক জায়গায়।
+
+            <p class="mt-6 max-w-2xl text-base leading-relaxed text-emerald-100 sm:text-lg">
+                লাইভ ব্যাচ, HSK ১–৪ প্রস্তুতি, স্পিকিং মাস্টারি এবং CSC স্কলারশিপ সাপোর্ট — সব এক জায়গায়।
+                চায়নার বিশ্ববিদ্যালয়ে ভর্তির স্বপ্ন পূরণ করুন বাংলায় শেখা চাইনিজে।
             </p>
+
             <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-                <a href="#courses" class="group inline-flex items-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/20 transition hover:bg-accent-500">
-                    কোার্সসমূহ দেখুন
-                    <svg class="h-5 w-5 transition group-hover:translate-y-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                <a href="{{ route('scholarship') }}" class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/30 transition hover:bg-accent-500 sm:w-auto">
+                    🎓 স্কলারশিপ গাইডেন্স
+                    <svg class="h-5 w-5 transition group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
-                <a href="#scholarship" class="inline-flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur transition hover:border-white/60 hover:bg-white/20">
-                    🎓 Scholarship Mentorship
+                <a href="#courses" class="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-emerald-400/60 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur transition hover:border-emerald-300 hover:bg-white/20 sm:w-auto">
+                    কোর্সসমূহ দেখুন
                 </a>
             </div>
-            <div class="mt-14 grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
-                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-accent-400">{{ $courses->count() }}+</p>
-                    <p class="mt-1 text-sm text-red-100">লাইভ প্রোগ্রাম</p>
-                </div>
-                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-accent-400">HSK ১–৪</p>
-                    <p class="mt-1 text-sm text-red-100">কমপ্লিট ট্র্যাক</p>
-                </div>
-                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-accent-400">৮–১৩</p>
-                    <p class="mt-1 text-sm text-red-100">কিডস প্রোগ্রাম</p>
-                </div>
-                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
-                    <p class="text-3xl font-extrabold text-accent-400">১০০%</p>
-                    <p class="mt-1 text-sm text-red-100">বাংলা সাপোর্ট</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    {{-- ===== COURSE GRID ===== --}}
-    <section id="courses" class="mx-auto max-w-7xl scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8">
-        <div class="mb-12 text-center">
-            <span class="text-sm font-bold uppercase tracking-widest text-primary-600">লার্নিং প্রোগ্রাম</span>
-            <h2 class="mt-3 text-3xl font-extrabold text-slate-900 font-display sm:text-4xl">আমাদের কোর্সসমূহ</h2>
-            <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-500">
-                আপনার গোল অনুযায়ী বেছে নিন — স্কলারশিপ, ক্যারিয়ার, কিংবা বাচ্চাদের ফাউন্ডেশন।
-            </p>
-        </div>
-
-        @if($courses->isEmpty())
-            <p class="py-16 text-center text-slate-400">কোনো কোর্স পাওয়া যায়নি।</p>
-        @else
-            <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                @foreach($courses as $course)
-                    @php
-                        $badgeSlug = $course->slug;
-                        $badgeLabel = match ($badgeSlug) {
-                            'fun-chinese-for-kids' => 'Kids Program',
-                            'chinese-speaking-mastery' => 'Speaking & Fluency',
-                            'hsk-intensive-program' => 'Scholarship Guidance',
-                            default => 'HSK Preparation',
-                        };
-                        $badgeColors = match ($badgeSlug) {
-                            'fun-chinese-for-kids' => 'bg-emerald-100 text-emerald-700',
-                            'chinese-speaking-mastery' => 'bg-sky-100 text-sky-700',
-                            'hsk-intensive-program' => 'bg-accent-600 text-white',
-                            default => 'bg-primary-100 text-primary-700',
-                        };
-                    @endphp
-                    <article class="group flex flex-col overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl">
-                        <div class="relative h-36 bg-gradient-to-br from-primary-600 to-red-900 p-6">
-                            <div class="pointer-events-none absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10"></div>
-                            <div class="flex items-start justify-between">
-                                <span class="rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">{{ $badgeLabel }}</span>
-                            </div>
-                            <div class="mt-8 flex items-center gap-2">
-                                <span class="rounded-lg bg-white/20 px-2.5 py-1 text-xs font-bold text-white">HSK {{ $course->hsk_level }}</span>
-                                <span class="rounded-lg bg-accent-600 px-2.5 py-1 text-xs font-extrabold text-white">BDT {{ number_format($course->price) }}</span>
-                            </div>
-                        </div>
-                        <div class="flex flex-1 flex-col p-6">
-                            <a href="#courses" class="text-xl font-bold text-slate-900 transition group-hover:text-primary-600">
-                                {{ $course->title }}
-                            </a>
-                            <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-500">
-                                {{ \Illuminate\Support\Str::limit($course->description, 110) }}
-                            </p>
-                            <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                                <li class="flex items-center gap-2">
-                                    <svg class="h-4 w-4 text-primary-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                    লাইভ ছোট গ্রুপ ক্লাস
-                                </li>
-                                <li class="flex items-center gap-2">
-                                    <svg class="h-4 w-4 text-primary-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                    নিয়মিত মক টেস্ট ও ফিডব্যাক
-                                </li>
-                            </ul>
-                            <a href="#scholarship" class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-primary-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-primary-600/25 transition hover:bg-primary-700">
-                                Enroll Now
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                            </a>
-                        </div>
-                    </article>
-                @endforeach
-            </div>
-        @endif
-    </section>
-
-    {{-- ===== WHY US ===== --}}
-    <section id="why-us" class="scroll-mt-24 bg-white py-20">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-12 text-center">
-                <span class="text-sm font-bold uppercase tracking-widest text-primary-600">কেন Banglay Chinese</span>
-                <h2 class="mt-3 text-3xl font-extrabold text-slate-900 font-display sm:text-4xl">বাংলা থেকে চীনা ভাষা শেখার সেরা প্ল্যাটফর্ম</h2>
-            </div>
-            <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-                <div class="rounded-3xl border border-slate-100 bg-slate-50 p-6 text-center transition hover:border-primary-200 hover:bg-white hover:shadow-md">
-                    <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-100 text-2xl">🗣️</div>
-                    <h3 class="text-lg font-bold text-slate-900">বাংলায় ব্যাখ্যা</h3>
-                    <p class="mt-2 text-sm text-slate-500">জটিল ব্যাকরণ থেকে শুরু করে উচ্চারণ — সব কিছু মাতৃভাষায় সহজভাবে শেখানো হয়।</p>
+            {{-- Social Proof Banner --}}
+            <div class="mt-12 flex flex-col items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-6 py-4 backdrop-blur sm:flex-row sm:gap-6">
+                <div class="flex -space-x-2">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-300 text-xs font-bold text-emerald-950 ring-2 ring-white/30">S</span>
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-amber-300 text-xs font-bold text-amber-950 ring-2 ring-white/30">R</span>
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-sky-300 text-xs font-bold text-sky-950 ring-2 ring-white/30">T</span>
+                    <span class="flex h-8 w-8 items-center justify-center rounded-full bg-rose-300 text-xs font-bold text-rose-950 ring-2 ring-white/30">+</span>
                 </div>
-                <div class="rounded-3xl border border-slate-100 bg-slate-50 p-6 text-center transition hover:border-primary-200 hover:bg-white hover:shadow-md">
-                    <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-100 text-2xl">🤖</div>
-                    <h3 class="text-lg font-bold text-slate-900">AI ওয়ার্ড ম্যাপ</h3>
-                    <p class="mt-2 text-sm text-slate-500">স্মার্ট ওয়ার্ড ম্যাপ দ্রুত ভোকাবুলারি মনে রাখতে এবং রিভিশন করতে সাহায্য করে।</p>
-                </div>
-                <div class="rounded-3xl border border-slate-100 bg-slate-50 p-6 text-center transition hover:border-primary-200 hover:bg-white hover:shadow-md">
-                    <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-100 text-2xl">🎯</div>
-                    <h3 class="text-lg font-bold text-slate-900">স্কলারশিপ গাইডেন্স</h3>
-                    <p class="mt-2 text-sm text-slate-500">চায়না সরকারের স্কলারশিপ আবেদন, ডকুমেন্ট আর ডেডলাইন ম্যানেজমেন্টে হাতে-কলমে সাপোর্ট।</p>
-                </div>
-                <div class="rounded-3xl border border-slate-100 bg-slate-50 p-6 text-center transition hover:border-primary-200 hover:bg-white hover:shadow-md">
-                    <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-100 text-2xl">⏱️</div>
-                    <h3 class="text-lg font-bold text-slate-900">ফ্লেক্সিবল প্রোগ্রাম</h3>
-                    <p class="mt-2 text-sm text-slate-500">কিডস, প্রফেশনাল আর স্কলারশিপ আপ্লিক্যান্ট — সবার জন্য আলাদা আলাদা রোডম্যাপ।</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- ===== SCHOLARSHIP CTA ===== --}}
-    <section id="scholarship" class="scroll-mt-24 bg-gradient-to-br from-slate-900 to-slate-800 px-4 py-20 text-white sm:px-6">
-        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
-            <span class="mb-4 inline-flex items-center gap-2 rounded-full border border-accent-500/40 bg-accent-500/10 px-4 py-1.5 text-sm font-semibold text-accent-400">
-                🎓 চায়না স্কলারশিপ ২০২৬
-            </span>
-            <h2 class="text-3xl font-extrabold font-display sm:text-4xl">স্কলারশিপ ডেডলাইনের প্রস্তুতি নিন আজই</h2>
-            <p class="mt-4 max-w-2xl text-lg text-slate-300">
-                HSK ইনটেনসিভ প্রোগ্রামে ভর্তি হয়ে আসন্ন স্কলারশিপ ডেডলাইনের আগেই HSK ১–৪ সম্পন্ন করুন।
-            </p>
-            <a href="#courses" class="mt-8 inline-flex items-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/30 transition hover:bg-accent-500">
-                HSK Intensive Program
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
-        </div>
-    </section>
-
-    {{-- ===== FOOTER ===== --}}
-    <footer class="bg-slate-950 text-slate-400">
-        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-8">
-            <div>
-                <a href="{{ url('/') }}" class="flex items-center gap-2">
-                    <img src="{{ asset('assets/logo.jpeg') }}" alt="Banglay Chinese Logo" class="h-9 w-auto">
-                    <span class="text-lg font-extrabold text-white">Banglay <span class="text-primary-500">Chinese</span></span>
-                </a>
-                <p class="mt-4 text-sm leading-relaxed">
-                    বাংলা ভাষাভাষীদের জন্য চীনা ভাষা শিক্ষা, HSK প্রস্তুতি ও স্কলারশিপ গাইডেন্স — সম্পূর্ণ অনলাইনে।
+                <p class="text-sm font-semibold text-emerald-50 sm:text-base">
+                    <span class="font-extrabold text-accent-400">৫০০+ শিক্ষার্থী</span> চায়নায় স্কলারশিপ পেয়েছেন আমাদের গাইডেন্সে
                 </p>
             </div>
-            <div>
-                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-white">Quick Links</h3>
-                <ul class="space-y-3 text-sm">
-                    <li><a href="#courses" class="transition hover:text-accent-400">কোর্সসমূহ</a></li>
-                    <li><a href="#why-us" class="transition hover:text-accent-400">কেন আমরা</a></li>
-                    <li><a href="#scholarship" class="transition hover:text-accent-400">Scholarship Mentorship</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-white">HSK Preparation</h3>
-                <ul class="space-y-3 text-sm">
-                    <li><a href="#courses" class="transition hover:text-accent-400">HSK Standard Track</a></li>
-                    <li><a href="#courses" class="transition hover:text-accent-400">HSK Intensive Program</a></li>
-                    <li><a href="#courses" class="transition hover:text-accent-400">Chinese Speaking Mastery</a></li>
-                    <li><a href="#courses" class="transition hover:text-accent-400">Fun Chinese for Kids</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="mb-4 text-sm font-bold uppercase tracking-wider text-white">Contact</h3>
-                <ul class="space-y-3 text-sm">
-                    <li class="flex items-center gap-2">
-                        <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <a href="mailto:info@banglaychinese.com" class="transition hover:text-accent-400">info@banglaychinese.com</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        <a href="https://wa.me/8618223249514" target="_blank" rel="noopener" class="transition hover:text-accent-400">WhatsApp: +86 182 2324 9514</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
-                        <a href="https://wa.me/8618223249524" target="_blank" rel="noopener" class="transition hover:text-accent-400">WhatsApp: +86 182 2324 9524</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <svg class="h-4 w-4 text-primary-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>
-                        <span>重庆市南岸区学府大道<br>Chongqing, China</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="border-t border-slate-800 py-6 text-center text-xs text-slate-500">
-            © {{ date('Y') }} Banglay Chinese. সর্বস্বত্ব সংরক্ষিত।
-        </div>
-    </footer>
 
-</body>
-</html>
+            {{-- Trust Stats --}}
+            <div class="mt-12 grid w-full max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
+                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
+                    <p class="text-2xl font-extrabold text-accent-400 sm:text-3xl">HSK ১–৪</p>
+                    <p class="mt-1 text-xs text-emerald-100 sm:text-sm">কমপ্লিট ট্র্যাক</p>
+                </div>
+                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
+                    <p class="text-2xl font-extrabold text-accent-400 sm:text-3xl">৯৫%+</p>
+                    <p class="mt-1 text-xs text-emerald-100 sm:text-sm">স্কলারশিপ সাকসেস</p>
+                </div>
+                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
+                    <p class="text-2xl font-extrabold text-accent-400 sm:text-3xl">১০০%</p>
+                    <p class="mt-1 text-xs text-emerald-100 sm:text-sm">বাংলা সাপোর্ট</p>
+                </div>
+                <div class="rounded-2xl bg-white/10 p-4 backdrop-blur">
+                    <p class="text-2xl font-extrabold text-accent-400 sm:text-3xl">লাইভ</p>
+                    <p class="mt-1 text-xs text-emerald-100 sm:text-sm">স্মল-গ্রুপ ক্লাস</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- ===== INTERACTIVE GOAL FILTER ===== --}}
+    <section id="courses" class="scroll-mt-24 bg-[#F0FDF4] py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-10 text-center">
+                <span class="text-sm font-bold uppercase tracking-widest text-primary-800">লার্নিং প্রোগ্রাম</span>
+                <h2 class="mt-3 text-3xl font-extrabold text-slate-900 font-display sm:text-4xl">আপনার গোল অনুযায়ী কোর্স বেছে নিন</h2>
+                <p class="mx-auto mt-4 max-w-2xl text-base text-slate-500 sm:text-lg">
+                    স্কলারশিপ, ক্যারিয়ার, কিংবা বাচ্চাদের ফাউন্ডেশন — যেটাই হোক, সঠিক প্রোগ্রাম আছে আপনার জন্য।
+                </p>
+            </div>
+
+            {{-- Filter Buttons --}}
+            <div class="mb-10 flex flex-wrap items-center justify-center gap-3" id="course-filters">
+                <button type="button" data-filter="all" class="filter-btn rounded-full bg-primary-800 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-primary-800/20 transition hover:bg-primary-900">
+                    সব কোর্স
+                </button>
+                <button type="button" data-filter="hsk" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
+                    HSK প্রস্তুতি
+                </button>
+                <button type="button" data-filter="speaking" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
+                    স্পিকিং মাস্টারি
+                </button>
+                <button type="button" data-filter="scholarship" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
+                    স্কলারশিপ প্রোগ্রাম
+                </button>
+            </div>
+
+            {{-- Course Grid --}}
+            @if($courses->isEmpty())
+                <p class="py-16 text-center text-slate-400">কোনো কোর্স পাওয়া যায়নি।</p>
+            @else
+                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    @foreach($courses as $course)
+                        @php
+                            $badge = match ($course->slug) {
+                                'fun-chinese-for-kids' => ['label' => 'POPULAR', 'style' => 'bg-primary-800 text-white', 'filter' => 'speaking'],
+                                'chinese-speaking-mastery' => ['label' => 'POPULAR', 'style' => 'bg-primary-800 text-white', 'filter' => 'speaking'],
+                                'hsk-intensive-program' => ['label' => 'INTENSIVE', 'style' => 'bg-accent-600 text-white', 'filter' => 'scholarship'],
+                                default => ['label' => 'HSK', 'style' => 'bg-primary-100 text-primary-800', 'filter' => 'hsk'],
+                            };
+                            $isFeatured = $course->is_featured;
+                        @endphp
+                        <article class="course-card group flex flex-col overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+                                 data-filter="{{ $badge['filter'] }}">
+                            <div class="relative h-40 bg-gradient-to-br from-primary-800 to-primary-950 p-6">
+                                <div class="pointer-events-none absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10"></div>
+                                <div class="flex items-start justify-between">
+                                    <span class="rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">{{ $badge['label'] }}</span>
+                                    @if($isFeatured)
+                                        <span class="rounded-full bg-amber-400 px-2.5 py-1 text-xs font-extrabold text-amber-950">★ FEATURED</span>
+                                    @endif
+                                </div>
+                                <div class="mt-10 flex flex-wrap items-center gap-2">
+                                    <span class="rounded-lg bg-white/20 px-2.5 py-1 text-xs font-bold text-white">HSK {{ $course->hsk_level }}</span>
+                                    <span class="rounded-lg bg-accent-600 px-2.5 py-1 text-xs font-extrabold text-white">৳{{ number_format($course->price) }}</span>
+                                    @if($course->duration_weeks)
+                                        <span class="rounded-lg bg-emerald-400/90 px-2.5 py-1 text-xs font-bold text-emerald-950">{{ $course->duration_weeks }} সপ্তাহ</span>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="flex flex-1 flex-col p-6">
+                                <h3 class="text-xl font-bold text-slate-900 transition group-hover:text-primary-800">
+                                    {{ $course->title }}
+                                </h3>
+                                <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-500">
+                                    {{ \Illuminate\Support\Str::limit($course->description, 110) }}
+                                </p>
+                                <ul class="mt-4 space-y-2 text-sm text-slate-600">
+                                    <li class="flex items-center gap-2">
+                                        <svg class="h-4 w-4 text-primary-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                        লাইভ ছোট গ্রুপ ক্লাস
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <svg class="h-4 w-4 text-primary-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                        নিয়মিত মক টেস্ট ও ফিডব্যাক
+                                    </li>
+                                </ul>
+                                <a href="https://wa.me/8618223249514?text={{ urlencode('আমি ' . $course->title . ' কোর্সে ভর্তি হতে চাই') }}"
+                                   target="_blank" rel="noopener"
+                                   class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-primary-800 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-primary-800/25 transition hover:bg-primary-900">
+                                    এখনই ভর্তি হন
+                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                                </a>
+                            </div>
+                        </article>
+                    @endforeach
+                </div>
+            @endif
+        </div>
+    </section>
+
+    {{-- ===== CHINA SCHOLARSHIP ROADMAP ===== --}}
+    <section id="scholarship-roadmap" class="scroll-mt-24 bg-white py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-12 text-center">
+                <span class="rounded-full bg-red-50 px-4 py-1.5 text-sm font-bold text-accent-600">🎓 চায়না স্কলারশিপ রোডম্যাপ</span>
+                <h2 class="mt-3 text-3xl font-extrabold text-slate-900 font-display sm:text-4xl">৪ ধাপে চীনের বিশ্ববিদ্যালয়ে ভর্তি</h2>
+                <p class="mx-auto mt-4 max-w-2xl text-base text-slate-500 sm:text-lg">
+                    Banglay Chinese-এর মেন্টরশিপে সম্পূর্ণ গাইডেন্স — শুরু থেকে ফ্লাইট পর্যন্ত।
+                </p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                @php
+                    $steps = [
+                        [
+                            'num' => '১',
+                            'icon' => '📚',
+                            'title' => 'HSK প্রস্তুতি',
+                            'desc' => 'HSK 1–4 প্রমাণিত রোডম্যাপে ভাষা দক্ষতা অর্জন করুন মক টেস্ট ও লাইভ ক্লাসে।',
+                            'color' => 'bg-emerald-50 text-emerald-800',
+                        ],
+                        [
+                            'num' => '২',
+                            'icon' => '📝',
+                            'title' => 'ডকুমেন্ট ও SOP',
+                            'desc' => 'SOP, ট্রান্সক্রিপ্ট, রেকমেন্ডেশন — সব ডকুমেন্ট এক্সপার্ট রিভিউসহ প্রস্তুত করুন।',
+                            'color' => 'bg-sky-50 text-sky-800',
+                        ],
+                        [
+                            'num' => '৩',
+                            'icon' => '🏫',
+                            'title' => 'ইউনিভার্সিটি অ্যাপ্লিকেশন',
+                            'desc' => 'আপনার প্রোফাইল অনুযায়ী সেরা ইউনিভার্সিটি নির্বাচন ও আবেদন টাইমলাইন।',
+                            'color' => 'bg-amber-50 text-amber-800',
+                        ],
+                        [
+                            'num' => '৪',
+                            'icon' => '✈️',
+                            'title' => 'ভিসা ও ফ্লাইট',
+                            'desc' => 'ভিসা প্রসেসিং, প্রি-ডিপার্চার ব্রিফিং এবং চীনে পৌঁছানোর পর সাপোর্ট।',
+                            'color' => 'bg-red-50 text-red-700',
+                        ],
+                    ];
+                @endphp
+
+                @foreach($steps as $step)
+                    <div class="relative rounded-3xl border border-slate-100 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+                        <div class="absolute -top-3 left-6 flex h-8 w-8 items-center justify-center rounded-full {{ $step['color'] }} text-sm font-extrabold ring-4 ring-white">
+                            {{ $step['num'] }}
+                        </div>
+                        <div class="mt-4 text-4xl">{{ $step['icon'] }}</div>
+                        <h3 class="mt-4 text-lg font-bold text-slate-900">{{ $step['title'] }}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-slate-500">{{ $step['desc'] }}</p>
+                    </div>
+                @endforeach
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="{{ route('scholarship') }}"
+                   class="inline-flex items-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-accent-600/30 transition hover:bg-accent-700">
+                    স্কলারশিপ গাইডেন্স শুরু করুন
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    {{-- ===== MENTORS TEASER ===== --}}
+    <section id="mentors" class="scroll-mt-24 bg-[#F0FDF4] py-16 sm:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-10 text-center">
+                <span class="text-sm font-bold uppercase tracking-widest text-primary-800">এক্সক্লুসিভ মেন্টরশিপ</span>
+                <h2 class="mt-3 text-3xl font-extrabold text-slate-900 font-display sm:text-4xl">চীনে থাকা মেন্টরদের কাছ থেকে সরাসরি শিখুন</h2>
+                <p class="mx-auto mt-4 max-w-2xl text-base text-slate-500 sm:text-lg">
+                    আমাদের সব মেন্টর বর্তমানে চীনের বিশ্ববিদ্যালয়ে পড়ছেন বা পড়াশোনা সম্পন্ন করেছেন — তাই স্কলারশিপ ও ভর্তির বাস্তব অভিজ্ঞতা পান সরাসরি।
+                </p>
+            </div>
+
+            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                @foreach([
+                    ['🎓', 'স্কলারশিপ এক্সপার্ট', 'CSC ও ইউনিভার্সিটি স্কলারশিপ আবেদনে ৫০০+ শিক্ষার্থীকে গাইড করেছেন।'],
+                    ['🗣️', 'HSK ৪ টপ-স্কোরার', 'HSK 4-এ নিখুঁত স্কোর — উচ্চারণ ও লিসেনিং ট্রিকস শেখান সরাসরি।'],
+                    ['🇨🇳', 'চায়না রেসিডেন্ট', 'চীনে থাকা মেন্টরের কাছ থেকে ইউনিভার্সিটি লাইফ ও ভিসা অভিজ্ঞতা।'],
+                ] as $mentor)
+                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-emerald-100 transition hover:shadow-lg">
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-100 text-2xl">{{ $mentor[0] }}</div>
+                        <h3 class="mt-4 text-lg font-bold text-slate-900">{{ $mentor[1] }}</h3>
+                        <p class="mt-2 text-sm leading-relaxed text-slate-500">{{ $mentor[2] }}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
+
+    {{-- ===== FAQ ACCORDION ===== --}}
+    <section id="faq" class="scroll-mt-24 bg-white py-16 sm:py-20">
+        <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+            <div class="mb-10 text-center">
+                <span class="text-sm font-bold uppercase tracking-widest text-primary-800">সাধারণ প্রশ্ন</span>
+                <h2 class="mt-3 text-3xl font-extrabold text-slate-900 font-display sm:text-4xl">আপনার প্রশ্নের উত্তর</h2>
+            </div>
+
+            <div class="space-y-4" id="faq-accordion">
+                @php
+                    $faqs = [
+                        [
+                            'q' => 'বাংলাদেশি শিক্ষার্থীরা কীভাবে চায়না স্কলারশিপ পেতে পারে?',
+                            'a' => 'চায়না স্কলারশিপ (CSC) পেতে HSK 3–4 লেভেলের সার্টিফিকেট, একাডেমিক ট্রান্সক্রিপ্ট, SOP এবং ইউনিভার্সিটি অ্যাপ্লিকেশন প্রয়োজন। আমাদের স্কলারশিপ মেন্টরশিপে ডকুমেন্ট প্রস্তুতি থেকে ইউনিভার্সিটি সিলেকশন পর্যন্ত সম্পূর্ণ গাইডেন্স দেওয়া হয়।',
+                        ],
+                        [
+                            'q' => 'HSK কী এবং কত লেভেল পর্যন্ত শেখানো হয়?',
+                            'a' => 'HSK হলো চীনা ভাষার আন্তর্জাতিক দক্ষতা পরীক্ষা। Banglay Chinese-এ HSK 1 থেকে HSK 4 পর্যন্ত সম্পূর্ণ প্রস্তুতি করা হয় — লাইভ ক্লাস, মক টেস্ট ও পার্সোনাল ফিডব্যাক সহ।',
+                        ],
+                        [
+                            'q' => 'কোর্সের ফি কত এবং কী কী সুবিধা আছে?',
+                            'a' => 'কোর্স অনুযায়ী ফি আলাদা — HSK Standard Track ১৮,০০০ টাকা, Chinese Speaking Mastery ২০,০০০ টাকা এবং HSK Intensive Program ২৫,০০০ টাকা। সব কোর্সে লাইভ স্মল-গ্রুপ ক্লাস, রেকর্ডিং, AI ওয়ার্ড ম্যাপ ও সার্টিফিকেট অন্তর্ভুক্ত।',
+                        ],
+                        [
+                            'q' => 'কোর্স করতে কি আগে থেকে চাইনিজ জানতে হবে?',
+                            'a' => 'না, কোনো পূর্ব অভিজ্ঞতা লাগবে না। HSK 1 থেকে শুরু হয় আমাদের সিলেবাস — সম্পূর্ণ বাংলায় ব্যাখ্যাসহ, তাই একদম শূন্য থেকেও শুরু করতে পারবেন।',
+                        ],
+                        [
+                            'q' => 'লাইভ ক্লাসের সময়সূচী কেমন?',
+                            'a' => 'লাইভ ক্লাস বাংলাদেশ সময় সন্ধ্যায় সপ্তাহে ৩ দিন হয়। প্রতিটি ক্লাসের রেকর্ডিং থাকে, তাই মিস করলেও পরে দেখে নিতে পারবেন।',
+                        ],
+                    ];
+                @endphp
+
+                @foreach($faqs as $index => $faq)
+                    <div class="faq-item rounded-2xl border border-slate-200 bg-white transition hover:border-primary-300" x-data="{ open: {{ $index === 0 ? 'true' : 'false' }} }">
+                        <button type="button" @click="open = !open" class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left" :aria-expanded="open.toString()">
+                            <span class="text-base font-bold text-slate-900 sm:text-lg">{{ $faq['q'] }}</span>
+                            <svg class="h-5 w-5 shrink-0 text-primary-800 transition-transform duration-300" :class="open ? 'rotate-45' : ''" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-1" x-transition:enter-end="opacity-100 translate-y-0" class="px-5 pb-5">
+                            <p class="text-sm leading-relaxed text-slate-500 sm:text-base">{{ $faq['a'] }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <p class="mt-8 text-center text-sm text-slate-500">
+                আরও প্রশ্ন আছে? <a href="{{ route('contact') }}" class="font-bold text-primary-800 hover:underline">কন্টাক্ট করুন</a> অথবা
+                <a href="https://wa.me/8618223249514" target="_blank" rel="noopener" class="font-bold text-[#25D366] hover:underline">WhatsApp</a>-এ মেসেজ দিন।
+            </p>
+        </div>
+    </section>
+
+    {{-- ===== FINAL CTA ===== --}}
+    <section class="bg-gradient-to-br from-primary-900 to-primary-950 px-4 py-16 text-white sm:px-6">
+        <div class="mx-auto flex max-w-4xl flex-col items-center text-center">
+            <span class="mb-4 inline-flex items-center gap-2 rounded-full border border-accent-500/40 bg-accent-500/10 px-4 py-1.5 text-sm font-semibold text-accent-400">
+                🔥 নতুন ব্যাচে ভর্তি চলছে
+            </span>
+            <h2 class="text-3xl font-extrabold font-display sm:text-4xl">আপনার চায়না ড্রিম শুরু হোক আজই</h2>
+            <p class="mt-4 max-w-2xl text-lg text-emerald-200">
+                জায়গা সীমিত — আজই রেজিস্ট্রেশন করুন এবং প্রথম লাইভ ক্লাসে ফ্রি অংশ নিন।
+            </p>
+            <div class="mt-8 flex flex-col gap-4 sm:flex-row">
+                <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/30 transition hover:bg-accent-500">
+                    ফ্রি রেজিস্ট্রেশন করুন
+                </a>
+                <a href="https://wa.me/8618223249514?text={{ urlencode('আমি কোর্স সম্পর্কে জানতে চাই') }}" target="_blank" rel="noopener"
+                   class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-emerald-400/60 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur transition hover:border-emerald-300 hover:bg-white/20">
+                    💬 WhatsApp-এ কথা বলুন
+                </a>
+            </div>
+        </div>
+    </section>
+
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // ---- Interactive Course Filter ----
+                const filterButtons = document.querySelectorAll('#course-filters .filter-btn');
+                const courseCards = document.querySelectorAll('.course-card');
+
+                function setActiveFilter(activeBtn) {
+                    filterButtons.forEach(btn => {
+                        const isActive = btn === activeBtn;
+                        btn.classList.toggle('bg-primary-800', isActive);
+                        btn.classList.toggle('text-white', isActive);
+                        btn.classList.toggle('shadow-md', isActive);
+                        btn.classList.toggle('shadow-primary-800/20', isActive);
+                        btn.classList.toggle('bg-white', !isActive);
+                        btn.classList.toggle('text-slate-600', !isActive);
+                        btn.classList.toggle('ring-1', !isActive);
+                        btn.classList.toggle('ring-slate-200', !isActive);
+                    });
+                }
+
+                filterButtons.forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const filter = this.dataset.filter;
+                        setActiveFilter(this);
+
+                        courseCards.forEach(card => {
+                            if (filter === 'all' || card.dataset.filter === filter) {
+                                card.style.display = '';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+
+            });
+        </script>
+    @endpush
+</x-app-layout>

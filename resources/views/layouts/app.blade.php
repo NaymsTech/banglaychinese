@@ -32,7 +32,7 @@
 
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
+        "@@context": "https://schema.org",
         "@type": "EducationalOrganization",
         "name": "Banglay Chinese",
         "alternateName": "banglaychinese.com",

@@ -18,18 +18,16 @@
             </span>
 
             <h1 class="max-w-4xl text-3xl font-extrabold leading-tight tracking-tight font-display sm:text-5xl lg:text-[3.4rem]">
-                সরাসরি চীন থেকে এক্সক্লুসিভ মেন্টরশিপে<br class="hidden sm:block">
-                <span class="text-accent-400">স্কলারশিপ ও চাইনীজ ভাষা</span> শিখুন
+                {!! nl2br(e(\App\Services\SettingsService::get('hero_title', 'সরাসরি চীন থেকে এক্সক্লুসিভ মেন্টরশিপে স্কলারশিপ ও চাইনীজ ভাষা শিখুন'))) !!}
             </h1>
 
             <p class="mt-6 max-w-2xl text-base leading-relaxed text-emerald-100 sm:text-lg">
-                লাইভ ব্যাচ, HSK ১–৪ প্রস্তুতি, স্পিকিং মাস্টারি এবং CSC স্কলারশিপ সাপোর্ট — সব এক জায়গায়।
-                চায়নার বিশ্ববিদ্যালয়ে ভর্তির স্বপ্ন পূরণ করুন বাংলায় শেখা চাইনিজে।
+                {{ \App\Services\SettingsService::get('hero_subtitle', 'লাইভ ব্যাচ, HSK ১–৪ প্রস্তুতি, স্পিকিং মাস্টারি এবং CSC স্কলারশিপ সাপোর্ট — সব এক জায়গায়। চায়নার বিশ্ববিদ্যালয়ে ভর্তির স্বপ্ন পূরণ করুন বাংলায় শেখা চাইনিজে।') }}
             </p>
 
             <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row">
-                <a href="{{ route('scholarship') }}" class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/30 transition hover:bg-accent-500 sm:w-auto">
-                    🎓 স্কলারশিপ গাইডেন্স
+                <a href="{{ route('study-in-china') }}" class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/30 transition hover:bg-accent-500 sm:w-auto">
+                    🎓 Study in China
                     <svg class="h-5 w-5 transition group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
                 </a>
                 <a href="#courses" class="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-emerald-400/60 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur transition hover:border-emerald-300 hover:bg-white/20 sm:w-auto">
@@ -86,7 +84,7 @@
             {{-- Filter Buttons --}}
             <div class="mb-10 flex flex-wrap items-center justify-center gap-3" id="course-filters">
                 <button type="button" data-filter="all" class="filter-btn rounded-full bg-primary-800 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-primary-800/20 transition hover:bg-primary-900">
-                    সব কোর্স
+                    সব প্রোগ্রাম
                 </button>
                 <button type="button" data-filter="hsk" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
                     HSK প্রস্তুতি
@@ -94,8 +92,14 @@
                 <button type="button" data-filter="speaking" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
                     স্পিকিং মাস্টারি
                 </button>
+                <button type="button" data-filter="kids" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
+                    কিডস প্রোগ্রাম
+                </button>
                 <button type="button" data-filter="scholarship" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
-                    স্কলারশিপ প্রোগ্রাম
+                    স্কলারশিপ
+                </button>
+                <button type="button" data-filter="study-in-china" class="filter-btn rounded-full bg-amber-500 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-amber-500/20 transition hover:bg-amber-600">
+                    🎓 Study in China
                 </button>
             </div>
 
@@ -103,60 +107,9 @@
             @if($courses->isEmpty())
                 <p class="py-16 text-center text-slate-400">কোনো কোর্স পাওয়া যায়নি।</p>
             @else
-                <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @foreach($courses as $course)
-                        @php
-                            $badge = match ($course->slug) {
-                                'fun-chinese-for-kids' => ['label' => 'POPULAR', 'style' => 'bg-primary-800 text-white', 'filter' => 'speaking'],
-                                'chinese-speaking-mastery' => ['label' => 'POPULAR', 'style' => 'bg-primary-800 text-white', 'filter' => 'speaking'],
-                                'hsk-intensive-program' => ['label' => 'INTENSIVE', 'style' => 'bg-accent-600 text-white', 'filter' => 'scholarship'],
-                                default => ['label' => 'HSK', 'style' => 'bg-primary-100 text-primary-800', 'filter' => 'hsk'],
-                            };
-                            $isFeatured = $course->is_featured;
-                        @endphp
-                        <article class="course-card group flex flex-col overflow-hidden rounded-3xl bg-white shadow-sm ring-1 ring-slate-200 transition duration-300 hover:-translate-y-1.5 hover:shadow-xl"
-                                 data-filter="{{ $badge['filter'] }}">
-                            <div class="relative h-40 bg-gradient-to-br from-primary-800 to-primary-950 p-6">
-                                <div class="pointer-events-none absolute -bottom-8 -right-8 h-28 w-28 rounded-full bg-white/10"></div>
-                                <div class="flex items-start justify-between">
-                                    <span class="rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-wide text-white backdrop-blur">{{ $badge['label'] }}</span>
-                                    @if($isFeatured)
-                                        <span class="rounded-full bg-amber-400 px-2.5 py-1 text-xs font-extrabold text-amber-950">★ FEATURED</span>
-                                    @endif
-                                </div>
-                                <div class="mt-10 flex flex-wrap items-center gap-2">
-                                    <span class="rounded-lg bg-white/20 px-2.5 py-1 text-xs font-bold text-white">HSK {{ $course->hsk_level }}</span>
-                                    <span class="rounded-lg bg-accent-600 px-2.5 py-1 text-xs font-extrabold text-white">৳{{ number_format($course->price) }}</span>
-                                    @if($course->duration_weeks)
-                                        <span class="rounded-lg bg-emerald-400/90 px-2.5 py-1 text-xs font-bold text-emerald-950">{{ $course->duration_weeks }} সপ্তাহ</span>
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="flex flex-1 flex-col p-6">
-                                <h3 class="text-xl font-bold text-slate-900 transition group-hover:text-primary-800">
-                                    {{ $course->title }}
-                                </h3>
-                                <p class="mt-3 flex-1 text-sm leading-relaxed text-slate-500">
-                                    {{ \Illuminate\Support\Str::limit($course->description, 110) }}
-                                </p>
-                                <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                                    <li class="flex items-center gap-2">
-                                        <svg class="h-4 w-4 text-primary-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                        লাইভ ছোট গ্রুপ ক্লাস
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <svg class="h-4 w-4 text-primary-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
-                                        নিয়মিত মক টেস্ট ও ফিডব্যাক
-                                    </li>
-                                </ul>
-                                <a href="https://wa.me/8618223249514?text={{ urlencode('আমি ' . $course->title . ' কোর্সে ভর্তি হতে চাই') }}"
-                                   target="_blank" rel="noopener"
-                                   class="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-primary-800 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-primary-800/25 transition hover:bg-primary-900">
-                                    এখনই ভর্তি হন
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-                                </a>
-                            </div>
-                        </article>
+                        <x-course-card :course="$course" />
                     @endforeach
                 </div>
             @endif
@@ -221,7 +174,7 @@
             </div>
 
             <div class="mt-12 text-center">
-                <a href="{{ route('scholarship') }}"
+                <a href="{{ route('study-in-china') }}"
                    class="inline-flex items-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-accent-600/30 transition hover:bg-accent-700">
                     স্কলারশিপ গাইডেন্স শুরু করুন
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
@@ -230,29 +183,31 @@
         </div>
     </section>
 
-    {{-- ===== MENTORS TEASER ===== --}}
-    <section id="mentors" class="scroll-mt-24 bg-[#F0FDF4] py-16 sm:py-20">
+    {{-- ===== MEET YOUR MENTOR ===== --}}
+    <section class="bg-gradient-to-br from-slate-50 to-emerald-50 py-16 sm:py-20">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-10 text-center">
-                <span class="text-sm font-bold uppercase tracking-widest text-primary-800">এক্সক্লুসিভ মেন্টরশিপ</span>
-                <h2 class="mt-3 text-3xl font-extrabold text-slate-900 font-display sm:text-4xl">চীনে থাকা মেন্টরদের কাছ থেকে সরাসরি শিখুন</h2>
-                <p class="mx-auto mt-4 max-w-2xl text-base text-slate-500 sm:text-lg">
-                    আমাদের সব মেন্টর বর্তমানে চীনের বিশ্ববিদ্যালয়ে পড়ছেন বা পড়াশোনা সম্পন্ন করেছেন — তাই স্কলারশিপ ও ভর্তির বাস্তব অভিজ্ঞতা পান সরাসরি।
-                </p>
-            </div>
-
-            <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach([
-                    ['🎓', 'স্কলারশিপ এক্সপার্ট', 'CSC ও ইউনিভার্সিটি স্কলারশিপ আবেদনে ৫০০+ শিক্ষার্থীকে গাইড করেছেন।'],
-                    ['🗣️', 'HSK ৪ টপ-স্কোরার', 'HSK 4-এ নিখুঁত স্কোর — উচ্চারণ ও লিসেনিং ট্রিকস শেখান সরাসরি।'],
-                    ['🇨🇳', 'চায়না রেসিডেন্ট', 'চীনে থাকা মেন্টরের কাছ থেকে ইউনিভার্সিটি লাইফ ও ভিসা অভিজ্ঞতা।'],
-                ] as $mentor)
-                    <div class="rounded-3xl bg-white p-6 shadow-sm ring-1 ring-emerald-100 transition hover:shadow-lg">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary-100 text-2xl">{{ $mentor[0] }}</div>
-                        <h3 class="mt-4 text-lg font-bold text-slate-900">{{ $mentor[1] }}</h3>
-                        <p class="mt-2 text-sm leading-relaxed text-slate-500">{{ $mentor[2] }}</p>
+            <div class="overflow-hidden rounded-3xl border border-emerald-100 bg-white shadow-xl shadow-emerald-900/5">
+                <div class="flex flex-col items-center gap-8 p-8 sm:p-12 lg:flex-row lg:gap-12">
+                    {{-- Portrait --}}
+                    <div class="shrink-0">
+                        <div class="h-28 w-28 overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 shadow-lg ring-4 ring-emerald-100 sm:h-36 sm:w-36">
+                            <div class="flex h-full w-full items-center justify-center text-5xl font-extrabold text-white/90">ন</div>
+                        </div>
                     </div>
-                @endforeach
+                    {{-- Content --}}
+                    <div class="flex-1 text-center lg:text-left">
+                        <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-bold text-emerald-800">👋 আপনার মেন্টর</span>
+                        <h3 class="mt-3 text-2xl font-extrabold text-slate-900 sm:text-3xl">Md. Naymur Rahman</h3>
+                        <p class="mt-1 text-base font-semibold text-emerald-700">Founder & Lead Instructor</p>
+                        <p class="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
+                            🇨🇳 ২০১৭ সাল থেকে চীনে পড়াশোনা করছি। স্ক্র্যাচ থেকে ফ্লুয়েন্ট — আমি নিজে এই জার্নি করেছি। এখন বাংলাদেশি শিক্ষার্থীদের সহজভাবে চাইনিজ শেখাচ্ছি।
+                        </p>
+                        <a href="{{ route('about') }}" class="mt-5 inline-flex items-center gap-2 rounded-full bg-emerald-700 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-700/20 transition hover:bg-emerald-800">
+                            সম্পূর্ণ গল্প পড়ুন
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -278,7 +233,7 @@
                         ],
                         [
                             'q' => 'কোর্সের ফি কত এবং কী কী সুবিধা আছে?',
-                            'a' => 'কোর্স অনুযায়ী ফি আলাদা — HSK Standard Track ১৮,০০০ টাকা, Chinese Speaking Mastery ২০,০০০ টাকা এবং HSK Intensive Program ২৫,০০০ টাকা। সব কোর্সে লাইভ স্মল-গ্রুপ ক্লাস, রেকর্ডিং, AI ওয়ার্ড ম্যাপ ও সার্টিফিকেট অন্তর্ভুক্ত।',
+                            'a' => 'কোর্স অনুযায়ী ফি আলাদা — Fun Chinese for Kids ১২,০০০ টাকা, HSK Standard Track ১২,০০০ টাকা, Chinese Speaking Mastery ১৬,০০০ টাকা এবং HSK Intensive Program ২০,০০০ টাকা। Study in China সার্ভিস ২৫,০০০ টাকা থেকে শুরু। সব কোর্সে লাইভ স্মল-গ্রুপ ক্লাস, রেকর্ডিং, AI ওয়ার্ড ম্যাপ ও সার্টিফিকেট অন্তর্ভুক্ত।',
                         ],
                         [
                             'q' => 'কোর্স করতে কি আগে থেকে চাইনিজ জানতে হবে?',
@@ -304,9 +259,10 @@
                 @endforeach
             </div>
 
+            @php $waNumber = \App\Services\SettingsService::get('whatsapp_number', '8618223249514'); @endphp
             <p class="mt-8 text-center text-sm text-slate-500">
                 আরও প্রশ্ন আছে? <a href="{{ route('contact') }}" class="font-bold text-primary-800 hover:underline">কন্টাক্ট করুন</a> অথবা
-                <a href="https://wa.me/8618223249514" target="_blank" rel="noopener" class="font-bold text-[#25D366] hover:underline">WhatsApp</a>-এ মেসেজ দিন।
+                <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener" class="font-bold text-[#25D366] hover:underline">WhatsApp</a>-এ মেসেজ দিন।
             </p>
         </div>
     </section>
@@ -325,7 +281,7 @@
                 <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-black/30 transition hover:bg-accent-500">
                     ফ্রি রেজিস্ট্রেশন করুন
                 </a>
-                <a href="https://wa.me/8618223249514?text={{ urlencode('আমি কোর্স সম্পর্কে জানতে চাই') }}" target="_blank" rel="noopener"
+                <a href="https://wa.me/{{ $waNumber }}?text={{ urlencode('আমি কোর্স সম্পর্কে জানতে চাই') }}" target="_blank" rel="noopener"
                    class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-emerald-400/60 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur transition hover:border-emerald-300 hover:bg-white/20">
                     💬 WhatsApp-এ কথা বলুন
                 </a>

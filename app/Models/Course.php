@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Course extends Model
 {
@@ -19,12 +20,18 @@ class Course extends Model
         'category_id',
         'is_featured',
         'duration_weeks',
+        'type',
+        'batch_start_date',
+        'batch_end_date',
+        'consultation_link',
     ];
 
     protected $casts = [
         'is_published' => 'boolean',
         'is_featured' => 'boolean',
         'price' => 'decimal:2',
+        'batch_start_date' => 'date',
+        'batch_end_date' => 'date',
     ];
 
     public function modules(): HasMany
@@ -35,6 +42,11 @@ class Course extends Model
     public function enrollments(): HasMany
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function lessons(): HasManyThrough
+    {
+        return $this->hasManyThrough(Lesson::class, Module::class);
     }
 
     public function category(): BelongsTo

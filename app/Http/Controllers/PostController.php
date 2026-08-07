@@ -16,12 +16,11 @@ class PostController extends Controller
         return view('blog.index', compact('posts'));
     }
 
-    public function show(string $slug)
+    public function show(Post $post)
     {
-        $post = Post::where('slug', $slug)
-            ->where('is_published', true)
-            ->whereNotNull('published_at')
-            ->firstOrFail();
+        if (! $post->is_published || $post->published_at === null) {
+            abort(404);
+        }
 
         $related = Post::where('is_published', true)
             ->whereNotNull('published_at')

@@ -1,0 +1,10 @@
+/vendor/
+/node_modules/
+/public/build/
+/public/storage/
+/storage/
+/.git/
+.env
+.env.*
+!.env.example
+*.log

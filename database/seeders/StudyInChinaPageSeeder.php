@@ -1,0 +1,522 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\StudyInChinaSection;
+use Illuminate\Database\Seeder;
+
+class StudyInChinaPageSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $sections = [
+            // ===== HERO SECTION =====
+            [
+                'key' => 'hero_heading',
+                'value' => 'Study in China with Confidence',
+                'type' => 'text',
+                'group' => 'hero',
+                'label' => 'Hero Heading',
+                'sort_order' => 1,
+            ],
+            [
+                'key' => 'hero_subtitle',
+                'value' => 'Start your journey with guidance from someone who has personally studied in China since 2017 and understands every step of the process.',
+                'type' => 'longtext',
+                'group' => 'hero',
+                'label' => 'Hero Subtitle',
+                'sort_order' => 2,
+            ],
+            [
+                'key' => 'hero_founder_image',
+                'value' => 'images/founder.png',
+                'type' => 'image',
+                'group' => 'hero',
+                'label' => 'Founder Image',
+                'sort_order' => 3,
+            ],
+            [
+                'key' => 'hero_badge_1',
+                'value' => '🇨🇳 Studying in China Since 2017',
+                'type' => 'text',
+                'group' => 'hero',
+                'label' => 'Trust Badge 1',
+                'sort_order' => 4,
+            ],
+            [
+                'key' => 'hero_badge_2',
+                'value' => '🏆 Chinese Bridge 2024 World Top 10 Finalist',
+                'type' => 'text',
+                'group' => 'hero',
+                'label' => 'Trust Badge 2',
+                'sort_order' => 5,
+            ],
+            [
+                'key' => 'hero_badge_3',
+                'value' => '💼 2+ Years Professional Chinese Interpreter',
+                'type' => 'text',
+                'group' => 'hero',
+                'label' => 'Trust Badge 3',
+                'sort_order' => 6,
+            ],
+            [
+                'key' => 'hero_cta_primary',
+                'value' => 'Book Free Consultation',
+                'type' => 'text',
+                'group' => 'hero',
+                'label' => 'Primary CTA Text',
+                'sort_order' => 7,
+            ],
+            [
+                'key' => 'hero_cta_secondary',
+                'value' => 'Explore Service Packages',
+                'type' => 'text',
+                'group' => 'hero',
+                'label' => 'Secondary CTA Text',
+                'sort_order' => 8,
+            ],
+            [
+                'key' => 'hero_stats',
+                'value' => json_encode([
+                    ['number' => '7+', 'label' => 'Years Experience'],
+                    ['number' => '100+', 'label' => 'Students Guided'],
+                    ['number' => '50+', 'label' => 'University Partnerships'],
+                    ['number' => '95%', 'label' => 'Success Rate'],
+                ]),
+                'type' => 'json',
+                'group' => 'hero',
+                'label' => 'Trust Statistics',
+                'sort_order' => 9,
+            ],
+
+            // ===== WHY CHINA SECTION =====
+            [
+                'key' => 'why_china_heading',
+                'value' => 'Why Study in China?',
+                'type' => 'text',
+                'group' => 'why_china',
+                'label' => 'Section Heading',
+                'sort_order' => 10,
+            ],
+            [
+                'key' => 'why_china_cards',
+                'value' => json_encode([
+                    ['icon' => '🎓', 'title' => 'International Degrees', 'description' => 'Globally recognized degrees from world-class universities ranked among the best in Asia and the world.'],
+                    ['icon' => '💰', 'title' => 'Affordable Tuition', 'description' => 'Quality education at a fraction of the cost compared to Western universities, with excellent value for investment.'],
+                    ['icon' => '🏛️', 'title' => 'Government Scholarships', 'description' => 'Extensive scholarship opportunities from Chinese government, provincial governments, and individual universities.'],
+                    ['icon' => '🏗️', 'title' => 'Modern Universities', 'description' => 'State-of-the-art campuses with cutting-edge research facilities, modern libraries, and excellent learning environments.'],
+                    ['icon' => '💼', 'title' => 'Career Opportunities', 'description' => 'Access to the world\'s second-largest economy with abundant internship and career opportunities across industries.'],
+                    ['icon' => '🛡️', 'title' => 'Safe Environment', 'description' => 'One of the safest countries in the world with very low crime rates and welcoming communities.'],
+                    ['icon' => '🎉', 'title' => 'Excellent Student Life', 'description' => 'Rich cultural experiences, diverse international communities, and vibrant campus life throughout the year.'],
+                    ['icon' => '🌐', 'title' => 'Global Networking', 'description' => 'Build lifelong connections with students and professionals from over 195 countries around the world.'],
+                ]),
+                'type' => 'json',
+                'group' => 'why_china',
+                'label' => 'Why China Cards',
+                'sort_order' => 11,
+            ],
+
+            // ===== WHY US SECTION =====
+            [
+                'key' => 'why_us_heading',
+                'value' => 'Why Choose BanglayChinese?',
+                'type' => 'text',
+                'group' => 'why_us',
+                'label' => 'Section Heading',
+                'sort_order' => 12,
+            ],
+            [
+                'key' => 'why_us_description',
+                'value' => json_encode([
+                    ['title' => 'Personal Experience', 'description' => 'I am not simply an education consultant. I have personally completed this journey. I understand the challenges Bangladeshi students face because I faced them myself.'],
+                    ['title' => 'Real Guidance', 'description' => 'Everything we teach and recommend is based on real, first-hand experience — not second-hand information or generic advice.'],
+                    ['title' => 'Long-Term Support', 'description' => 'We don\'t just help you get admitted. We stay with you throughout your journey, from application to graduation and beyond.'],
+                ]),
+                'type' => 'json',
+                'group' => 'why_us',
+                'label' => 'Why Us Points',
+                'sort_order' => 13,
+            ],
+            [
+                'key' => 'why_us_founder_name',
+                'value' => 'Naymur Rahman',
+                'type' => 'text',
+                'group' => 'why_us',
+                'label' => 'Founder Name',
+                'sort_order' => 14,
+            ],
+            [
+                'key' => 'why_us_founder_title',
+                'value' => 'Founder & Lead Mentor',
+                'type' => 'text',
+                'group' => 'why_us',
+                'label' => 'Founder Title',
+                'sort_order' => 15,
+            ],
+            [
+                'key' => 'why_us_founder_bio',
+                'value' => 'Chinese Bridge 2024 World Top 10 Finalist. Studying in China since 2017. Professional Chinese Interpreter. Dedicated to helping Bangladeshi students achieve their academic dreams in China.',
+                'type' => 'longtext',
+                'group' => 'why_us',
+                'label' => 'Founder Bio',
+                'sort_order' => 16,
+            ],
+            [
+                'key' => 'why_us_founder_image',
+                'value' => 'images/founder.png',
+                'type' => 'image',
+                'group' => 'why_us',
+                'label' => 'Founder Photo',
+                'sort_order' => 17,
+            ],
+
+            // ===== ROADMAP SECTION =====
+            [
+                'key' => 'roadmap_heading',
+                'value' => 'Our Complete Study Abroad Roadmap',
+                'type' => 'text',
+                'group' => 'roadmap',
+                'label' => 'Section Heading',
+                'sort_order' => 18,
+            ],
+            [
+                'key' => 'roadmap_steps',
+                'value' => json_encode([
+                    ['step' => 1, 'title' => 'Free Consultation', 'description' => 'We start with an in-depth conversation to understand your academic background, career goals, and preferences.'],
+                    ['step' => 2, 'title' => 'Profile Evaluation', 'description' => 'We carefully evaluate your academic profile, strengths, and areas for improvement.'],
+                    ['step' => 3, 'title' => 'University Selection', 'description' => 'Based on your profile and goals, we shortlist universities that are the best match for you.'],
+                    ['step' => 4, 'title' => 'Scholarship Planning', 'description' => 'We identify scholarship opportunities and create a strategy to maximize your chances.'],
+                    ['step' => 5, 'title' => 'Document Preparation', 'description' => 'We guide you through preparing all required documents to the highest standard.'],
+                    ['step' => 6, 'title' => 'Application Submission', 'description' => 'We ensure your applications are complete, accurate, and submitted on time.'],
+                    ['step' => 7, 'title' => 'Admission', 'description' => 'We track your applications and follow up with universities until you receive your acceptance.'],
+                    ['step' => 8, 'title' => 'Visa Processing', 'description' => 'We guide you through the entire visa application process with document preparation and interview preparation.'],
+                    ['step' => 9, 'title' => 'Pre-Departure', 'description' => 'We prepare you for life in China with cultural orientation and practical advice.'],
+                    ['step' => 10, 'title' => 'Arrival in China', 'description' => 'We help coordinate your arrival, airport pickup, and initial settling in.'],
+                    ['step' => 11, 'title' => 'Registration', 'description' => 'We assist with university registration procedures and campus orientation.'],
+                    ['step' => 12, 'title' => 'Ongoing Support', 'description' => 'Our support continues throughout your studies — we\'re always here when you need us.'],
+                ]),
+                'type' => 'json',
+                'group' => 'roadmap',
+                'label' => 'Roadmap Steps',
+                'sort_order' => 19,
+            ],
+
+            // ===== SERVICES SECTION =====
+            [
+                'key' => 'services_heading',
+                'value' => 'Choose Your Support Level',
+                'type' => 'text',
+                'group' => 'services',
+                'label' => 'Section Heading',
+                'sort_order' => 20,
+            ],
+            [
+                'key' => 'services_subtitle',
+                'value' => 'Every student has different needs. Choose the level of support that best matches your goals.',
+                'type' => 'longtext',
+                'group' => 'services',
+                'label' => 'Section Subtitle',
+                'sort_order' => 21,
+            ],
+            [
+                'key' => 'services_packages',
+                'value' => json_encode([
+                    [
+                        'name' => 'Guided Application',
+                        'price' => '25,000',
+                        'currency' => '৳',
+                        'tag' => 'Best for Independent Students',
+                        'badge' => null,
+                        'description' => 'Perfect for students who want expert guidance while completing the application process themselves.',
+                        'features' => [
+                            'University Shortlisting',
+                            'Scholarship Strategy',
+                            'Application Guidance',
+                            'SOP & CV Review',
+                            'Document Checklist',
+                            'Visa Guidance',
+                            'WhatsApp Support',
+                        ],
+                        'note' => 'Students submit applications themselves.',
+                        'cta_text' => 'Book Free Consultation',
+                        'cta_url' => '#consultation',
+                    ],
+                    [
+                        'name' => 'Complete Application Service',
+                        'price' => '80,000',
+                        'currency' => '৳',
+                        'tag' => null,
+                        'badge' => '⭐ MOST POPULAR',
+                        'description' => 'A complete done-for-you application service. We manage the entire admission process while keeping you informed every step of the way.',
+                        'features' => [
+                            'University Shortlisting',
+                            'Scholarship Strategy',
+                            'Application Guidance',
+                            'SOP & CV Review',
+                            'Document Checklist',
+                            'Visa Guidance',
+                            'WhatsApp Support',
+                            'University Applications',
+                            'Scholarship Applications',
+                            'Communication with Universities',
+                            'Admission Follow-up',
+                            'Visa Documentation',
+                            'Registration Guidance',
+                            'Arrival Preparation',
+                        ],
+                        'note' => 'Everything in Guided Application, plus complete application management.',
+                        'cta_text' => 'Book Free Consultation',
+                        'cta_url' => '#consultation',
+                        'featured' => true,
+                    ],
+                    [
+                        'name' => 'Elite Mentorship Program',
+                        'price' => '120,000',
+                        'currency' => '৳',
+                        'tag' => null,
+                        'badge' => '👑 BEST VALUE',
+                        'description' => 'Our flagship premium program. Designed for students who want long-term success rather than only admission.',
+                        'features' => [
+                            'University Shortlisting',
+                            'Scholarship Strategy',
+                            'Application Guidance',
+                            'SOP & CV Review',
+                            'Document Checklist',
+                            'Visa Guidance',
+                            'WhatsApp Support',
+                            'University Applications',
+                            'Scholarship Applications',
+                            'Communication with Universities',
+                            'Admission Follow-up',
+                            'Visa Documentation',
+                            'Registration Guidance',
+                            'Arrival Preparation',
+                            'One-Year Chinese Language Course',
+                            'HSK Preparation',
+                            'Personal Mentorship',
+                            'Academic Guidance',
+                            'Career Planning',
+                            'Student Life Support',
+                            'Priority Support',
+                            'Lifetime Mentorship',
+                        ],
+                        'note' => 'Everything in Complete Service, plus lifetime mentorship and language training.',
+                        'cta_text' => 'Apply for Elite Mentorship',
+                        'cta_url' => '#consultation',
+                        'premium' => true,
+                    ],
+                ]),
+                'type' => 'json',
+                'group' => 'services',
+                'label' => 'Service Packages',
+                'sort_order' => 22,
+            ],
+
+            // ===== COMPARISON TABLE SECTION =====
+            [
+                'key' => 'comparison_heading',
+                'value' => 'Compare Service Packages',
+                'type' => 'text',
+                'group' => 'comparison',
+                'label' => 'Section Heading',
+                'sort_order' => 23,
+            ],
+            [
+                'key' => 'comparison_features',
+                'value' => json_encode([
+                    ['feature' => 'University Selection', 'guided' => true, 'complete' => true, 'elite' => true],
+                    ['feature' => 'Scholarship Guidance', 'guided' => true, 'complete' => true, 'elite' => true],
+                    ['feature' => 'Document Review', 'guided' => true, 'complete' => true, 'elite' => true],
+                    ['feature' => 'Application Submission', 'guided' => false, 'complete' => true, 'elite' => true],
+                    ['feature' => 'University Communication', 'guided' => false, 'complete' => true, 'elite' => true],
+                    ['feature' => 'Visa Support', 'guided' => true, 'complete' => true, 'elite' => true],
+                    ['feature' => 'Registration Support', 'guided' => false, 'complete' => true, 'elite' => true],
+                    ['feature' => 'Chinese Language Course', 'guided' => false, 'complete' => false, 'elite' => true],
+                    ['feature' => 'HSK Preparation', 'guided' => false, 'complete' => false, 'elite' => true],
+                    ['feature' => 'Career Guidance', 'guided' => false, 'complete' => false, 'elite' => true],
+                    ['feature' => 'Lifetime Mentorship', 'guided' => false, 'complete' => false, 'elite' => true],
+                    ['feature' => 'Priority Support', 'guided' => false, 'complete' => false, 'elite' => true],
+                ]),
+                'type' => 'json',
+                'group' => 'comparison',
+                'label' => 'Comparison Features',
+                'sort_order' => 24,
+            ],
+
+            // ===== SCHOLARSHIPS SECTION =====
+            [
+                'key' => 'scholarships_heading',
+                'value' => 'Scholarship Opportunities',
+                'type' => 'text',
+                'group' => 'scholarships',
+                'label' => 'Section Heading',
+                'sort_order' => 25,
+            ],
+            [
+                'key' => 'scholarships_cards',
+                'value' => json_encode([
+                    [
+                        'icon' => '🏛️',
+                        'title' => 'CSC Scholarship',
+                        'subtitle' => 'Chinese Government Scholarship',
+                        'benefits' => 'Full tuition, accommodation, monthly living allowance, and comprehensive medical insurance.',
+                        'coverage' => 'Full scholarship covering all major expenses for the duration of your program.',
+                        'eligibility' => 'Strong academic record, age under 25 for undergraduate, under 35 for masters, under 40 for PhD.',
+                        'learn_more_url' => '#',
+                    ],
+                    [
+                        'icon' => '🏢',
+                        'title' => 'Provincial Scholarship',
+                        'subtitle' => 'Provincial Government Scholarships',
+                        'benefits' => 'Partial to full tuition coverage with living allowance, depending on the province.',
+                        'coverage' => 'Varies by province — many offer up to full tuition with additional stipends.',
+                        'eligibility' => 'Good academic standing, meeting specific provincial requirements and university criteria.',
+                        'learn_more_url' => '#',
+                    ],
+                    [
+                        'icon' => '🎓',
+                        'title' => 'University Scholarship',
+                        'subtitle' => 'Individual University Awards',
+                        'benefits' => 'Tuition reduction or full waiver, with some offering living stipends and accommodation support.',
+                        'coverage' => 'Varies significantly — from partial tuition discounts to full-ride packages.',
+                        'eligibility' => 'Based on academic merit and university-specific criteria. Often more flexible requirements.',
+                        'learn_more_url' => '#',
+                    ],
+                    [
+                        'icon' => '🌍',
+                        'title' => 'Other Scholarships',
+                        'subtitle' => 'Confucius Institute & More',
+                        'benefits' => 'Various levels of support including tuition, living expenses, and language study funding.',
+                        'coverage' => 'Diverse range — from short-term language study to full degree program funding.',
+                        'eligibility' => 'Varies by program — language proficiency, academic background, and country-specific criteria.',
+                        'learn_more_url' => '#',
+                    ],
+                ]),
+                'type' => 'json',
+                'group' => 'scholarships',
+                'label' => 'Scholarship Cards',
+                'sort_order' => 26,
+            ],
+
+            // ===== QUOTE SECTION =====
+            [
+                'key' => 'quote_text',
+                'value' => 'We don\'t just help students get admitted. We help them build successful futures in China.',
+                'type' => 'longtext',
+                'group' => 'quote',
+                'label' => 'Quote Text',
+                'sort_order' => 27,
+            ],
+            [
+                'key' => 'quote_attribution',
+                'value' => 'Naymur Rahman — Founder, BanglayChinese',
+                'type' => 'text',
+                'group' => 'quote',
+                'label' => 'Quote Attribution',
+                'sort_order' => 28,
+            ],
+
+            // ===== FAQS SECTION =====
+            [
+                'key' => 'faqs_heading',
+                'value' => 'Frequently Asked Questions',
+                'type' => 'text',
+                'group' => 'faqs',
+                'label' => 'Section Heading',
+                'sort_order' => 29,
+            ],
+            [
+                'key' => 'faqs_items',
+                'value' => json_encode([
+                    [
+                        'question' => 'Can I study in China without knowing Chinese?',
+                        'answer' => 'Yes! Many Chinese universities offer programs taught entirely in English, especially at the graduate level. However, learning basic Chinese is highly recommended for daily life. Some universities also offer a one-year Chinese language preparatory program before starting your degree.',
+                    ],
+                    [
+                        'question' => 'Can I really get a scholarship to study in China?',
+                        'answer' => 'Yes — scholarships are widely available for international students. The Chinese Government Scholarship (CSC), provincial scholarships, and university-specific scholarships all provide opportunities. While we cannot guarantee any scholarship, we can significantly improve your chances with proper strategy and strong applications. Many of our students have received full scholarships.',
+                    ],
+                    [
+                        'question' => 'How much does it cost to study in China?',
+                        'answer' => 'Costs vary significantly depending on the university, city, and program. Without a scholarship, tuition typically ranges from 15,000–50,000 RMB per year (approximately 2–7 lakh BDT), with living expenses around 2,000–4,000 RMB per month. With a full scholarship, your tuition, accommodation, and living expenses may be completely covered.',
+                    ],
+                    [
+                        'question' => 'Can I work after graduation in China?',
+                        'answer' => 'Yes — China offers post-study work opportunities for international graduates. The job market for skilled international graduates is strong, particularly in fields like engineering, business, technology, and language services. Many multinational companies actively recruit graduates from Chinese universities.',
+                    ],
+                    [
+                        'question' => 'Is China safe for international students?',
+                        'answer' => 'China is one of the safest countries in the world, with extremely low violent crime rates. University campuses have 24/7 security, and most cities have excellent public safety infrastructure. International students consistently report feeling safe and welcomed throughout their stay.',
+                    ],
+                    [
+                        'question' => 'What documents are required for application?',
+                        'answer' => 'Typical requirements include: passport copy, academic transcripts and certificates, language proficiency proof (HSK for Chinese-taught programs, IELTS/TOEFL for English-taught programs), recommendation letters, statement of purpose, CV, and a physical examination form. Requirements vary by university, and we help you prepare everything correctly.',
+                    ],
+                    [
+                        'question' => 'When do Chinese universities start their academic year?',
+                        'answer' => 'The academic year typically starts in September, with the spring semester beginning in February/March. Most scholarship applications open between November and March for the September intake. We recommend starting the process 6–8 months before your target intake.',
+                    ],
+                    [
+                        'question' => 'How is BanglayChinese different from other education consultancies?',
+                        'answer' => 'We are not a traditional agency. We provide guidance based on personal experience — our founder personally studied in China and understands every aspect of the journey. We focus on long-term student success, not just admission. Our mentorship continues throughout your studies, not just until you get accepted.',
+                    ],
+                ]),
+                'type' => 'json',
+                'group' => 'faqs',
+                'label' => 'FAQ Items',
+                'sort_order' => 30,
+            ],
+
+            // ===== BOOKING SECTION =====
+            [
+                'key' => 'booking_heading',
+                'value' => 'Let\'s Plan Your Journey',
+                'type' => 'text',
+                'group' => 'booking',
+                'label' => 'Section Heading',
+                'sort_order' => 31,
+            ],
+            [
+                'key' => 'booking_subtitle',
+                'value' => 'Fill out the form below and we\'ll reach out to schedule your free consultation. No commitment required — just honest, experienced guidance.',
+                'type' => 'longtext',
+                'group' => 'booking',
+                'label' => 'Section Subtitle',
+                'sort_order' => 32,
+            ],
+
+            // ===== FINAL CTA SECTION =====
+            [
+                'key' => 'final_cta_heading',
+                'value' => 'Your Dream University in China Starts Here',
+                'type' => 'text',
+                'group' => 'final_cta',
+                'label' => 'Final CTA Heading',
+                'sort_order' => 33,
+            ],
+            [
+                'key' => 'final_cta_subtitle',
+                'value' => 'Book Your Free Consultation Today',
+                'type' => 'text',
+                'group' => 'final_cta',
+                'label' => 'Final CTA Subtitle',
+                'sort_order' => 34,
+            ],
+            [
+                'key' => 'final_cta_button_text',
+                'value' => 'Book Free Consultation',
+                'type' => 'text',
+                'group' => 'final_cta',
+                'label' => 'Final CTA Button Text',
+                'sort_order' => 35,
+            ],
+        ];
+
+        foreach ($sections as $section) {
+            StudyInChinaSection::updateOrCreate(
+                ['key' => $section['key']],
+                $section
+            );
+        }
+    }
+}

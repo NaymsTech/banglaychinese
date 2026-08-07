@@ -11,40 +11,37 @@
     </section>
 
     <section class="bg-white py-16 sm:py-20">
+        @php
+            $waNumber = \App\Services\SettingsService::get('whatsapp_number', '8618223249514');
+            $contactEmail = \App\Services\SettingsService::get('contact_email', 'info@banglaychinese.com');
+            $address = \App\Services\SettingsService::get('physical_address', 'Chongqing, China');
+        @endphp
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div class="grid gap-12 lg:grid-cols-5">
                 {{-- Contact Info --}}
                 <div class="space-y-6 lg:col-span-2">
-                    <a href="https://wa.me/8618223249514" target="_blank" rel="noopener"
+                    <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
                        class="flex items-start gap-4 rounded-3xl bg-[#F0FDF4] p-6 ring-1 ring-emerald-100 transition hover:shadow-lg">
                         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#25D366] text-2xl">💬</div>
                         <div>
-                            <h2 class="font-bold text-slate-900">WhatsApp (Primary)</h2>
-                            <p class="mt-1 text-sm text-slate-500">+86 182 2324 9514</p>
+                            <h2 class="font-bold text-slate-900">WhatsApp</h2>
+                            <p class="mt-1 text-sm text-slate-500 break-all">+{{ $waNumber }}</p>
                             <p class="mt-0.5 text-xs font-semibold text-[#148a3f]">সবচেয়ে দ্রুত রেসপন্স এখানে</p>
                         </div>
                     </a>
-                    <a href="https://wa.me/8618223249524" target="_blank" rel="noopener"
-                       class="flex items-start gap-4 rounded-3xl bg-[#F0FDF4] p-6 ring-1 ring-emerald-100 transition hover:shadow-lg">
-                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#25D366] text-2xl">💬</div>
-                        <div>
-                            <h2 class="font-bold text-slate-900">WhatsApp (Secondary)</h2>
-                            <p class="mt-1 text-sm text-slate-500">+86 182 2324 9524</p>
-                        </div>
-                    </a>
-                    <a href="mailto:info@banglaychinese.com"
+                    <a href="mailto:{{ $contactEmail }}"
                        class="flex items-start gap-4 rounded-3xl bg-[#F0FDF4] p-6 ring-1 ring-emerald-100 transition hover:shadow-lg">
                         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary-800 text-2xl">📧</div>
                         <div>
                             <h2 class="font-bold text-slate-900">Email</h2>
-                            <p class="mt-1 text-sm text-slate-500">info@banglaychinese.com</p>
+                            <p class="mt-1 text-sm text-slate-500 break-all">{{ $contactEmail }}</p>
                         </div>
                     </a>
                     <div class="flex items-start gap-4 rounded-3xl bg-[#F0FDF4] p-6 ring-1 ring-emerald-100">
                         <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-accent-600 text-2xl">📍</div>
                         <div>
                             <h2 class="font-bold text-slate-900">অবস্থান</h2>
-                            <p class="mt-1 text-sm text-slate-500">Chongqing, China<br>(অনলাইনে বাংলাদেশ ও বিশ্বের যেকোনো প্রান্ত থেকে)</p>
+                            <p class="mt-1 text-sm text-slate-500">{{ $address }}<br>(অনলাইনে বাংলাদেশ ও বিশ্বের যেকোনো প্রান্ত থেকে)</p>
                         </div>
                     </div>
                 </div>

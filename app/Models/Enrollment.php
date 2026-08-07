@@ -13,6 +13,9 @@ class Enrollment extends Model
         'status',
         'payment_method',
         'transaction_id',
+        'sender_number',
+        'price_paid',
+        'paid_at',
     ];
 
     public function user(): BelongsTo

@@ -7,33 +7,104 @@
 @source '../../resources/views/**/*.blade.php';
 
 @theme {
-    /* Brand colors — emerald green primary (#0F5132 / emerald-800) with red CTA accent (#DC2626 / red-600) */
-    --color-primary-50: #f0fdf4;
-    --color-primary-100: #dcfce7;
-    --color-primary-200: #bbf7d0;
-    --color-primary-300: #86efac;
-    --color-primary-400: #4ade80;
-    --color-primary-500: #22c55e;
-    --color-primary-600: #16a34a;
-    --color-primary-700: #15803d;
-    --color-primary-800: #0f5132;
-    --color-primary-900: #14532d;
-    --color-primary-950: #052e16;
+    /*
+    |--------------------------------------------------------------------------
+    | Brand Colors — Banglay Chinese
+    |--------------------------------------------------------------------------
+    | Primary:   Deep Emerald Green (#007A3D)
+    |            Headers, navigation, section titles, icons, trust badges
+    | Accent:    Vibrant Crimson Red (#C8102E)
+    |            CTA buttons ("Apply Now", "Enroll"), badges, urgent announcements
+    | Neutral:   White (#FFFFFF), Off-White (#F8FAFC), Deep Slate (#1E293B)
+    |            60% backgrounds, 30% typography/structure, 10% accent
+    | Tints:     Mint (#E6F4EA) for success/feature cards, Red (#FCE8E6) for alerts
+    */
 
-    /* Accent red — Call-to-Action buttons, badges */
-    --color-accent-50: #fef2f2;
-    --color-accent-100: #fee2e2;
-    --color-accent-200: #fecaca;
-    --color-accent-300: #fca5a5;
-    --color-accent-400: #f87171;
-    --color-accent-500: #ef4444;
-    --color-accent-600: #dc2626;
-    --color-accent-700: #b91c1c;
-    --color-accent-800: #991b1b;
-    --color-accent-900: #7f1d1d;
+    /* ── Primary: Deep Emerald Green ── */
+    --color-primary-50: #e6f4ea;
+    --color-primary-100: #cce9d5;
+    --color-primary-200: #99d3ab;
+    --color-primary-300: #66bd81;
+    --color-primary-400: #33a757;
+    --color-primary-500: #00913d;
+    --color-primary-600: #007A3D;
+    --color-primary-700: #006633;
+    --color-primary-800: #004d26;
+    --color-primary-900: #00331a;
+    --color-primary-950: #001a0d;
 
-    /* Bengali-friendly fonts */
-    --font-sans: 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif,
+    /* ── Accent: Vibrant Crimson Red ── */
+    --color-accent-50: #fce8e6;
+    --color-accent-100: #f9d1cc;
+    --color-accent-200: #f3a399;
+    --color-accent-300: #ed7566;
+    --color-accent-400: #e74733;
+    --color-accent-500: #d82b1d;
+    --color-accent-600: #C8102E;
+    --color-accent-700: #a00d24;
+    --color-accent-800: #780a1b;
+    --color-accent-900: #500712;
+
+    /* ── Semantic Surface Tokens ── */
+    --color-surface: #FFFFFF;
+    --color-surface-alt: #F8FAFC;
+    --color-text: #1E293B;
+    --color-border: #E2E8F0;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Multi-Lingual Font System — Banglay Chinese
+    |--------------------------------------------------------------------------
+    | English Headings:  Poppins Bold (700)
+    | English Body:      Inter Regular (400) / Medium (500)
+    | Bangla Headings:   Anek Bangla SemiBold (600) / Bold (700)
+    | Bangla Body:       Hind Siliguri Regular (400)
+    | Chinese Both:      Noto Sans SC Regular (400) / Medium (500)
+    |
+    | font-sans   — body text (Inter → Hind Siliguri → Noto Sans Bengali → system)
+    | font-display — headings (Poppins → Anek Bangla → Noto Sans SC → serif)
+    | font-bangla — Bengali-specific stack
+    | font-chinese — Chinese-specific stack
+    */
+
+    --font-sans: 'Inter', 'Hind Siliguri', 'Noto Sans Bengali', ui-sans-serif, system-ui, sans-serif,
         'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-display: 'Noto Serif Bengali', serif;
+    --font-display: 'Poppins', 'Anek Bangla', 'Noto Sans SC', serif;
+    --font-bangla: 'Anek Bangla', 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+    --font-chinese: 'Noto Sans SC', system-ui, sans-serif;
+}
+
+/*
+|--------------------------------------------------------------------------
+| Multi-Lingual Typography Rules
+|--------------------------------------------------------------------------
+| 1. Bangla: line-height ≥ 1.6 to prevent lower vowel-signs (kar)
+|    and upper diacritics from overlapping across lines.
+| 2. Chinese: font-weight down-scaled by one step versus English.
+|    Chinese strokes are denser, so Medium (500) reads like English SemiBold (600),
+|    and Regular (400) reads like English Medium (500).
+*/
+
+/* ── Body base: comfortable for Bangla script ── */
+body {
+    line-height: 1.7;
+}
+
+/* ── Bangla text always gets generous leading ── */
+.font-bangla {
+    line-height: 1.7;
+}
+
+/* ── Chinese weight down-scaling ── */
+.font-chinese {
+    font-weight: 400;
+}
+
+.font-chinese.font-semibold,
+.font-chinese .font-semibold,
+.font-chinese.font-bold,
+.font-chinese .font-bold,
+.font-chinese.font-extrabold,
+.font-chinese .font-extrabold {
+    font-weight: 500;
 }

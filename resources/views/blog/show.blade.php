@@ -47,8 +47,8 @@
                     <h2 class="text-2xl font-extrabold text-slate-900 font-display">এই আর্টিকেলটি কি helpful ছিল?</h2>
                     <p class="mt-2 text-slate-500">চীনা ভাষা শেখা বা চায়না স্কলারশিপ নিয়ে আরও জানতে আমাদের সাথে যোগাযোগ করুন।</p>
                     <div class="mt-6 flex flex-col gap-4 sm:flex-row">
-                        <a href="{{ route('scholarship') }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-accent-600/25 transition hover:bg-accent-700">
-                            🎓 স্কলারশিপ গাইডেন্স
+                        <a href="{{ route('study-in-china') }}" class="inline-flex items-center justify-center gap-2 rounded-full bg-accent-600 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-accent-600/25 transition hover:bg-accent-700">
+                            🎓 Study in China
                         </a>
                         <a href="https://wa.me/8618223249514?text={{ urlencode('হ্যালো, ব্লগ পড়ে জানতে চাই...') }}" target="_blank" rel="noopener"
                            class="inline-flex items-center justify-center gap-2 rounded-full border-2 border-[#25D366] px-6 py-3 text-sm font-bold text-[#148a3f] transition hover:bg-[#25D366] hover:text-white">

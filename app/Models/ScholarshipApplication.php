@@ -40,4 +40,13 @@ class ScholarshipApplication extends Model
     {
         return $this->belongsTo(Service::class, 'interested_service_id');
     }
+
+    /**
+     * The scholarship review outcome is recorded as null until a decision is
+     * made. The legacy UI refers to that state as "pending".
+     */
+    public function setApplicationStatusAttribute(?string $value): void
+    {
+        $this->attributes['application_status'] = ($value === 'pending' || $value === '') ? null : $value;
+    }
 }

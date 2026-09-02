@@ -14,6 +14,7 @@ class Enrollment extends Model
         'payment_method',
         'transaction_id',
         'sender_number',
+        'rejection_reason',
         'price_paid',
         'paid_at',
     ];

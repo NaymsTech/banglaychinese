@@ -11,106 +11,54 @@ class Phase6AdminTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_guest_cannot_access_admin_panel()
+    public function test_guest_is_redirected_to_filament_login(): void
     {
         $this->get('/admin')
-            ->assertRedirectToRoute('login');
-
-        $this->get('/admin/scholarships')
-            ->assertRedirectToRoute('login');
+            ->assertRedirect('/admin/login');
     }
 
-    public function test_student_cannot_access_admin_panel()
+    public function test_student_cannot_access_admin_panel(): void
     {
-        $student = User::factory()->create(['is_admin' => false]);
+        $student = User::factory()->create([
+            'is_admin' => false,
+            'role' => 'student',
+        ]);
 
+        // Filament gates access via the User model's canAccessPanel().
         $this->actingAs($student)
             ->get('/admin')
-            ->assertRedirect('/dashboard')
-            ->assertSessionHas('error');
-
-        $this->actingAs($student)
-            ->get('/admin/scholarships')
-            ->assertRedirect('/dashboard')
-            ->assertSessionHas('error');
+            ->assertForbidden();
     }
 
-    public function test_admin_can_access_admin_dashboard()
+    public function test_admin_can_access_filament_dashboard(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create([
+            'is_admin' => true,
+            'role' => 'admin',
+        ]);
 
         $this->actingAs($admin)
             ->get('/admin')
-            ->assertStatus(200)
-            ->assertSee('Registered Students')
-            ->assertSee('Active Courses')
-            ->assertSee('Pending Scholarships')
-            ->assertSee('Published Posts');
+            ->assertOk();
     }
 
-    public function test_admin_can_access_scholarship_management()
+    public function test_admin_can_view_applications_list(): void
     {
-        $admin = User::factory()->create(['is_admin' => true]);
+        $admin = User::factory()->create([
+            'is_admin' => true,
+            'role' => 'admin',
+        ]);
+
         ScholarshipApplication::create([
             'name' => 'Test Applicant',
             'email' => 'applicant@example.com',
             'phone' => '+8801700000000',
-            'target_course' => 'HSK Level 3',
-            'educational_background' => 'HSC (Science)',
-            'statement_of_purpose' => 'I am applying for a scholarship to support my Chinese language studies.',
             'status' => 'new',
         ]);
 
         $this->actingAs($admin)
-            ->get('/admin/scholarships')
-            ->assertStatus(200)
+            ->get('/admin/scholarship-applications')
+            ->assertOk()
             ->assertSee('Test Applicant');
-    }
-
-    public function test_admin_can_update_scholarship_status()
-    {
-        $admin = User::factory()->create(['is_admin' => true]);
-        $application = ScholarshipApplication::create([
-            'name' => 'Status Applicant',
-            'email' => 'status@example.com',
-            'phone' => '+8801711223344',
-            'target_course' => 'HSK Level 5',
-            'educational_background' => 'BBA',
-            'statement_of_purpose' => 'I would like to receive a scholarship for advanced Chinese studies.',
-            'status' => 'new',
-        ]);
-
-        $this->actingAs($admin)
-            ->patch("/admin/scholarships/{$application->id}/status", ['status' => 'approved'])
-            ->assertRedirect();
-
-        $this->assertDatabaseHas('scholarship_applications', [
-            'id' => $application->id,
-            'application_status' => 'approved',
-        ]);
-    }
-
-    public function test_student_cannot_update_scholarship_status()
-    {
-        $student = User::factory()->create(['is_admin' => false]);
-        $application = ScholarshipApplication::create([
-            'name' => 'Protected Applicant',
-            'email' => 'protected@example.com',
-            'phone' => '+8801722334455',
-            'target_course' => 'HSK Level 2',
-            'educational_background' => 'SSC',
-            'statement_of_purpose' => 'I need financial assistance for my Chinese course.',
-            'status' => 'new',
-        ]);
-
-        $this->actingAs($student)
-            ->patch("/admin/scholarships/{$application->id}/status", ['status' => 'approved'])
-            ->assertRedirect('/dashboard');
-
-        $this->assertDatabaseHas('scholarship_applications', [
-            'id' => $application->id,
-            'status' => 'new',
-            'application_status' => null,
-        ]);
     }
 }

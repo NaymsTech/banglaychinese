@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Agent(Explore)",
+      "WebFetch(raw.githubusercontent.com)",
+      "Bash(date *)",
+      "Bash(php *)",
+      "Bash(./vendor/bin/pint *)"
+    ]
+  },
+  "$version": 4
+}

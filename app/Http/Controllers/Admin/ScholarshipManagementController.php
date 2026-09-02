@@ -13,8 +13,14 @@ class ScholarshipManagementController extends Controller
         $status = $request->query('status');
 
         $applications = ScholarshipApplication::query()
-            ->when(in_array($status, ['pending', 'approved', 'rejected']), function ($q) use ($status) {
-                $q->where('status', $status);
+            ->when($status === 'pending', function ($q) {
+                $q->whereNull('application_status');
+            })
+            ->when($status === 'approved', function ($q) {
+                $q->where('application_status', 'approved');
+            })
+            ->when($status === 'rejected', function ($q) {
+                $q->where('application_status', 'rejected');
             })
             ->latest()
             ->paginate(15);
@@ -23,9 +29,9 @@ class ScholarshipManagementController extends Controller
             'applications' => $applications,
             'currentStatus' => $status,
             'counts' => [
-                'pending' => ScholarshipApplication::where('status', 'pending')->count(),
-                'approved' => ScholarshipApplication::where('status', 'approved')->count(),
-                'rejected' => ScholarshipApplication::where('status', 'rejected')->count(),
+                'pending' => ScholarshipApplication::whereNull('application_status')->count(),
+                'approved' => ScholarshipApplication::where('application_status', 'approved')->count(),
+                'rejected' => ScholarshipApplication::where('application_status', 'rejected')->count(),
             ],
         ]);
     }
@@ -43,8 +49,11 @@ class ScholarshipManagementController extends Controller
             'status' => 'required|in:pending,approved,rejected',
         ]);
 
-        $application->update($validated);
+        // "pending" clears the review outcome (no decision recorded yet).
+        $application->update([
+            'application_status' => $validated['status'] === 'pending' ? null : $validated['status'],
+        ]);
 
-        return back()->with('success', "Application status updated to '{$application->status}'.");
+        return back()->with('success', "Application status updated to '".ucfirst($application->application_status ?? 'pending')."'.");
     }
 }

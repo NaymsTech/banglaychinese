@@ -20,10 +20,8 @@ class Course extends Model
         'category_id',
         'is_featured',
         'duration_weeks',
-        'type',
         'batch_start_date',
         'batch_end_date',
-        'consultation_link',
     ];
 
     protected $casts = [

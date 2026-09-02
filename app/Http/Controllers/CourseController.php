@@ -6,6 +6,7 @@ use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Service;
 use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
@@ -30,7 +31,16 @@ class CourseController extends Controller
         $course = Course::with(['category', 'modules'])
             ->where('slug', $slug)
             ->where('is_published', true)
-            ->firstOrFail();
+            ->first();
+
+        if (! $course) {
+            // Legacy link: a Study in China package shares this slug → send them to its service page.
+            if (Service::where('slug', $slug)->exists()) {
+                return redirect()->route('services.show', $slug);
+            }
+
+            abort(404);
+        }
 
         $related = Course::where('is_published', true)
             ->where('id', '!=', $course->id)

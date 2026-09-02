@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\PaymentManagementController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\ScholarshipManagementController;
+use App\Http\Controllers\Admin\ServiceController as AdminServiceController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\StudyInChinaPageController;
 use App\Http\Controllers\CheckoutController;
@@ -21,9 +22,13 @@ use App\Http\Controllers\LessonController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScholarshipController;
-use App\Http\Controllers\StudyInChinaController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StudentDashboardController;
+use App\Http\Controllers\StudyInChinaController;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -47,8 +52,17 @@ Route::post('/contact/send', [ContactController::class, 'send'])
     ->middleware('throttle:3,1')
     ->name('contact.send');
 Route::get('/study-in-china', [ScholarshipController::class, 'index'])->name('study-in-china');
-Route::get('/study-in-china/services', [ScholarshipController::class, 'services'])
-    ->name('study-in-china.services');
+Route::get('/study-in-china/services', [ServiceController::class, 'index'])->name('services.index');
+// Legacy service URLs → permanent redirect to new canonical slugs.
+// Old Laravel app slugs (services table before the canonical rename):
+Route::redirect('/study-in-china/services/study-in-china-application-guide', '/study-in-china/services/guided-application', 301);
+Route::redirect('/study-in-china/services/study-in-china-complete-support', '/study-in-china/services/full-application-service', 301);
+Route::redirect('/study-in-china/services/complete-china-success', '/study-in-china/services/elite-success-program', 301);
+// Old WordPress /product/ URLs (previous site) → new canonical service URLs:
+Route::redirect('/product/study-in-china-application-guide', '/study-in-china/services/guided-application', 301);
+Route::redirect('/product/study-in-china-complete-application', '/study-in-china/services/full-application-service', 301);
+Route::redirect('/product/complete-china-success-1-year-pathway', '/study-in-china/services/elite-success-program', 301);
+Route::get('/study-in-china/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
 Route::get('/study-in-china/consultation', [ScholarshipController::class, 'consultation'])
     ->name('study-in-china.consultation');
 Route::post('/study-in-china/consultation', [StudyInChinaController::class, 'submitConsultation'])
@@ -133,11 +147,25 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         });
     });
 
+    // Service CRUD (Study in China consulting packages)
+    Route::prefix('services')->name('services.')->group(function () {
+        Route::get('/', [AdminServiceController::class, 'index'])->name('index');
+        Route::get('/create', [AdminServiceController::class, 'create'])->name('create');
+        Route::post('/', [AdminServiceController::class, 'store'])->name('store');
+        Route::get('/{service}/edit', [AdminServiceController::class, 'edit'])->name('edit');
+        Route::put('/{service}', [AdminServiceController::class, 'update'])->name('update');
+        Route::delete('/{service}', [AdminServiceController::class, 'destroy'])->name('destroy');
+        Route::patch('/{service}/toggle-status', [AdminServiceController::class, 'toggleStatus'])->name('toggle-status');
+        Route::patch('/{service}/move-up', [AdminServiceController::class, 'moveUp'])->name('move-up');
+        Route::patch('/{service}/move-down', [AdminServiceController::class, 'moveDown'])->name('move-down');
+    });
+
     Route::resource('posts', AdminPostController::class)->except(['show']);
 
-    Route::post('/categories', function (\Illuminate\Http\Request $request) {
+    Route::post('/categories', function (Request $request) {
         $request->validate(['name' => 'required|string|max:255']);
-        $category = \App\Models\Category::create(['name' => $request->name, 'slug' => \Illuminate\Support\Str::slug($request->name)]);
+        $category = Category::create(['name' => $request->name, 'slug' => Str::slug($request->name)]);
+
         return response()->json(['id' => $category->id, 'name' => $category->name]);
     })->name('categories.store');
 
@@ -151,10 +179,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
             ->name('destroy');
     });
 
-    // Study in China CMS
+    // Study in China CMS (section editor; see admin/study-in-china/edit.blade.php)
     Route::prefix('study-in-china')->name('study-in-china.')->group(function () {
-        Route::get('/', [StudyInChinaPageController::class, 'index'])->name('index');
-        Route::put('/', [StudyInChinaPageController::class, 'update'])->name('update');
+        Route::get('/', [StudyInChinaPageController::class, 'edit'])->name('index');
+        Route::post('/update-key', [StudyInChinaPageController::class, 'updateByKey'])->name('update-by-key');
+        Route::post('/update-json', [StudyInChinaPageController::class, 'updateJson'])->name('update-json');
     });
 
     // CRM - Lead Management

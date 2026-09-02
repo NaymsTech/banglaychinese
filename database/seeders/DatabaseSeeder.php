@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             AdminUserSeeder::class,
             BanglayChineseSeeder::class,
+            ServiceSeeder::class,
             AboutPageSeeder::class,
         ]);
 

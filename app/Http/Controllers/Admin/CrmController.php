@@ -13,7 +13,7 @@ class CrmController extends Controller
      */
     public function index(Request $request)
     {
-        $query = ScholarshipApplication::query();
+        $query = ScholarshipApplication::with('interestedService');
 
         // Search
         if ($request->filled('search')) {
@@ -62,6 +62,10 @@ class CrmController extends Controller
      */
     public function show(ScholarshipApplication $lead)
     {
+        $lead->load('interestedService');
+
+        $services = \App\Models\Service::active()->ordered()->get();
+
         $statusLabels = [
             'new' => 'New',
             'contacted' => 'Contacted',
@@ -71,7 +75,7 @@ class CrmController extends Controller
             'closed' => 'Closed',
         ];
 
-        return view('admin.crm.show', compact('lead', 'statusLabels'));
+        return view('admin.crm.show', compact('lead', 'statusLabels', 'services'));
     }
 
     /**
@@ -83,6 +87,7 @@ class CrmController extends Controller
             'status' => 'required|string|in:new,contacted,consultation_scheduled,application_started,converted,closed',
             'admin_notes' => 'nullable|string|max:5000',
             'follow_up_date' => 'nullable|date',
+            'interested_service_id' => 'nullable|integer|exists:services,id',
         ]);
 
         $lead->update($validated);

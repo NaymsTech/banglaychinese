@@ -62,25 +62,6 @@
             @error('duration_weeks') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
         </div>
 
-        {{-- Type --}}
-        <div>
-            <label class="block text-sm font-semibold text-slate-700">Type</label>
-            <div class="mt-2 flex gap-6">
-                <label class="flex items-center gap-2 text-sm cursor-pointer">
-                    <input type="radio" name="type" value="course"
-                           class="border-slate-300 text-emerald-600 focus:ring-emerald-500"
-                           @checked(old('type', $course->type ?? 'course') === 'course')>
-                    📚 Course
-                </label>
-                <label class="flex items-center gap-2 text-sm cursor-pointer">
-                    <input type="radio" name="type" value="service"
-                           class="border-slate-300 text-amber-600 focus:ring-amber-500"
-                           @checked(old('type', $course->type ?? '') === 'service')>
-                    🎓 Service (Study in China)
-                </label>
-            </div>
-            @error('type') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
-        </div>
     </div>
 
     {{-- Batch Dates --}}
@@ -97,15 +78,6 @@
                    class="mt-1 block w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm shadow-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500">
             @error('batch_end_date') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
         </div>
-    </div>
-
-    {{-- Consultation Link --}}
-    <div class="mt-6">
-        <label for="consultation_link" class="block text-sm font-semibold text-slate-700">Consultation Link <span class="text-xs text-slate-400">(for service-type products — WhatsApp/Calendly/Zoom)</span></label>
-        <input type="url" name="consultation_link" id="consultation_link" value="{{ old('consultation_link', $course->consultation_link ?? '') }}"
-               class="mt-1 block w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm shadow-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-               placeholder="https://wa.me/8618223249514?text=I want to apply for CSC">
-        @error('consultation_link') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
     </div>
 
     {{-- Description --}}

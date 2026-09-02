@@ -16,7 +16,7 @@ class BanglayChineseSeeder extends Seeder
         $this->seedCategories();
         $this->seedCourses();
 
-        $this->command->info('BanglayChinese site content seeded: 5 categories, 7 products (4 courses + 3 services).');
+        $this->command->info('BanglayChinese site content seeded: 3 categories, 4 language courses.');
     }
 
     /**
@@ -39,16 +39,6 @@ class BanglayChineseSeeder extends Seeder
                 'name' => 'Kids Program',
                 'slug' => 'kids-program',
                 'description' => 'Play-based Chinese learning programs designed for young learners aged 8–13.',
-            ],
-            [
-                'name' => 'Scholarship Guidance',
-                'slug' => 'scholarship-guidance',
-                'description' => 'Fast-track prep and guidance for Chinese university scholarships and admission deadlines.',
-            ],
-            [
-                'name' => 'Study in China',
-                'slug' => 'study-in-china',
-                'description' => 'Complete application support, guidance, and pathway programs for studying in China.',
             ],
         ];
 
@@ -89,7 +79,6 @@ class BanglayChineseSeeder extends Seeder
                     . 'বয়স: ৮–১৩ বছর।',
                 'hsk_level'          => 1,
                 'price'              => 12000,
-                'type'               => 'course',
                 'duration_weeks'     => 8,
                 'category_slug'      => 'kids-program',
                 'is_published'       => true,
@@ -104,7 +93,6 @@ class BanglayChineseSeeder extends Seeder
                     . 'যাতে আপনি নির্ধারিত সময়ের মধ্যে HSK 1–4 শেষ করে scholarship-এর জন্য প্রস্তুত হতে পারেন।',
                 'hsk_level'          => 4,
                 'price'              => 12000,
-                'type'               => 'course',
                 'duration_weeks'     => 16,
                 'category_slug'      => 'hsk-preparation',
                 'is_published'       => true,
@@ -119,7 +107,6 @@ class BanglayChineseSeeder extends Seeder
                     . 'AI word map ও daily-life scenario practice-এর মাধ্যমে vocabulary retention ও speaking fluency নিশ্চিত করে।',
                 'hsk_level'          => 4,
                 'price'              => 16000,
-                'type'               => 'course',
                 'duration_weeks'     => 12,
                 'category_slug'      => 'speaking-fluency',
                 'is_published'       => true,
@@ -134,63 +121,14 @@ class BanglayChineseSeeder extends Seeder
                     . 'যাতে upcoming deadline-এর আগেই HSK 1–4 complete করে China admission-এর জন্য আবেদন করতে পারেন।',
                 'hsk_level'          => 4,
                 'price'              => 20000,
-                'type'               => 'course',
                 'duration_weeks'     => 8,
                 'category_slug'      => 'hsk-preparation',
                 'is_published'       => true,
                 'is_featured'        => true,
             ],
 
-            // ── Study in China Services ───────────────────────────────────
-            [
-                'title'              => 'Study In China – Application Guide',
-                'slug'               => 'study-in-china-application-guide',
-                'description'        => 'নিজে নিজে করতে চান? শুধু সঠিক গাইডেন্স দরকার? '
-                    . 'আপনি self-motivated এবং capable — নিজেই চীনে application করতে চান। কিন্তু একটা বড় সমস্যা: '
-                    . 'সঠিক তথ্য ও step-by-step গাইডেন্সের অভাব। এই Application Guide-এ পাবেন সম্পূর্ণ প্রক্রিয়ার '
-                    . 'detailed roadmap: document checklist, university shortlisting strategy, application timeline, '
-                    . 'এবং scholarship interview tips — সবকিছু এক জায়গায়।',
-                'hsk_level'          => null,
-                'price'              => 25000,
-                'type'               => 'service',
-                'category_slug'      => 'study-in-china',
-                'consultation_link'  => 'https://wa.me/8618223249514?text=I%20want%20the%20Application%20Guide',
-                'is_published'       => true,
-                'is_featured'        => false,
-            ],
-            [
-                'title'              => 'Study in China – Complete Application Support',
-                'slug'               => 'study-in-china-complete-support',
-                'description'        => 'Full Application Support: আপনার পুরো China Process আমাদের উপর ছেড়ে দিন। '
-                    . 'যারা চান কোনও ঝামেলা ছাড়া সম্পূর্ণ application process আমাদের expert টিম handle করুক, '
-                    . 'তাদের জন্য এই প্যাকেজ। আমরা করব: university shortlisting, document preparation ও verification, '
-                    . 'application submission, scholarship application, interview preparation, এবং visa guidance — '
-                    . 'সবকিছু step-by-step, personal mentorship-এর মাধ্যমে। আপনার শুধু focus করতে হবে পড়াশোনায়।',
-                'hsk_level'          => null,
-                'price'              => 60000,
-                'type'               => 'service',
-                'category_slug'      => 'study-in-china',
-                'consultation_link'  => 'https://wa.me/8618223249514?text=I%20want%20Complete%20Application%20Support',
-                'is_published'       => true,
-                'is_featured'        => true,
-            ],
-            [
-                'title'              => 'Complete China Success – 1 Year Pathway',
-                'slug'               => 'complete-china-success',
-                'description'        => 'Complete China Success: Study থেকে Career পর্যন্ত ১-বছরের সম্পূর্ণ সাপোর্ট। '
-                    . 'Complete China Success হলো আমাদের সবচেয়ে comprehensive package, যেখানে China admission, language, culture, '
-                    . 'student life — সবকিছু মিলিয়ে একটি ১-বছরের complete pathway। '
-                    . 'এই প্রোগ্রামে থাকছে: সম্পূর্ণ application support, ১ বছরের HSK language training, '
-                    . 'pre-departure cultural orientation, accommodation assistance, এবং China-তে পৌঁছানোর পর '
-                    . 'প্রথম মাসের settlement support। এটি শুধু admission নয় — এটি আপনার পুরো China journey-এর গ্যারান্টি।',
-                'hsk_level'          => null,
-                'price'              => 100000,
-                'type'               => 'service',
-                'category_slug'      => 'study-in-china',
-                'consultation_link'  => 'https://wa.me/8618223249514?text=I%20want%20Complete%20China%20Success%20Pathway',
-                'is_published'       => true,
-                'is_featured'        => true,
-            ],
+            // Study in China service packages now live in the dedicated `services`
+            // table and are seeded via ServiceSeeder.
         ];
 
         foreach ($products as $product) {
@@ -204,16 +142,14 @@ class BanglayChineseSeeder extends Seeder
             Course::updateOrCreate(
                 ['slug' => $product['slug']],
                 [
-                    'title'             => $product['title'],
-                    'description'       => $product['description'],
-                    'hsk_level'         => $product['hsk_level'],
-                    'price'             => $product['price'],
-                    'type'              => $product['type'],
-                    'duration_weeks'    => $product['duration_weeks'] ?? null,
-                    'category_id'       => $categoryId,
-                    'consultation_link' => $product['consultation_link'] ?? null,
-                    'is_published'      => $product['is_published'],
-                    'is_featured'       => $product['is_featured'],
+                    'title'          => $product['title'],
+                    'description'    => $product['description'],
+                    'hsk_level'      => $product['hsk_level'],
+                    'price'          => $product['price'],
+                    'duration_weeks' => $product['duration_weeks'] ?? null,
+                    'category_id'    => $categoryId,
+                    'is_published'   => $product['is_published'],
+                    'is_featured'    => $product['is_featured'],
                 ]
             );
         }

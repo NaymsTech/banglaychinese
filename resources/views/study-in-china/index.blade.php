@@ -1,655 +1,770 @@
-<x-app-layout>
-    @push('meta')
-        <meta name="description" content="Study in China with expert guidance from BanglayChinese. Personal experience since 2017. Free consultation, scholarship guidance, and complete application support.">
+@php
+    use App\Services\SettingsService;
+    $waNumber = SettingsService::get('whatsapp_number', '8618223249514');
+    $waLink = 'https://wa.me/' . $waNumber;
 
-        <!-- Open Graph -->
-        <meta property="og:title" content="Study in China with Confidence — BanglayChinese">
-        <meta property="og:description" content="Start your journey with guidance from someone who has personally studied in China since 2017. Free consultation available.">
+    // Presentation metadata (badges + Bangla positioning) keyed by canonical slug.
+    // The actual service name / description / features / price / duration / CTA
+    // come exclusively from the `services` table (Service model).
+    $serviceMeta = [
+        'guided-application' => [
+            'badges'  => ['Self-Managed'],
+            'tagline' => 'নিজের application নিজে করতে চান, শুধু expert direction ও strategy support দরকার।',
+        ],
+        'full-application-service' => [
+            'badges'  => ['Complete Support'],
+            'tagline' => 'Application থেকে pre-departure পর্যন্ত পুরো process-এ আমাদের team-এর hands-on support।',
+        ],
+        'elite-success-program' => [
+            'badges'  => ['1-Year Mentorship', 'Most Comprehensive'],
+            'tagline' => 'Admission + Chinese Language + Academic & Career Guidance — একসাথে 1-Year structured mentorship।',
+        ],
+    ];
+@endphp
+
+<x-app-layout>
+    <x-slot name="metaTitle">Study in China from Bangladesh | Scholarship & Application Support | Banglay Chinese</x-slot>
+    <x-slot name="metaDescription">চীনে পড়াশোনা — University selection, scholarship guidance, application support, Chinese language training এবং 1-Year Mentorship। বাংলাদেশি শিক্ষার্থীদের জন্য Banglay Chinese-এর সাথে China journey শুরু করুন।</x-slot>
+    <x-slot name="canonicalUrl">{{ route('study-in-china') }}</x-slot>
+
+    @push('meta')
+        <meta property="og:title" content="Study in China from Bangladesh | Scholarship & Application Support | Banglay Chinese">
+        <meta property="og:description" content="University selection, scholarship guidance, application support, Chinese language training এবং 1-Year Mentorship — বাংলাদেশি শিক্ষার্থীদের জন্য।">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ url()->current() }}">
-        <meta property="og:site_name" content="BanglayChinese">
-
-        <!-- Twitter Card -->
+        <meta property="og:site_name" content="Banglay Chinese">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="Study in China with Confidence — BanglayChinese">
-        <meta name="twitter:description" content="Start your journey with guidance from someone who has personally studied in China since 2017.">
-
-         <!-- Schema.org -->
-         <script type="application/ld+json">
-         {
-             "@@context": "https://schema.org",
-             "@@type": "Service",
-            "name": "Study in China Consultation Services",
-            "provider": {
-                "@type": "Organization",
-                "name": "BanglayChinese",
-                "url": "{{ url('/') }}"
-            },
-            "description": "Expert guidance for Bangladeshi students wanting to study in China. Free consultation, scholarship guidance, and complete application support.",
-            "serviceType": "Education Consulting",
-            "areaServed": "Bangladesh"
-        }
-        </script>
+        <meta name="twitter:title" content="Study in China from Bangladesh | Banglay Chinese">
+        <meta name="twitter:description" content="University selection, scholarship guidance, application support এবং 1-Year Mentorship।">
+        <script type="application/ld+json">{"@@context":"https://schema.org","@@type":"Service","name":"Study in China Consultation Services","provider":{"@@type":"Organization","name":"Banglay Chinese","url":"{{ url('/') }}"},"description":"University selection, scholarship guidance, application support এবং long-term mentorship — বাংলাদেশি শিক্ষার্থীদের জন্য China study guidance।","serviceType":"Education Consulting","areaServed":"Bangladesh"}</script>
     @endpush
 
-    @php
-        $hero = $sections['hero'] ?? [];
-        $whyChina = $sections['why_china'] ?? [];
-        $whyUs = $sections['why_us'] ?? [];
-        $roadmap = $sections['roadmap'] ?? [];
-        $services = $sections['services'] ?? [];
-        $comparison = $sections['comparison'] ?? [];
-        $scholarships = $sections['scholarships'] ?? [];
-        $quote = $sections['quote'] ?? [];
-        $faqs = $sections['faqs'] ?? [];
-        $booking = $sections['booking'] ?? [];
-        $finalCta = $sections['final_cta'] ?? [];
-    @endphp
+    <div class="bg-surface font-sans text-text">
+        {{-- ========================================== SECTION 1: HERO ========================================== --}}
+        <section class="relative overflow-hidden bg-white">
+            <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+                <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-primary-50 blur-3xl"></div>
+                <div class="absolute top-1/2 -left-32 w-80 h-80 rounded-full bg-accent-50 blur-3xl"></div>
+            </div>
 
-    {{-- ============================================ SECTION 1: PREMIUM HERO ============================================ --}}
-    <section class="relative overflow-hidden bg-white pt-16 pb-20 lg:pt-24 lg:pb-28">
-        {{-- Subtle background decoration --}}
-        <div class="absolute inset-0 overflow-hidden pointer-events-none">
-            <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-red-50/50 blur-3xl"></div>
-            <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-slate-50 blur-3xl"></div>
-        </div>
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-16 lg:pt-20 lg:pb-24">
+                <div class="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                    <div class="lg:col-span-7">
+                        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-50 text-primary-700 border border-primary-100 text-sm font-semibold">🇨🇳 Study in China Guidance for Bangladeshi Students</span>
 
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-                {{-- Left: Text Content --}}
-                <div>
-                    {{-- Trust Badges --}}
-                    <div class="flex flex-wrap gap-3 mb-8">
-                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-red-50 text-red-700 rounded-full text-sm font-medium">
-                            {{ $hero['badge_1'] ?? '🇨🇳 Studying in China Since 2017' }}
-                        </span>
-                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-700 rounded-full text-sm font-medium">
-                            {{ $hero['badge_2'] ?? '🏆 Chinese Bridge 2024 World Top 10 Finalist' }}
-                        </span>
-                        <span class="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
-                            {{ $hero['badge_3'] ?? '💼 2+ Years Professional Chinese Interpreter' }}
-                        </span>
-                    </div>
+                        <h1 class="mt-6 font-bangla text-4xl sm:text-5xl lg:text-[3.4rem] font-bold leading-tight text-slate-900">চীনে পড়াশোনার স্বপ্নকে একটি পরিষ্কার পরিকল্পনায় পরিণত করুন</h1>
 
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
-                        {{ $hero['heading'] ?? 'Study in China with Confidence' }}
-                    </h1>
+                        <p class="mt-5 text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl font-bangla">University selection, scholarship guidance, application support, Chinese language training এবং long-term mentorship — Banglay Chinese-এর সাথে আপনার China journey শুরু করুন।</p>
 
-                    <p class="mt-6 text-lg sm:text-xl text-slate-600 leading-relaxed max-w-xl">
-                        {{ $hero['subtitle'] ?? 'Start your journey with guidance from someone who has personally studied in China since 2017 and understands every step of the process.' }}
-                    </p>
+                        <p class="mt-5 inline-flex flex-wrap items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-alt border border-border text-sm font-semibold text-slate-700"><span class="text-accent-600">◆</span> Admission Support + Chinese Language + 1-Year Mentorship</p>
 
-                    {{-- CTA Buttons --}}
-                    <div class="mt-8 flex flex-wrap gap-4">
-                        <a href="#consultation"
-                           class="inline-flex items-center gap-2 px-8 py-4 bg-red-600 text-white font-semibold rounded-xl shadow-lg shadow-red-200 hover:bg-red-700 hover:shadow-red-300 transition-all duration-300 text-lg">
-                            {{ $hero['cta_primary'] ?? 'Book Free Consultation' }}
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
-                        <a href="#services"
-                           class="inline-flex items-center gap-2 px-8 py-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-slate-300 hover:bg-slate-50 transition-all duration-300 text-lg">
-                            {{ $hero['cta_secondary'] ?? 'Explore Service Packages' }}
-                        </a>
-                    </div>
-
-                    {{-- Trust Stats --}}
-                    @php $stats = $hero['stats'] ?? []; @endphp
-                    @if(!empty($stats))
-                        <div class="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-6">
-                            @foreach($stats as $stat)
-                                <div class="text-center">
-                                    <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">{{ $stat['number'] }}</div>
-                                    <div class="mt-1 text-sm text-slate-500">{{ $stat['label'] }}</div>
-                                </div>
-                            @endforeach
+                        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                            <a href="#consultation" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary-600 text-white font-bold rounded-xl shadow-sm hover:bg-primary-700 transition-colors text-lg">Get Eligibility Review
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg></a>
+                            <a href="#services" class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-primary-300 hover:text-primary-700 transition-colors text-lg">Explore Study in China</a>
                         </div>
-                    @endif
+                    </div>
+
+                    <div class="lg:col-span-5">
+                        <div class="relative bg-gradient-to-br from-primary-50 to-surface border border-primary-100 rounded-2xl p-8 shadow-sm">
+                            <span class="inline-block px-3 py-1 rounded-full bg-white text-primary-700 text-sm font-bold shadow-sm">আপনার সাথে যা থাকছে</span>
+                            <ul class="mt-6 space-y-4">
+                                @foreach([
+                                    ['title' => 'University & Program Guidance', 'sub' => 'সঠিক university ও program বেছে নেওয়ার সাহায্য'],
+                                    ['title' => 'Scholarship Support', 'sub' => 'Eligibility বুঝে scholarship-এর দিকনির্দেশনা'],
+                                    ['title' => 'Application Support', 'sub' => 'সম্পূর্ণ process-এ human-led guidance'],
+                                    ['title' => 'Chinese Language Training', 'sub' => 'বাংলায় Chinese শেখার সুযোগ'],
+                                    ['title' => '1-Year Mentorship', 'sub' => 'দীর্ঘমেয়াদি structured support'],
+                                ] as $item)
+                                    <li class="flex items-start gap-3">
+                                        <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-600 text-white text-sm">✓</span>
+                                        <div>
+                                            <p class="font-semibold text-slate-800">{{ $item['title'] }}</p>
+                                            <p class="text-sm text-slate-500">{{ $item['sub'] }}</p>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                {{-- Right: Founder Image --}}
-                <div class="hidden lg:flex justify-center">
-                    <div class="relative">
-                        <div class="w-80 h-80 lg:w-96 lg:h-96 rounded-3xl overflow-hidden shadow-2xl shadow-slate-200 border-4 border-white">
-                            <img src="{{ asset($hero['founder_image'] ?? 'images/founder.png') }}"
-                                 alt="Founder"
-                                 class="w-full h-full object-cover"
-                                 onerror="this.style.display='none'">
-                        </div>
-                        {{-- Floating badge --}}
-                        <div class="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl px-6 py-4 border border-slate-100">
+        {{-- ========================================== SECTION 2: TRUST / VALUE STRIP ========================================== --}}
+        <section class="bg-white border-t border-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    @foreach([
+                        ['title' => 'University Guidance', 'icon' => '🎓', 'desc' => 'নিজের profile অনুযায়ী university ও program বেছে নেওয়ার দিকনির্দেশনা'],
+                        ['title' => 'Scholarship Support', 'icon' => '🏅', 'desc' => 'Eligibility ও types বুঝে scholarship-এর সম্ভাব্য দিক'],
+                        ['title' => 'Application Assistance', 'icon' => '📝', 'desc' => 'Documents ও application process-এ human-led help'],
+                        ['title' => '1-Year Mentorship', 'icon' => '🗓️', 'desc' => 'Elite students-দের জন্য দীর্ঘমেয়াদি structured support'],
+                    ] as $value)
+                        <div class="rounded-xl border border-border bg-surface-alt p-5">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-xl">
-                                    🎓
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-slate-900">Personal Experience</div>
-                                    <div class="text-xs text-slate-500">Studying in China since 2017</div>
-                                </div>
+                                <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-white border border-border text-2xl">{{ $value['icon'] }}</span>
+                                <h3 class="font-display font-bold text-slate-900">{{ $value['title'] }}</h3>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================ SECTION 2: WHY STUDY IN CHINA ============================================ --}}
-    <section class="py-20 lg:py-28 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                    {{ $whyChina['heading'] ?? 'Why Study in China?' }}
-                </h2>
-            </div>
-
-            @php $cards = $whyChina['cards'] ?? []; @endphp
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach($cards as $card)
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                        <div class="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-2xl mb-4">
-                            {{ $card['icon'] ?? '✨' }}
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900 mb-2">{{ $card['title'] }}</h3>
-                        <p class="text-slate-600 text-sm leading-relaxed">{{ $card['description'] }}</p>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================ SECTION 3: WHY CHOOSE BANGLAYCHINESE ============================================ --}}
-    <section class="py-20 lg:py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
-                {{-- Left: Content --}}
-                <div>
-                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                        {{ $whyUs['heading'] ?? 'Why Choose BanglayChinese?' }}
-                    </h2>
-
-                    @php $descriptions = $whyUs['description'] ?? []; @endphp
-                    <div class="mt-10 space-y-8">
-                        @foreach($descriptions as $point)
-                            <div class="flex gap-4">
-                                <div class="flex-shrink-0 w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center text-red-600">
-                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-lg font-bold text-slate-900">{{ $point['title'] }}</h3>
-                                    <p class="mt-1 text-slate-600 leading-relaxed">{{ $point['description'] }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-
-                {{-- Right: Founder Card --}}
-                <div class="lg:pl-8">
-                    <div class="bg-slate-50 rounded-3xl p-8 lg:p-10 border border-slate-100 shadow-sm">
-                        <div class="w-24 h-24 rounded-2xl overflow-hidden mx-auto mb-6 shadow-lg">
-                            <img src="{{ asset($whyUs['founder_image'] ?? 'images/founder.png') }}"
-                                 alt="{{ $whyUs['founder_name'] ?? 'Founder' }}"
-                                 class="w-full h-full object-cover"
-                                 onerror="this.style.display='none'">
-                        </div>
-                        <h3 class="text-xl font-bold text-slate-900 text-center">{{ $whyUs['founder_name'] ?? 'Naymur Rahman' }}</h3>
-                        <p class="text-red-600 font-medium text-center text-sm mt-1">{{ $whyUs['founder_title'] ?? 'Founder & Lead Mentor' }}</p>
-                        <p class="mt-4 text-slate-600 text-center leading-relaxed text-sm">
-                            {{ $whyUs['founder_bio'] ?? 'Chinese Bridge 2024 World Top 10 Finalist. Studying in China since 2017. Professional Chinese Interpreter.' }}
-                        </p>
-                        <div class="mt-6 flex justify-center gap-3">
-                            <span class="px-3 py-1 bg-white rounded-full text-xs font-medium text-slate-600 border border-slate-200">🏆 Chinese Bridge Finalist</span>
-                            <span class="px-3 py-1 bg-white rounded-full text-xs font-medium text-slate-600 border border-slate-200">🇨🇳 7+ Years in China</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================ SECTION 4: ROADMAP TIMELINE ============================================ --}}
-    <section class="py-20 lg:py-28 bg-slate-50">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                    {{ $roadmap['heading'] ?? 'Our Complete Study Abroad Roadmap' }}
-                </h2>
-            </div>
-
-            @php $steps = $roadmap['steps'] ?? []; @endphp
-            <div class="relative">
-                {{-- Vertical line --}}
-                <div class="absolute left-8 top-0 bottom-0 w-px bg-slate-200 hidden sm:block"></div>
-
-                <div class="space-y-8">
-                    @foreach($steps as $step)
-                        <div class="relative flex items-start gap-6">
-                            {{-- Step number --}}
-                            <div class="relative z-10 flex-shrink-0 w-16 h-16 bg-white rounded-2xl shadow-sm border border-slate-100 flex items-center justify-center">
-                                <span class="text-xl font-extrabold text-red-600">{{ str_pad($step['step'], 2, '0', STR_PAD_LEFT) }}</span>
-                            </div>
-
-                            {{-- Content --}}
-                            <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 flex-1 hover:shadow-md transition-shadow duration-300">
-                                <div class="flex items-start justify-between gap-4">
-                                    <div>
-                                        <h3 class="text-lg font-bold text-slate-900">{{ $step['title'] }}</h3>
-                                        <p class="mt-2 text-slate-600 text-sm leading-relaxed">{{ $step['description'] }}</p>
-                                    </div>
-                                    @if(!$loop->last)
-                                        <svg class="w-5 h-5 text-slate-300 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                                        </svg>
-                                    @endif
-                                </div>
-                            </div>
+                            <p class="mt-3 text-sm text-slate-600 leading-relaxed font-bangla">{{ $value['desc'] }}</p>
                         </div>
                     @endforeach
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    {{-- ============================================ SECTION 5: SERVICE PACKAGES ============================================ --}}
-    <section id="services" class="py-20 lg:py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                    {{ $services['heading'] ?? 'Choose Your Support Level' }}
-                </h2>
-                <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-                    {{ $services['subtitle'] ?? 'Every student has different needs. Choose the level of support that best matches your goals.' }}
-                </p>
-            </div>
+        {{-- ========================================== SECTION 3: WHY STUDY IN CHINA ========================================== --}}
+        <section class="py-16 lg:py-20 bg-surface-alt border-y border-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Why China?</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">কেন বাংলাদেশি শিক্ষার্থীরা China বেছে নেয়?</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">China পড়াশোনার জন্য একটি জনপ্রিয় গন্তব্য। তবে প্রতিটি student-এর জন্য সব option উপযুক্ত নয় — যা আপনার জন্য সঠিক, তা বুঝতে প্রোফাইলভিত্তিক review প্রয়োজন।</p>
+                </div>
 
-            @php $packages = $services['packages'] ?? []; @endphp
-            <div class="grid lg:grid-cols-3 gap-8 items-stretch">
-                @foreach($packages as $package)
-                    <div class="relative bg-white rounded-3xl border-2 {{ !empty($package['featured']) ? 'border-red-500 shadow-2xl shadow-red-100 scale-[1.02] z-10' : (!empty($package['premium']) ? 'border-slate-800 shadow-xl' : 'border-slate-200 shadow-sm') }} p-8 flex flex-col">
-                        {{-- Badge --}}
-                        @if(!empty($package['badge']))
-                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 px-6 py-2 {{ !empty($package['featured']) ? 'bg-red-600 text-white' : 'bg-slate-800 text-white' }} rounded-full text-sm font-bold whitespace-nowrap shadow-lg">
-                                {{ $package['badge'] }}
-                            </div>
-                        @endif
-
-                        {{-- Tag --}}
-                        @if(!empty($package['tag']))
-                            <p class="text-sm text-slate-500 font-medium mb-2">{{ $package['tag'] }}</p>
-                        @endif
-
-                        <h3 class="text-xl font-bold text-slate-900">{{ $package['name'] }}</h3>
-
-                        {{-- Price --}}
-                        <div class="mt-4 flex items-baseline gap-1">
-                            <span class="text-sm text-slate-500">{{ $package['currency'] }}</span>
-                            <span class="text-4xl font-extrabold text-slate-900">{{ $package['price'] }}</span>
+                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    @foreach([
+                        ['icon' => '📚', 'title' => 'বিভিন্ন Program', 'desc' => 'Bachelor’s, Master’s, PhD, Chinese Language — অসংখ্য বিষয়ে পড়ার সুযোগ।'],
+                        ['icon' => '🏅', 'title' => 'Scholarship সুযোগ', 'desc' => 'University, government ও provincial level-এ নানা scholarship-এর সম্ভাবনা।'],
+                        ['icon' => '🌏', 'title' => 'আন্তর্জাতিক পরিবেশ', 'desc' => 'বিশ্বের বিভিন্ন দেশের শিক্ষার্থীদের সাথে পড়াশোনার সুযোগ।'],
+                        ['icon' => '🔬', 'title' => 'প্রযুক্তি ও গবেষণা', 'desc' => 'প্রযুক্তি ও গবেষণা-কেন্দ্রিক program-এ উন্নত সুযোগ।'],
+                        ['icon' => '🗣️', 'title' => 'Chinese Language', 'desc' => 'China-তে পড়তে গেলে ভাষা শেখার বাস্তব পরিবেশ পাওয়া যায়।'],
+                        ['icon' => '🏫', 'title' => 'নানা University Option', 'desc' => 'শহর, program ও budget অনুযায়ী অনেক university বেছে নেওয়ার সুযোগ।'],
+                    ] as $why)
+                        <div class="rounded-xl border border-border bg-white p-6">
+                            <span class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-50 text-2xl">{{ $why['icon'] }}</span>
+                            <h3 class="mt-4 font-display font-bold text-slate-900">{{ $why['title'] }}</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">{{ $why['desc'] }}</p>
                         </div>
+                    @endforeach
+                </div>
 
-                        <p class="mt-3 text-slate-600 text-sm leading-relaxed">{{ $package['description'] }}</p>
+                <div class="mt-10 text-center">
+                    <a href="#consultation" class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-primary-600 text-primary-700 font-bold rounded-xl hover:bg-primary-50 transition-colors">Check Your Eligibility</a>
+                </div>
+            </div>
+        </section>
 
-                        {{-- Features --}}
-                        <ul class="mt-6 space-y-3 flex-1">
-                            @foreach($package['features'] as $feature)
-                                <li class="flex items-start gap-3 text-sm text-slate-700">
-                                    <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $feature }}
-                                </li>
+        {{-- ========================================== SECTION 4: WHAT CAN YOU STUDY ========================================== --}}
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Programs</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">China-তে কী কী পড়া যায়?</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">এগুলো China-তে পড়ার program category — Banglay Chinese-এর নিয়মিত Chinese language course নয়। কোন category আপনার জন্য সম্ভব, তা program ও university-র উপর নির্ভর করে।</p>
+                </div>
+
+                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                    @foreach([
+                        ['deg' => 'Bachelor’s', 'for' => 'HSC / equivalent শিক্ষার্থীদের জন্য', 'desc' => 'Undergraduate study plan করছেন এমন students-দের জন্য।'],
+                        ['deg' => 'Master’s', 'for' => 'Graduate শিক্ষার্থীদের জন্য', 'desc' => 'Advanced study করতে চাওয়া graduates-দের জন্য।'],
+                        ['deg' => 'PhD', 'for' => 'Research-focused applicants-দের জন্য', 'desc' => 'গবেষণায় আগ্রহী শিক্ষার্থীদের জন্য।'],
+                        ['deg' => 'Chinese Language Programs', 'for' => 'ভাষা শিখতে আগ্রহীদের জন্য', 'desc' => 'China-তে Chinese language study করতে চাওয়া students-দের জন্য।'],
+                        ['deg' => 'Diploma / Other Programs', 'for' => 'নির্দিষ্ট intake-এ উপযুক্ত applicants-দের জন্য', 'desc' => 'Institution ও intake অনুযায়ী কিছু program-এর ক্ষেত্রে প্রযোজ্য।'],
+                    ] as $prog)
+                        <div class="rounded-xl border border-border bg-surface-alt p-6">
+                            <span class="inline-block px-3 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-bold uppercase tracking-wide">{{ $prog['deg'] }}</span>
+                            <p class="mt-4 text-sm font-semibold text-slate-800">{{ $prog['for'] }}</p>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">{{ $prog['desc'] }}</p>
+                        </div>
+                    @endforeach
+
+                    <div class="rounded-xl border border-primary-200 bg-primary-50 p-6 flex flex-col justify-center">
+                        <p class="text-sm text-primary-800 leading-relaxed font-bangla">কোন program আপনার জন্য সঠিক — এটা university-র requirements, আপনার background ও goals-এর উপর নির্ভর করে।</p>
+                        <a href="#consultation" class="mt-4 inline-flex items-center gap-2 text-primary-700 font-bold text-sm">Check Your Eligibility →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 5: SCHOLARSHIPS ========================================== --}}
+        <section class="py-16 lg:py-20 bg-surface-alt border-y border-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Scholarship</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">Scholarship-এর সম্ভাব্য সুযোগ</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">China-তে পড়তে আগ্রহী students-দের জন্য নানা ধরনের scholarship-এর সুযোগ থাকতে পারে। কোনটি আপনার জন্য প্রযোজ্য, তা university, program ও intake-এর উপর নির্ভর করে।</p>
+                </div>
+
+                <div class="mt-10 grid sm:grid-cols-2 gap-5">
+                    @foreach([
+                        ['title' => 'University Scholarships', 'desc' => 'অনেক university নিজস্ব scholarship-এর সুযোগ দেয়।'],
+                        ['title' => 'Chinese Government Scholarship', 'desc' => 'বিভিন্ন level-এ government-funded scholarship-এর সম্ভাবনা।'],
+                        ['title' => 'Provincial / Institutional', 'desc' => 'কিছু region বা institution নিজস্ব funding-এর সুযোগ দেয়।'],
+                        ['title' => 'University-Specific Funding', 'desc' => 'নির্দিষ্ট program বা university-এর নিজস্ব সুযোগ থাকতে পারে।'],
+                    ] as $s)
+                        <div class="rounded-xl border border-border bg-white p-6">
+                            <span class="flex h-11 w-11 items-center justify-center rounded-lg bg-accent-50 text-xl">🏅</span>
+                            <h3 class="mt-4 font-display font-bold text-slate-900">{{ $s['title'] }}</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">{{ $s['desc'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+
+                <p class="mt-8 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800 leading-relaxed font-bangla">
+                    <strong>মনে রাখবেন:</strong> Scholarship-এর availability, eligibility ও funding প্রতিটি university, program ও intake-এ ভিন্ন হয়। কোনো scholarship guaranteed নয় — যা সম্ভব, তা review করে জানানো হয়।
+                </p>
+
+                <div class="mt-8 text-center">
+                    <a href="#consultation" class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-primary-600 text-primary-700 font-bold rounded-xl hover:bg-primary-50 transition-colors">Check Scholarship Eligibility</a>
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 6: WHO CAN APPLY ========================================== --}}
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Eligibility</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">কে আবেদন করতে পারে?</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">নিচের category-র students সাধারণত China study-এর কথা ভাবতে পারেন। তবে কে যোগ্য, তা university ও program-এর requirements-এর উপর নির্ভর করে।</p>
+                </div>
+
+                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach([
+                        ['t' => 'HSC / Equivalent Students', 'd' => 'Bachelor’s program-এ আবেদন করতে চান এমন students।'],
+                        ['t' => 'Bachelor’s Graduates', 'd' => 'Master’s-এর জন্য আবেদন করতে চান এমন graduates।'],
+                        ['t' => 'Master’s Applicants', 'd' => 'Advanced study অথবা PhD-এর প্রস্তুতি নিচ্ছেন।'],
+                        ['t' => 'PhD Applicants', 'd' => 'Research-focused PhD program-এ আগ্রহী students।'],
+                        ['t' => 'Chinese Language Applicants', 'd' => 'ভাষা program-এ পড়তে চান এমন students।'],
+                    ] as $el)
+                        <div class="rounded-xl border border-border bg-surface-alt p-5">
+                            <h3 class="font-display font-bold text-slate-900">{{ $el['t'] }}</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">{{ $el['d'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-8 rounded-xl border border-border bg-surface-alt p-6">
+                    <h3 class="font-display font-bold text-slate-900">Eligibility যার উপর নির্ভর করে</h3>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        @foreach(['Academic background','Academic results','Desired program','Language requirements','University requirements','Intake','Documentation','Financial considerations'] as $f)
+                            <span class="rounded-full bg-white border border-border px-3 py-1.5 text-sm text-slate-700">{{ $f }}</span>
+                        @endforeach
+                    </div>
+                    <p class="mt-4 text-sm text-slate-600 font-bangla"><strong>Eligibility university ও program অনুযায়ী ভিন্ন হয়।</strong></p>
+                    <a href="#consultation" class="mt-4 inline-flex items-center gap-2 text-primary-700 font-bold text-sm">Get Personal Eligibility Review →</a>
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 7: APPLICATION ROADMAP ========================================== --}}
+        <section class="py-16 lg:py-20 bg-surface-alt border-y border-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Roadmap</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">China Application Journey-র ধাপগুলো</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">নিচের প্রক্রিয়াটি একটি সাধারণ দিকনির্দেশনা। প্রতিটি ধাপ university, program ও intake অনুযায়ী ভিন্ন হতে পারে — কোনো ধাপ বা ফলাফল guaranteed নয়।</p>
+                </div>
+
+                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    @foreach([
+                        ['01','Profile Evaluation','আপনার academic background ও goals বুঝে নেওয়া।'],
+                        ['02','Eligibility Assessment','কোন program-এ আপনি eligible, তা যাচাই করা।'],
+                        ['03','Program & University Selection','আপনার জন্য উপযুক্ত option চিহ্নিত করা।'],
+                        ['04','Document Preparation','প্রয়োজনীয় documents তৈরি ও review করা।'],
+                        ['05','Application Submission','University requirements অনুযায়ী application জমা দেওয়া।'],
+                        ['06','Admission / Scholarship Process','পরবর্তী ধাপ ও requirements-এ সাড়া দেওয়া।'],
+                        ['07','Visa Preparation','China-তে যাওয়ার প্রস্তুতির দিকনির্দেশনা।'],
+                        ['08','Pre-departure & Next Steps','চীনে যাত্রা শুরুর প্রস্তুতি নেওয়া।'],
+                    ] as $step)
+                        <div class="rounded-xl border border-border bg-white p-5">
+                            <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-600 text-white font-display font-bold">{{ $step[0] }}</span>
+                            <h3 class="mt-4 font-display font-bold text-slate-900">{{ $step[1] }}</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">{{ $step[2] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 8: WHY BANGLAY CHINESE ========================================== --}}
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Why Banglay Chinese?</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">আমরা শুধু application-এ সাহায্য করি না — আমরা China-র জন্য প্রস্তুত করি</h2>
+                </div>
+
+                <div class="mt-10 grid sm:grid-cols-2 gap-5">
+                    @foreach([
+                        ['01','Bangla-first Guidance','জটিল China-study তথ্য সহজ ও স্পষ্ট বাংলায় বোঝানো হয়।'],
+                        ['02','Human Support','আপনার application ও profile আমাদের টিম নিজ হাতে review করে।'],
+                        ['03','Student-focused Strategy','University/program পছন্দ আপনার profile ও goals বিবেচনায় করা হয়।'],
+                        ['04','Long-term Mentorship','Elite students-দের জন্য application-এর বাইরেও structured support দেওয়া হয়।'],
+                    ] as $pillar)
+                        <div class="rounded-xl border border-border bg-surface-alt p-6">
+                            <span class="text-sm font-bold text-accent-600">{{ $pillar[0] }}</span>
+                            <h3 class="mt-2 font-display font-bold text-slate-900">{{ $pillar[1] }}</h3>
+                            <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">{{ $pillar[2] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 9: MAJOR DIFFERENTIATOR ========================================== --}}
+        @php $elite = $services->firstWhere('slug', 'elite-success-program'); @endphp
+        <section class="py-16 lg:py-20 bg-primary-800 text-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 text-sm font-semibold">⭐ 1-Year Mentorship</span>
+                    <h2 class="mt-5 font-bangla text-3xl sm:text-4xl font-bold leading-tight">More Than an Application Service</h2>
+                    <p class="mt-4 text-lg text-primary-100 leading-relaxed font-bangla">Admission পাওয়াই শেষ নয়। China যাওয়ার আগে এবং China journey-র শুরুতেও সঠিক guidance দরকার।</p>
+                </div>
+
+                <div class="mt-12 grid md:grid-cols-2 gap-10 items-start">
+                    <div>
+                        <div class="space-y-3">
+                            @foreach([
+                                ['Application Support','University + application guidance'],
+                                ['Chinese Language','বাংলায় Chinese language training'],
+                                ['Academic Guidance','Study ও student-life preparation'],
+                                ['Career Direction','Long-term academic ও career support'],
+                                ['1-Year Mentorship','Structured ongoing guidance'],
+                            ] as $i => $diff)
+                                <div class="flex items-center gap-4 rounded-xl border border-white/15 bg-white/5 px-5 py-4">
+                                    <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 font-display font-bold">{{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                                    <div>
+                                        <p class="font-semibold">{{ $diff[0] }}</p>
+                                        <p class="text-sm text-primary-100">{{ $diff[1] }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="rounded-2xl border border-white/20 bg-white/10 p-8">
+                        <span class="inline-block px-3 py-1 rounded-full bg-accent-600 text-white text-sm font-bold">Flagship</span>
+                        <h3 class="mt-4 font-bangla text-2xl font-bold">1-Year Mentorship Program</h3>
+                        <p class="mt-3 text-primary-100 leading-relaxed font-bangla">বাংলাদেশি students-দের জন্য designed একটি long-term mentorship journey — যেখানে admission support-এর সাথে Chinese language, academic guidance এবং career direction একসাথে থাকে।</p>
+                        <p class="mt-3 text-primary-100 leading-relaxed font-bangla">একটি application শেষ করাই লক্ষ্য নয় — একজন শিক্ষার্থীকে China journey-র জন্য প্রস্তুত করাই লক্ষ্য।</p>
+                        <a href="{{ $elite ? route('services.show', $elite->slug) : '#services' }}" class="mt-6 inline-flex items-center justify-center gap-2 px-7 py-4 bg-accent-600 text-white font-bold rounded-xl hover:bg-accent-700 transition-colors">
+                            Explore Elite Success Program
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 10: OUR SERVICES ========================================== --}}
+        <section id="services" class="py-16 lg:py-20 bg-surface-alt border-y border-border scroll-mt-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Our Services</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">Choose the Level of Support You Need</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">আপনি নিজে application করতে চান, নাকি পুরো process-এ আমাদের support চান — আপনার প্রয়োজন অনুযায়ী option বেছে নিন।</p>
+                </div>
+
+                <p class="mt-6 rounded-xl border border-primary-200 bg-primary-50 p-4 text-sm text-primary-800 leading-relaxed font-bangla">
+                    <strong>জেনে রাখুন:</strong> Study in China services হলো consultation ও support package — এগুলো Banglay Chinese-এর নিয়মিত Chinese language course নয়।
+                </p>
+
+                <div class="mt-10 grid lg:grid-cols-3 gap-6 items-stretch">
+                    @forelse($services as $service)
+                        @php
+                            $meta = $serviceMeta[$service->slug] ?? ['badges' => [], 'tagline' => $service->short_description];
+                            $features = is_array($service->features) ? $service->features : [];
+                            $isElite = $service->slug === 'elite-success-program';
+                        @endphp
+                        <div class="flex flex-col rounded-2xl border bg-white p-7 {{ $isElite ? 'border-primary-600 ring-1 ring-primary-100 shadow-md lg:-my-2' : 'border-border shadow-sm' }}">
+                            @if($isElite)
+                                <span class="self-start rounded-full bg-primary-600 text-white text-xs font-bold px-3 py-1 uppercase tracking-wide">Most Comprehensive</span>
+                            @endif
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                @foreach($meta['badges'] as $badge)
+                                    <span class="rounded-full px-3 py-1 text-xs font-bold {{ $isElite ? 'bg-accent-50 text-accent-700 border border-accent-100' : 'bg-primary-50 text-primary-700 border border-primary-100' }}">{{ $badge }}</span>
+                                @endforeach
+                            </div>
+                            <h3 class="mt-4 font-display text-2xl font-bold text-slate-900">{{ $service->name }}</h3>
+                            <div class="mt-3 flex items-baseline gap-2">
+                                <span class="text-3xl font-extrabold text-slate-900">৳{{ number_format($service->price) }}</span>
+                                @if($service->duration)
+                                    <span class="text-sm text-slate-500">{{ $service->duration }}</span>
+                                @endif
+                            </div>
+                            <p class="mt-4 text-slate-700 leading-relaxed font-bangla">{{ $meta['tagline'] }}</p>
+                            @if($service->short_description)
+                                <p class="mt-2 text-sm text-slate-500 leading-relaxed">{{ $service->short_description }}</p>
+                            @endif
+                            <div class="mt-5 pt-5 border-t border-border flex-1">
+                                <ul class="space-y-2.5">
+                                    @forelse($features as $feature)
+                                        <li class="flex items-start gap-2.5 text-sm text-slate-700">
+                                            <svg class="w-5 h-5 mt-0.5 text-primary-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                            <span class="leading-relaxed">{{ $feature }}</span>
+                                        </li>
+                                    @empty
+                                        <li class="text-sm text-slate-400 italic">Reach out for a personalized breakdown.</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+
+                            <div class="mt-6">
+                                <a href="{{ route('study-in-china.consultation', ['service' => $service->slug]) }}"
+                                   class="flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 font-bold transition-colors {{ $isElite ? 'bg-accent-600 text-white hover:bg-accent-700' : 'bg-primary-600 text-white hover:bg-primary-700' }}">
+                                    {{ $service->cta_label }}
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                                </a>
+                                <a href="{{ route('services.show', $service->slug) }}" class="mt-3 block w-full text-center text-sm font-semibold text-slate-500 underline hover:text-slate-700">বিস্তারিত দেখুন</a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="lg:col-span-3 text-center py-16">
+                            <h3 class="text-2xl font-bold text-slate-400">আমাদের service packages শীঘ্রই আসছে।</h3>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 11: SERVICE COMPARISON ========================================== --}}
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Comparison</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">Service-গুলোর তুলনা</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">নিচের table-এ তিনটি service-এ কী কী থাকছে তার একটি সাধারণ তুলনা দেওয়া হলো।</p>
+                </div>
+
+                <div class="mt-10 rounded-2xl border border-border overflow-hidden bg-white">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm min-w-[640px]">
+                            <thead>
+                                <tr class="bg-surface-alt border-b border-border text-left">
+                                    <th class="px-5 py-4 font-bold text-slate-900">Feature</th>
+                                    <th class="px-5 py-4 font-semibold text-slate-700">Guided</th>
+                                    <th class="px-5 py-4 font-semibold text-slate-700">Full</th>
+                                    <th class="px-5 py-4 font-bold text-primary-700 bg-primary-50">Elite</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                @php
+                                    $rows = [
+                                        ['Profile evaluation', true, true, true],
+                                        ['University guidance', true, true, true],
+                                        ['Program selection', true, true, true],
+                                        ['Document checklist', true, true, true],
+                                        ['Application guidance', true, true, true],
+                                        ['Application support', false, true, true],
+                                        ['Admission support', false, true, true],
+                                        ['Visa preparation guidance', false, true, true],
+                                        ['Pre-departure support', false, true, true],
+                                        ['Chinese language training', false, false, true],
+                                        ['Academic guidance', false, false, true],
+                                        ['Career guidance', false, false, true],
+                                        ['Long-term mentorship', false, false, true],
+                                    ];
+                                @endphp
+                                @foreach($rows as $row)
+                                    <tr class="hover:bg-slate-50/50">
+                                        <td class="px-5 py-3.5 font-medium text-slate-800">{{ $row[0] }}</td>
+                                        @for($c = 1; $c <= 3; $c++)
+                                            <td class="px-5 py-3.5 {{ $c === 3 ? 'bg-primary-50/40' : '' }}">
+                                                @if($row[$c])
+                                                    <svg class="w-5 h-5 text-primary-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                                                @else
+                                                    <span class="text-slate-300">—</span>
+                                                @endif
+                                            </td>
+                                        @endfor
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="mt-8 grid sm:grid-cols-3 gap-4">
+                    <div class="rounded-xl border border-border bg-surface-alt p-5">
+                        <h3 class="font-display font-bold text-slate-900">Guided</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">আপনি application manage করবেন, expert direction-এর সাথে।</p>
+                    </div>
+                    <div class="rounded-xl border border-border bg-surface-alt p-5">
+                        <h3 class="font-display font-bold text-slate-900">Full</h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed font-bangla">আমরা application process-এ support করি, আপনার সাথে।</p>
+                    </div>
+                    <div class="rounded-xl border border-primary-200 bg-primary-50 p-5">
+                        <h3 class="font-display font-bold text-primary-800">Elite</h3>
+                        <p class="mt-2 text-sm text-primary-800 leading-relaxed font-bangla">আপনার broader China journey-র জন্য 1-Year support।</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 12: WHICH SERVICE IS RIGHT FOR YOU ========================================== --}}
+        <section class="py-16 lg:py-20 bg-surface-alt border-y border-border">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Decision Helper</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">আপনার জন্য কোনটি?</h2>
+                </div>
+
+                <div class="mt-10 grid lg:grid-cols-3 gap-5">
+                    <div class="rounded-xl border border-border bg-white p-6">
+                        <p class="text-slate-700 leading-relaxed font-bangla">“আমি নিজে application handle করতে চাই, কিন্তু expert direction দরকার।”</p>
+                        <a href="{{ route('study-in-china.consultation', ['service' => 'guided-application']) }}" class="mt-4 inline-flex items-center gap-2 text-primary-700 font-bold">Guided Application →</a>
+                    </div>
+                    <div class="rounded-xl border border-border bg-white p-6">
+                        <p class="text-slate-700 leading-relaxed font-bangla">“আমি পুরো application process-এ professional support চাই।”</p>
+                        <a href="{{ route('study-in-china.consultation', ['service' => 'full-application-service']) }}" class="mt-4 inline-flex items-center gap-2 text-primary-700 font-bold">Full Application Service →</a>
+                    </div>
+                    <div class="rounded-xl border border-primary-200 bg-primary-50 p-6">
+                        <p class="text-primary-800 leading-relaxed font-bangla">“আমি application + Chinese language + long-term academic/career mentorship চাই।”</p>
+                        <a href="{{ route('study-in-china.consultation', ['service' => 'elite-success-program']) }}" class="mt-4 inline-flex items-center gap-2 text-primary-700 font-bold">Elite Success Program →</a>
+                    </div>
+                </div>
+
+                <p class="mt-8 text-sm text-slate-500 font-bangla">নিশ্চিত না? কোনো চিন্তা নেই — আমাদের টিম আপনার profile review করে সঠিক option বুঝতে সাহায্য করবে।</p>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 13: HUMAN SUPPORT ========================================== --}}
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="max-w-3xl">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Human-led Process</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">Your Application Is Reviewed By Our Team</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">আমরা automated application system নই। আপনার academic background, goals এবং application situation বুঝে আমাদের টিম next steps নিয়ে আপনার সাথে আলোচনা করে।</p>
+                </div>
+
+                <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                    @foreach([
+                        ['Submit Information','আপনার তথ্য জমা দিন'],
+                        ['Team Reviews','টিম আপনার profile review করে'],
+                        ['Consultation','goals ও options নিয়ে আলোচনা'],
+                        ['Recommended Path','উপযুক্ত pathway recommend'],
+                        ['Application Support','নির্বাচিত service অনুযায়ী support'],
+                    ] as $i => $h)
+                        <div class="rounded-xl border border-border bg-surface-alt p-5 text-center">
+                            <span class="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-white font-display font-bold">{{ $i + 1 }}</span>
+                            <h3 class="mt-3 font-display font-bold text-slate-900">{{ $h[0] }}</h3>
+                            <p class="mt-1 text-sm text-slate-600 leading-relaxed font-bangla">{{ $h[1] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 14: WHAT HAPPENS AFTER CONSULTATION ========================================== --}}
+        <section class="py-16 lg:py-20 bg-surface-alt border-y border-border">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Next Steps</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">Consultation-এর পর কী হবে?</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">কোনো বাধ্যবাধকতা নেই — আমরা প্রথমে আপনার situation বুঝে, তারপর উপযুক্ত দিকনির্দেশনা দিই।</p>
+                </div>
+
+                <ol class="mt-10 space-y-4">
+                    @foreach([
+                        'আপনি consultation / eligibility form জমা দেন।',
+                        'আমাদের টিম আপনার তথ্য review করে।',
+                        'একজন টিম সদস্য আপনার সাথে যোগাযোগ করে।',
+                        'আপনার academic background, goals ও preferred program নিয়ে আলোচনা হয়।',
+                        'আমরা উপযুক্ত service ও পরবর্তী steps ব্যাখ্যা করি।',
+                    ] as $i => $step)
+                        <li class="flex items-start gap-4 rounded-xl border border-border bg-white p-5">
+                            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary-600 text-white font-display font-bold">{{ $i + 1 }}</span>
+                            <p class="text-slate-700 leading-relaxed font-bangla">{{ $step }}</p>
+                        </li>
+                    @endforeach
+                </ol>
+
+                <p class="mt-6 text-sm text-slate-500 font-bangla">আমাদের টিম আপনার তথ্য review করে পরবর্তী ধাপ সম্পর্কে যোগাযোগ করবে।</p>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 15: TESTIMONIALS / SOCIAL PROOF ========================================== --}}
+        @php $testimonials = []; @endphp
+        @if(count($testimonials) > 0)
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Student Stories</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">শিক্ষার্থীদের অভিজ্ঞতা</h2>
+                </div>
+                <div class="mt-10 grid md:grid-cols-3 gap-5">
+                    @foreach($testimonials as $t)
+                        <div class="rounded-xl border border-border bg-surface-alt p-6">
+                            <p class="text-slate-700 leading-relaxed font-bangla">“{{ $t['quote'] }}”</p>
+                            <p class="mt-4 text-sm font-bold text-slate-900">{{ $t['name'] }}</p>
+                            <p class="text-sm text-slate-500">{{ $t['detail'] }}</p>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        @endif
+
+        {{-- ========================================== SECTION 16: FAQ ========================================== --}}
+        <section class="py-16 lg:py-20 bg-white">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">FAQ</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">সাধারণ প্রশ্নাবলি</h2>
+                </div>
+
+                <div class="mt-10 space-y-3">
+                    @foreach([
+                        ['q' => 'China-তে কোন কোন program-এ apply করা যায়?', 'a' => 'Bachelor’s, Master’s, PhD, Chinese Language program এবং কিছু ক্ষেত্রে Diploma-সহ বিভিন্ন program-এ আবেদন করা যায়। কোনটি আপনার জন্য সম্ভব, তা university এবং আপনার academic background-এর উপর নির্ভর করে।'],
+                        ['q' => 'IELTS বা English প্রমাণ কি বাধ্যতামূলক?', 'a' => 'প্রতিটি university ও program-এর নিজস্ব language requirement থাকে। কিছুতে English medium-এ পড়া যায়, কিছুতে Chinese/HSK প্রয়োজন হয়। আপনার program অনুযায়ী requirement আলাদা হতে পারে।'],
+                        ['q' => 'HSK কি দরকার?', 'a' => 'Chinese medium program-এ সাধারণত HSK দরকার হয়, আবার English medium program-এ নাও লাগতে পারে। কোন program-এ কী লাগবে, তা review করে জানানো হয়।'],
+                        ['q' => 'আমি HSC পাস করে Bachelor’s করতে পারব?', 'a' => 'হ্যাঁ, HSC বা equivalent শিক্ষার্থীরা সাধারণত Bachelor’s program-এ আবেদন করতে পারেন। তবে যোগ্যতা নির্দিষ্ট university-র requirements-এর উপর নির্ভর করে।'],
+                        ['q' => 'Master’s-এর জন্য কী কী লাগে?', 'a' => 'সাধারণত Bachelor’s degree এবং প্রাসঙ্গিক documents লাগে। Language ও অন্যান্য requirements university অনুযায়ী ভিন্ন হতে পারে।'],
+                        ['q' => 'Scholarship পাওয়ার সুযোগ আছে?', 'a' => 'University, government ও provincial level-এ বিভিন্ন scholarship-এর সুযোগ থাকতে পারে। তবে এগুলো guaranteed নয় — availability ও eligibility university, program ও intake অনুযায়ী ভিন্ন।'],
+                        ['q' => 'আমি কি নিজের university বেছে নিতে পারি?', 'a' => 'আপনার পছন্দকে গুরুত্ব দেওয়া হয়। তবে কোন university আপনার profile ও goals-এর সাথে মানানসই, তা review করে আপনাকে understand করতে সাহায্য করা হয়।'],
+                        ['q' => 'Banglay Chinese কি application করে দেয়?', 'a' => 'আপনার নেওয়া service-এর উপর নির্ভর করে। Guided Application-এ আপনি নিজে করেন, Full ও Elite-তে আমাদের টিম application process-এ support করে।'],
+                        ['q' => 'Guided Application মানে কী?', 'a' => 'এটি তাদের জন্য, যারা নিজে application করতে চান কিন্তু expert direction ও strategy support চান। Application নিজেই করবেন, দিকনির্দেশনা পাবেন আমাদের কাছ থেকে।'],
+                        ['q' => 'Full Application Service-এ কী কী পাব?', 'a' => 'University/program guidance, document ও application support, admission process support, pre-departure preparation — application-এর মূল ধাপগুলোতে team-এর hands-on support।'],
+                        ['q' => 'Elite Success Program কী?', 'a' => 'এটি একটি premium 1-Year Mentorship Program — যেখানে admission support-এর সাথে Chinese language training, academic guidance ও career-oriented mentorship একসাথে থাকে।'],
+                        ['q' => '1-Year Mentorship-এর মধ্যে কী থাকে?', 'a' => 'Elite program-এ admission support-সহ Chinese language, academic ও career guidance এবং ongoing mentor support — application-এর বাইরে দীর্ঘমেয়াদি structured support।'],
+                        ['q' => 'আপনারা কি Chinese language training দেন?', 'a' => 'হ্যাঁ, Banglay Chinese বাংলায় Chinese language course ও training দিয়ে থাকে। Elite Success Program-এ language training-এর সুযোগও থাকে।'],
+                        ['q' => 'Admission / Scholarship / Visa কি guaranteed?', 'a' => 'না। Admission, scholarship বা visa-এর কোনোটি guaranteed নয় — এগুলো university ও সংশ্লিষ্ট প্রতিষ্ঠানের সিদ্ধান্তের উপর নির্ভর করে। আমরা প্রক্রিয়াটিতে সঠিক guidance দেওয়ার চেষ্টা করি।'],
+                        ['q' => 'Consultation-এর পর কী হবে?', 'a' => 'আপনার তথ্য জমা দিলে আমাদের টিম তা review করে পরবর্তী ধাপ সম্পর্কে আপনার সাথে যোগাযোগ করবে। কোনো বাধ্যবাধকতা নেই।'],
+                    ] as $faq)
+                        <details class="group rounded-xl border border-border bg-surface-alt">
+                            <summary class="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 font-semibold text-slate-800 list-none">
+                                <span class="font-bangla leading-relaxed">{{ $faq['q'] }}</span>
+                                <svg class="w-5 h-5 text-primary-600 flex-shrink-0 transition-transform group-open:rotate-45" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                            </summary>
+                            <p class="px-5 pb-5 text-slate-600 leading-relaxed font-bangla">{{ $faq['a'] }}</p>
+                        </details>
+                    @endforeach
+                </div>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 17: FINAL CTA ========================================== --}}
+        <section class="py-16 lg:py-20 bg-primary-800 text-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="font-bangla text-3xl sm:text-4xl font-bold leading-tight">Ready to Explore Your China Study Options?</h2>
+                <p class="mt-5 text-lg text-primary-100 leading-relaxed font-bangla">আপনার academic background, goals এবং preferred program সম্পর্কে আমাদের জানান। আমাদের টিম আপনার জন্য সম্ভাব্য pathway বুঝতে সাহায্য করবে।</p>
+                <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="#consultation" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-primary-700 font-bold rounded-xl hover:bg-primary-50 transition-colors text-lg">Get Eligibility Review</a>
+                    <a href="{{ $waLink }}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-8 py-4 border-2 border-white/40 text-white font-bold rounded-xl hover:bg-white/10 transition-colors text-lg">Talk to Our Team</a>
+                </div>
+                <p class="mt-6 text-sm text-primary-200">অথবা WhatsApp-এ সরাসরি মেসেজ করুন — এটি একটি secondary contact option।</p>
+            </div>
+        </section>
+
+        {{-- ========================================== SECTION 18: CONSULTATION FORM ========================================== --}}
+        <span id="booking" class="block scroll-mt-20"></span>
+        <section id="consultation" class="py-16 lg:py-20 bg-surface-alt border-t border-border scroll-mt-20">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <span class="text-sm font-bold tracking-wide text-accent-600 uppercase">Eligibility Review</span>
+                    <h2 class="mt-3 font-bangla text-3xl sm:text-4xl font-bold text-slate-900">আপনার তথ্য জমা দিন</h2>
+                    <p class="mt-4 text-slate-600 leading-relaxed font-bangla">কোনো বাধ্যবাধকতা নেই। আমাদের টিম আপনার profile review করে পরবর্তী ধাপ সম্পর্কে যোগাযোগ করবে।</p>
+                </div>
+
+                @if(session('success'))
+                    <div class="mt-8 rounded-xl border border-primary-200 bg-primary-50 p-6 text-center">
+                        <p class="text-primary-800 font-semibold font-bangla leading-relaxed">{{ session('success') }}</p>
+                    </div>
+                @endif
+
+                @if($errors->any())
+                    <div class="mt-8 rounded-xl border border-red-200 bg-red-50 p-5">
+                        <ul class="list-disc pl-5 space-y-1 text-sm text-red-700">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-
-                        @if(!empty($package['note']))
-                            <p class="mt-4 text-xs text-slate-400 italic">{{ $package['note'] }}</p>
-                        @endif
-
-                        <a href="{{ $package['cta_url'] ?? '#consultation' }}"
-                           class="mt-6 w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-semibold transition-all duration-300
-                                  {{ !empty($package['featured']) ? 'bg-red-600 text-white hover:bg-red-700 shadow-lg shadow-red-200' : (!empty($package['premium']) ? 'bg-slate-800 text-white hover:bg-slate-900 shadow-lg' : 'bg-slate-100 text-slate-700 hover:bg-slate-200') }}">
-                            {{ $package['cta_text'] ?? 'Book Free Consultation' }}
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
                     </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
+                @endif
 
-    {{-- ============================================ SECTION 6: COMPARISON TABLE ============================================ --}}
-    <section class="py-20 lg:py-28 bg-slate-50">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                    {{ $comparison['heading'] ?? 'Compare Service Packages' }}
-                </h2>
-            </div>
+                <form action="{{ route('study-in-china.consultation.store') }}" method="POST" class="mt-8 rounded-2xl border border-border bg-white p-6 sm:p-8 shadow-sm">
+                    @csrf
 
-            @php $features = $comparison['features'] ?? []; @endphp
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="border-b border-slate-100 bg-slate-50/50">
-                                <th class="text-left px-6 py-5 text-sm font-bold text-slate-900">Feature</th>
-                                <th class="text-center px-6 py-5 text-sm font-bold text-slate-700">Guided</th>
-                                <th class="text-center px-6 py-5 text-sm font-bold text-red-600 bg-red-50/30">Complete</th>
-                                <th class="text-center px-6 py-5 text-sm font-bold text-slate-700">Elite</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($features as $row)
-                                <tr class="border-b border-slate-50 hover:bg-slate-50/30 transition-colors">
-                                    <td class="px-6 py-4 text-sm text-slate-700">{{ $row['feature'] }}</td>
-                                    <td class="px-6 py-4 text-center">
-                                        @if($row['guided'])
-                                            <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                            </svg>
-                                        @else
-                                            <span class="text-slate-300">—</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 text-center bg-red-50/10">
-                                        @if($row['complete'])
-                                            <svg class="w-5 h-5 text-red-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                            </svg>
-                                        @else
-                                            <span class="text-slate-300">—</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        @if($row['elite'])
-                                            <svg class="w-5 h-5 text-green-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                                            </svg>
-                                        @else
-                                            <span class="text-slate-300">—</span>
-                                        @endif
-                                    </td>
-                                </tr>
+                    @php
+                        $preselectedServiceId = old('interested_service_id', optional(\App\Models\Service::where('slug', request('service'))->first())->id);
+                    @endphp
+
+                    <div>
+                        <label for="interested_service_id" class="block text-sm font-bold text-slate-700 mb-2">আপনি কোন Service সম্পর্কে জানতে চান?</label>
+                        <select name="interested_service_id" id="interested_service_id" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
+                            <option value="">-- বেছে নিন (optional) --</option>
+                            @foreach($services as $service)
+                                <option value="{{ $service->id }}" {{ (string) $preselectedServiceId === (string) $service->id ? 'selected' : '' }}>{{ $service->name }}</option>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================ SECTION 7: SCHOLARSHIP OPPORTUNITIES ============================================ --}}
-    <section class="py-20 lg:py-28 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                    {{ $scholarships['heading'] ?? 'Scholarship Opportunities' }}
-                </h2>
-            </div>
-
-            @php $scholarshipCards = $scholarships['cards'] ?? []; @endphp
-            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                @foreach($scholarshipCards as $scholarship)
-                    <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col">
-                        <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-3xl shadow-sm mb-5">
-                            {{ $scholarship['icon'] ?? '🎓' }}
-                        </div>
-                        <h3 class="text-lg font-bold text-slate-900">{{ $scholarship['title'] }}</h3>
-                        <p class="text-sm text-red-600 font-medium mt-1">{{ $scholarship['subtitle'] }}</p>
-
-                        <div class="mt-4 space-y-3 flex-1">
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Benefits</h4>
-                                <p class="text-sm text-slate-600">{{ $scholarship['benefits'] }}</p>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Coverage</h4>
-                                <p class="text-sm text-slate-600">{{ $scholarship['coverage'] }}</p>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Eligibility</h4>
-                                <p class="text-sm text-slate-600">{{ $scholarship['eligibility'] }}</p>
-                            </div>
-                        </div>
-
-                        <a href="{{ $scholarship['learn_more_url'] ?? '#' }}"
-                           class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-red-600 hover:text-red-700 transition-colors">
-                            Learn More
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                            </svg>
-                        </a>
+                        </select>
                     </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
 
-    {{-- ============================================ SECTION 8: SUCCESS PHILOSOPHY ============================================ --}}
-    <section class="py-20 lg:py-28 bg-red-600">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <svg class="w-12 h-12 text-red-300 mx-auto mb-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-            </svg>
-            <blockquote class="text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-relaxed">
-                "{{ $quote['text'] ?? 'We don\'t just help students get admitted. We help them build successful futures in China.' }}"
-            </blockquote>
-            <p class="mt-6 text-red-200 text-lg font-medium">
-                — {{ $quote['attribution'] ?? 'Naymur Rahman, Founder, BanglayChinese' }}
-            </p>
-        </div>
-    </section>
-
-    {{-- ============================================ SECTION 9: FAQS ============================================ --}}
-    <section class="py-20 lg:py-28 bg-white">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                    {{ $faqs['heading'] ?? 'Frequently Asked Questions' }}
-                </h2>
-            </div>
-
-            @php $faqItems = $faqs['items'] ?? []; @endphp
-            <div class="space-y-4" x-data="{ open: null }">
-                @foreach($faqItems as $index => $faq)
-                    <div class="border border-slate-200 rounded-2xl overflow-hidden transition-all duration-200"
-                         :class="open === {{ $index }} ? 'shadow-md border-red-200' : ''">
-                        <button @click="open = open === {{ $index }} ? null : {{ $index }}"
-                                class="w-full flex items-center justify-between px-6 py-5 text-left bg-white hover:bg-slate-50 transition-colors">
-                            <span class="text-base sm:text-lg font-semibold text-slate-900 pr-4">{{ $faq['question'] }}</span>
-                            <svg class="w-5 h-5 text-slate-400 flex-shrink-0 transition-transform duration-200"
-                                 :class="open === {{ $index }} ? 'rotate-180' : ''"
-                                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                            </svg>
-                        </button>
-                        <div x-show="open === {{ $index }}"
-                             x-collapse
-                             x-cloak>
-                            <div class="px-6 pb-5 text-slate-600 leading-relaxed">
-                                {{ $faq['answer'] }}
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
-    {{-- ============================================ SECTION 10: CONSULTATION BOOKING ============================================ --}}
-    <section id="consultation" class="py-20 lg:py-28 bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900">
-                    {{ $booking['heading'] ?? 'Let\'s Plan Your Journey' }}
-                </h2>
-                <p class="mt-4 text-lg text-slate-600">
-                    {{ $booking['subtitle'] ?? 'Fill out the form below and we\'ll reach out to schedule your free consultation. No commitment required — just honest, experienced guidance.' }}
-                </p>
-            </div>
-
-            @if(session('success'))
-                <div class="mb-8 bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
-                    <svg class="w-12 h-12 text-green-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                    <p class="text-green-800 font-semibold text-lg">{{ session('success') }}</p>
-                </div>
-            @endif
-
-            <form action="{{ route('study-in-china.consultation.store') }}" method="POST" class="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-8 lg:p-10">
-                @csrf
-
-                <div class="space-y-6">
-                    <div class="grid sm:grid-cols-2 gap-6">
-                        {{-- Full Name --}}
+                    <div class="mt-5 grid sm:grid-cols-2 gap-5">
                         <div>
-                            <label for="name" class="block text-sm font-semibold text-slate-700 mb-2">Full Name *</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" required
-                                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all"
-                                   placeholder="Your full name">
+                            <label for="name" class="block text-sm font-bold text-slate-700 mb-2">সম্পূর্ণ নাম (Full Name) <span class="text-red-500">*</span></label>
+                            <input type="text" name="name" id="name" value="{{ old('name') }}" required placeholder="আপনার নাম লিখুন" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
                             @error('name') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
-
-                        {{-- Phone --}}
                         <div>
-                            <label for="phone" class="block text-sm font-semibold text-slate-700 mb-2">Phone Number *</label>
-                            <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" required
-                                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all"
-                                   placeholder="+8801XXXXXXXXX">
+                            <label for="phone" class="block text-sm font-bold text-slate-700 mb-2">ফোন নম্বর / WhatsApp <span class="text-red-500">*</span></label>
+                            <input type="tel" name="phone" id="phone" value="{{ old('phone') }}" required placeholder="+8801XXXXXXXXX" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
                             @error('phone') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    {{-- Email --}}
-                    <div>
-                        <label for="email" class="block text-sm font-semibold text-slate-700 mb-2">Email Address *</label>
-                        <input type="email" name="email" id="email" value="{{ old('email') }}" required
-                               class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all"
-                               placeholder="your@email.com">
+                    <div class="mt-5">
+                        <label for="email" class="block text-sm font-bold text-slate-700 mb-2">ইমেইল (Email Address) <span class="text-red-500">*</span></label>
+                        <input type="email" name="email" id="email" value="{{ old('email') }}" required placeholder="example@email.com" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
                         @error('email') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="grid sm:grid-cols-2 gap-6">
-                        {{-- Current Qualification --}}
+                    <div class="mt-5 grid sm:grid-cols-2 gap-5">
                         <div>
-                            <label for="highest_qualification" class="block text-sm font-semibold text-slate-700 mb-2">Current Qualification *</label>
-                            <select name="highest_qualification" id="highest_qualification" required
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all">
-                                <option value="">Select...</option>
-                                <option value="SSC/O-Level" {{ old('highest_qualification') === 'SSC/O-Level' ? 'selected' : '' }}>SSC / O-Level</option>
-                                <option value="HSC/A-Level" {{ old('highest_qualification') === 'HSC/A-Level' ? 'selected' : '' }}>HSC / A-Level</option>
-                                <option value="Bachelor's" {{ old('highest_qualification') === 'Bachelor\'s' ? 'selected' : '' }}>Bachelor's Degree</option>
-                                <option value="Master's" {{ old('highest_qualification') === 'Master\'s' ? 'selected' : '' }}>Master's Degree</option>
-                                <option value="Diploma" {{ old('highest_qualification') === 'Diploma' ? 'selected' : '' }}>Diploma</option>
+                            <label for="highest_qualification" class="block text-sm font-bold text-slate-700 mb-2">সর্বোচ্চ শিক্ষাগত যোগ্যতা <span class="text-red-500">*</span></label>
+                            <select name="highest_qualification" id="highest_qualification" required class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
+                                <option value="">-- বেছে নিন --</option>
+                                @foreach(['SSC / O-Level','HSC / A-Level','Diploma',"Bachelor's Degree","Master's Degree"] as $hq)
+                                    <option value="{{ $hq }}" {{ old('highest_qualification') === $hq ? 'selected' : '' }}>{{ $hq }}</option>
+                                @endforeach
                             </select>
                             @error('highest_qualification') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
-
-                        {{-- Desired Degree --}}
                         <div>
-                            <label for="desired_program" class="block text-sm font-semibold text-slate-700 mb-2">Desired Degree *</label>
-                            <select name="desired_program" id="desired_program" required
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all">
-                                <option value="">Select...</option>
-                                <option value="Bachelor's" {{ old('desired_program') === 'Bachelor\'s' ? 'selected' : '' }}>Bachelor's</option>
-                                <option value="Master's" {{ old('desired_program') === 'Master\'s' ? 'selected' : '' }}>Master's</option>
-                                <option value="PhD" {{ old('desired_program') === 'PhD' ? 'selected' : '' }}>PhD</option>
-                                <option value="Language Program" {{ old('desired_program') === 'Language Program' ? 'selected' : '' }}>Language Program</option>
-                                <option value="Non-degree" {{ old('desired_program') === 'Non-degree' ? 'selected' : '' }}>Non-degree / Exchange</option>
+                            <label for="desired_program" class="block text-sm font-bold text-slate-700 mb-2">কাঙ্ক্ষিত Program <span class="text-red-500">*</span></label>
+                            <select name="desired_program" id="desired_program" required class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
+                                <option value="">-- বেছে নিন --</option>
+                                @foreach(["Bachelor's","Master's","PhD","Chinese Language Program","Diploma / Other"] as $dp)
+                                    <option value="{{ $dp }}" {{ old('desired_program') === $dp ? 'selected' : '' }}>{{ $dp }}</option>
+                                @endforeach
                             </select>
                             @error('desired_program') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    <div class="grid sm:grid-cols-2 gap-6">
-                        {{-- Preferred Intake --}}
+                    <div class="mt-5 grid sm:grid-cols-2 gap-5">
                         <div>
-                            <label for="target_intake" class="block text-sm font-semibold text-slate-700 mb-2">Preferred Intake *</label>
-                            <select name="target_intake" id="target_intake" required
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all">
-                                <option value="">Select...</option>
-                                <option value="September 2026" {{ old('target_intake') === 'September 2026' ? 'selected' : '' }}>September 2026</option>
-                                <option value="February/March 2027" {{ old('target_intake') === 'February/March 2027' ? 'selected' : '' }}>February/March 2027</option>
-                                <option value="September 2027" {{ old('target_intake') === 'September 2027' ? 'selected' : '' }}>September 2027</option>
-                                <option value="Other" {{ old('target_intake') === 'Other' ? 'selected' : '' }}>Other</option>
+                            <label for="target_intake" class="block text-sm font-bold text-slate-700 mb-2">Preferred Intake <span class="text-red-500">*</span></label>
+                            <select name="target_intake" id="target_intake" required class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
+                                <option value="">-- বেছে নিন --</option>
+                                @foreach(['September 2026','February/March 2027','September 2027','Other'] as $int)
+                                    <option value="{{ $int }}" {{ old('target_intake') === $int ? 'selected' : '' }}>{{ $int }}</option>
+                                @endforeach
                             </select>
                             @error('target_intake') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
-
-                        {{-- Budget --}}
                         <div>
-                            <label for="budget" class="block text-sm font-semibold text-slate-700 mb-2">Budget Range</label>
-                            <select name="budget" id="budget"
-                                    class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all">
-                                <option value="">Select...</option>
-                                <option value="Under 2 Lakh BDT" {{ old('budget') === 'Under 2 Lakh BDT' ? 'selected' : '' }}>Under 2 Lakh BDT</option>
-                                <option value="2-5 Lakh BDT" {{ old('budget') === '2-5 Lakh BDT' ? 'selected' : '' }}>2-5 Lakh BDT</option>
-                                <option value="5-10 Lakh BDT" {{ old('budget') === '5-10 Lakh BDT' ? 'selected' : '' }}>5-10 Lakh BDT</option>
-                                <option value="10+ Lakh BDT" {{ old('budget') === '10+ Lakh BDT' ? 'selected' : '' }}>10+ Lakh BDT</option>
-                                <option value="Seeking Full Scholarship" {{ old('budget') === 'Seeking Full Scholarship' ? 'selected' : '' }}>Seeking Full Scholarship</option>
+                            <label for="budget" class="block text-sm font-bold text-slate-700 mb-2">Budget Range</label>
+                            <select name="budget" id="budget" class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none">
+                                <option value="">-- বেছে নিন --</option>
+                                @foreach(['Under 2 Lakh BDT','2-5 Lakh BDT','5-10 Lakh BDT','10+ Lakh BDT','Seeking Full Scholarship'] as $bg)
+                                    <option value="{{ $bg }}" {{ old('budget') === $bg ? 'selected' : '' }}>{{ $bg }}</option>
+                                @endforeach
                             </select>
-                            @error('budget') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
                         </div>
                     </div>
 
-                    {{-- Preferred Consultation Time --}}
-                    <div>
-                        <label for="preferred_consultation_time" class="block text-sm font-semibold text-slate-700 mb-2">Preferred Consultation Time</label>
-                        <select name="preferred_consultation_time" id="preferred_consultation_time"
-                                class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all">
-                            <option value="">Select...</option>
-                            <option value="Morning (9AM-12PM)" {{ old('preferred_consultation_time') === 'Morning (9AM-12PM)' ? 'selected' : '' }}>Morning (9AM - 12PM)</option>
-                            <option value="Afternoon (12PM-4PM)" {{ old('preferred_consultation_time') === 'Afternoon (12PM-4PM)' ? 'selected' : '' }}>Afternoon (12PM - 4PM)</option>
-                            <option value="Evening (4PM-8PM)" {{ old('preferred_consultation_time') === 'Evening (4PM-8PM)' ? 'selected' : '' }}>Evening (4PM - 8PM)</option>
-                            <option value="Weekend" {{ old('preferred_consultation_time') === 'Weekend' ? 'selected' : '' }}>Weekend</option>
-                        </select>
-                        @error('preferred_consultation_time') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
+                    <div class="mt-5">
+                        <label for="message" class="block text-sm font-bold text-slate-700 mb-2">Message / Goal</label>
+                        <textarea name="message" id="message" rows="4" placeholder="আপনার goals, প্রশ্ন বা যেকোনো তথ্য জানান..." class="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm text-slate-700 placeholder-slate-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none resize-none">{{ old('message') }}</textarea>
                     </div>
 
-                    {{-- Message --}}
-                    <div>
-                        <label for="message" class="block text-sm font-semibold text-slate-700 mb-2">Additional Message</label>
-                        <textarea name="message" id="message" rows="4"
-                                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:border-red-500 focus:ring-2 focus:ring-red-100 outline-none transition-all resize-none"
-                                  placeholder="Tell us about your goals, questions, or anything else you'd like us to know...">{{ old('message') }}</textarea>
-                        @error('message') <p class="mt-1 text-sm text-red-600">{{ $message }}</p> @enderror
-                    </div>
-
-                    <button type="submit"
-                            class="w-full px-8 py-4 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 shadow-lg shadow-red-200 hover:shadow-red-300 transition-all duration-300 text-lg">
-                        Submit Consultation Request
-                    </button>
-
-                    <p class="text-center text-xs text-slate-400 mt-4">
-                        By submitting, you agree to be contacted regarding your consultation request. We respect your privacy and will never share your information.
-                    </p>
-                </div>
-            </form>
-        </div>
-    </section>
-
-    {{-- ============================================ SECTION 11: FINAL CTA ============================================ --}}
-    <section class="py-20 lg:py-28 bg-slate-900">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-                {{ $finalCta['heading'] ?? 'Your Dream University in China Starts Here' }}
-            </h2>
-            <p class="mt-6 text-xl text-slate-300">
-                {{ $finalCta['subtitle'] ?? 'Book Your Free Consultation Today' }}
-            </p>
-            <a href="#consultation"
-               class="mt-10 inline-flex items-center gap-3 px-10 py-5 bg-red-600 text-white font-bold rounded-2xl hover:bg-red-500 shadow-2xl shadow-red-600/30 transition-all duration-300 text-xl">
-                {{ $finalCta['button_text'] ?? 'Book Free Consultation' }}
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-                </svg>
-            </a>
-        </div>
-    </section>
+                    <button type="submit" class="mt-6 w-full rounded-xl bg-primary-600 px-6 py-4 text-lg font-bold text-white shadow-sm transition-colors hover:bg-primary-700">Submit for Eligibility Review</button>
+                    <p class="mt-3 text-center text-xs text-slate-400 font-bangla">আপনার তথ্য সুরক্ষিত থাকবে এবং শুধুমাত্র আমাদের টিম consultation-এর জন্য ব্যবহার করবে।</p>
+                </form>
+            </div>
+        </section>
+    </div>
 </x-app-layout>
+

@@ -53,6 +53,7 @@
                         </th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase text-slate-500">Contact</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase text-slate-500">Program</th>
+                        <th class="px-4 py-3 text-left text-xs font-semibold uppercase text-slate-500">Interested Service</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase text-slate-500">Status</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase text-slate-500">Follow-up</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold uppercase text-slate-500">
@@ -77,6 +78,15 @@
                         <td class="whitespace-nowrap px-4 py-3 text-sm text-slate-600">
                             {{ $lead->desired_program ?? 'N/A' }}<br>
                             <span class="text-xs text-slate-400">{{ $lead->target_intake ?? '' }}</span>
+                        </td>
+                        <td class="whitespace-nowrap px-4 py-3">
+                            @if ($lead->interestedService)
+                                <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
+                                    {{ $lead->interestedService->name }}
+                                </span>
+                            @else
+                                <span class="text-sm text-slate-400">—</span>
+                            @endif
                         </td>
                         <td class="whitespace-nowrap px-4 py-3">
                             @php
@@ -111,7 +121,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8" class="px-4 py-10 text-center text-sm text-slate-500">
+                        <td colspan="9" class="px-4 py-10 text-center text-sm text-slate-500">
                             No leads found.
                         </td>
                     </tr>

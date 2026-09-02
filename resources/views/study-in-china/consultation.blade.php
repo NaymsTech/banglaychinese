@@ -13,7 +13,7 @@
                 ফ্রি কনসালটেশন ও অ্যাপ্লিকেশন ফর্ম
             </h1>
             <p class="mt-3 text-base text-emerald-100 sm:text-lg">
-                আপনার তথ্য জমা দিন — আমাদের টিম ২৪ ঘণ্টার মধ্যে আপনার সাথে যোগাযোগ করবে
+                আপনার তথ্য জমা দিন — আমাদের টিম আপনার প্রোফাইল review করে পরবর্তী ধাপ সম্পর্কে যোগাযোগ করবে
             </p>
         </div>
     </section>
@@ -85,6 +85,23 @@
                                 <input type="email" name="email" id="email" value="{{ old('email') }}" required
                                     class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 placeholder-slate-400 transition focus:border-[#0F5132] focus:ring-2 focus:ring-[#0F5132]/20"
                                     placeholder="example@email.com">
+                            </div>
+
+                            {{-- Interested Service --}}
+                            <div>
+                                <label for="interested_service_id" class="mb-1.5 block text-sm font-bold text-slate-700">আগ্রহী সার্ভিস (Which service are you interested in?)</label>
+                                <select name="interested_service_id" id="interested_service_id"
+                                    class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 transition focus:border-[#0F5132] focus:ring-2 focus:ring-[#0F5132]/20">
+                                    @php
+                                        $preselectedServiceId = old('interested_service_id', optional(\App\Models\Service::where('slug', request('service'))->first())->id);
+                                    @endphp
+                                    <option value="">-- বেছে নিন (optional) --</option>
+                                    @foreach($services as $service)
+                                        <option value="{{ $service->id }}" {{ (string) $preselectedServiceId === (string) $service->id ? 'selected' : '' }}>
+                                            {{ $service->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             {{-- Highest Qualification --}}
@@ -193,9 +210,9 @@
                         {{-- WhatsApp Quick Contact --}}
                         <div class="rounded-2xl bg-[#0F5132] p-6 text-center text-white">
                             <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white/10 text-3xl">💬</div>
-                            <h3 class="mt-4 text-lg font-bold">জরুরি সাহায্য প্রয়োজন?</h3>
+                            <h3 class="mt-4 text-lg font-bold">WhatsApp-এ আমাদের সাথে কথা বলুন</h3>
                             <p class="mt-2 text-sm leading-relaxed text-emerald-100">
-                                সরাসরি WhatsApp-এ আমাদের মেন্টরের সাথে যোগাযোগ করুন। দ্রুত রেসপন্স পাবেন।
+                                সরাসরি WhatsApp-এ আমাদের টিমের সাথে যোগাযোগ করতে পারেন — এটি একটি secondary contact option।
                             </p>
                             <a href="https://wa.me/{{ $waNumber }}" target="_blank" rel="noopener"
                                 class="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-[#1fb857]">
@@ -206,11 +223,11 @@
 
                         {{-- Timelines / Contact Info --}}
                         <div class="rounded-2xl border border-emerald-100 bg-white p-6">
-                            <h3 class="text-lg font-extrabold text-[#0F5132]" style="font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;">প্রতিক্রিয়া সময়</h3>
+                            <h3 class="text-lg font-extrabold text-[#0F5132]" style="font-family: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;">এরপর যা হবে</h3>
                             <div class="mt-4 space-y-3">
                                 <div class="flex items-center gap-3 text-sm">
                                     <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F2FAF5] text-lg">⏱️</span>
-                                    <span class="font-medium text-slate-600">২৪ ঘণ্টার মধ্যে রেসপন্স</span>
+                                    <span class="font-medium text-slate-600">আপনার তথ্য review করে আমাদের টিম যোগাযোগ করবে</span>
                                 </div>
                                 <div class="flex items-center gap-3 text-sm">
                                     <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-[#F2FAF5] text-lg">📅</span>

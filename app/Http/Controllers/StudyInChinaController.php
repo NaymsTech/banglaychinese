@@ -39,6 +39,7 @@ class StudyInChinaController extends Controller
             'highest_qualification' => 'required|string|max:255',
             'desired_program' => 'required|string|max:255',
             'target_intake' => 'required|string|max:255',
+            'interested_service_id' => 'nullable|integer|exists:services,id',
             'budget' => 'nullable|string|max:255',
             'preferred_consultation_time' => 'nullable|string|max:255',
             'message' => 'nullable|string|max:2000',
@@ -57,15 +58,21 @@ class StudyInChinaController extends Controller
             'email' => $validated['email'],
             'phone' => $validated['phone'],
             'highest_qualification' => $validated['highest_qualification'],
+            // These legacy columns are NOT NULL in the schema; populate them from
+            // the consultation form fields so the lead is stored correctly.
+            'educational_background' => $validated['highest_qualification'],
             'desired_program' => $validated['desired_program'],
+            'target_course' => $validated['desired_program'],
+            'statement_of_purpose' => $validated['message'] ?? '',
             'target_intake' => $validated['target_intake'],
+            'interested_service_id' => $validated['interested_service_id'] ?? null,
             'budget' => $validated['budget'] ?? null,
             'preferred_consultation_time' => $validated['preferred_consultation_time'] ?? null,
             'message' => $validated['message'] ?? null,
             'status' => 'new',
         ]);
 
-        return redirect()->route('study-in-china.index', ['#booking'])
-            ->with('success', 'Thank you! Your consultation request has been submitted. We will contact you within 24 hours to schedule your free consultation.');
+        return redirect()->to(route('study-in-china') . '#booking')
+            ->with('success', 'আপনার তথ্য আমরা পেয়েছি। আমাদের টিম আপনার প্রোফাইল review করে পরবর্তী ধাপ সম্পর্কে যোগাযোগ করবে।');
     }
 }

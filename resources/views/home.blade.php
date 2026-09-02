@@ -98,9 +98,6 @@
                 <button type="button" data-filter="scholarship" class="filter-btn rounded-full bg-white px-6 py-2.5 text-sm font-bold text-slate-600 ring-1 ring-slate-200 transition hover:ring-primary-400">
                     স্কলারশিপ
                 </button>
-                <button type="button" data-filter="study-in-china" class="filter-btn rounded-full bg-amber-500 px-6 py-2.5 text-sm font-bold text-white shadow-md shadow-amber-500/20 transition hover:bg-amber-600">
-                    🎓 Study in China
-                </button>
             </div>
 
             {{-- Course Grid --}}

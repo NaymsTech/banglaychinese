@@ -43,6 +43,8 @@
     <meta name="twitter:description" content="{{ $metaDescription ?? 'Learn Chinese in Bengali — HSK, speaking, kids & scholarship mentorship.' }}">
     <meta name="twitter:image" content="{{ $metaImage ?? asset('assets/logo-full.jpeg') }}">
 
+    @stack('meta')
+
     <link rel="icon" type="image/png" href="{{ asset('assets/logo.jpeg') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 

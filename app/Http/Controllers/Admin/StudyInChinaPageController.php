@@ -13,14 +13,18 @@ class StudyInChinaPageController extends Controller
      */
     public function edit()
     {
-        $sections = StudyInChinaSection::orderBy('group')->orderBy('sort_order')->get()->groupBy('group');
+        // Service packages are managed under Admin → Services (Service model).
+        // Exclude the redundant legacy 'services' group from the Study in China CMS
+        // editor so we don't maintain two sources of truth for the same packages.
+        $sections = StudyInChinaSection::orderBy('group')->orderBy('sort_order')->get()
+            ->reject(fn ($section) => $section->group === 'services')
+            ->groupBy('group');
 
         $groupLabels = [
             'hero' => 'Hero Section',
             'why_china' => 'Why Study in China',
             'why_us' => 'Why Choose BanglayChinese',
             'roadmap' => 'Study Abroad Roadmap',
-            'services' => 'Service Packages',
             'comparison' => 'Comparison Table',
             'scholarships' => 'Scholarship Opportunities',
             'quote' => 'Success Philosophy',

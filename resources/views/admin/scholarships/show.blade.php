@@ -15,7 +15,8 @@
             <h2 class="text-xl font-bold text-slate-800">{{ $application->name }}</h2>
             <p class="mt-1 text-sm text-slate-500">Submitted {{ $application->created_at->format('M d, Y g:i A') }}</p>
         </div>
-        <span class="inline-flex rounded-full px-4 py-1.5 text-sm font-bold {{ $application->status === 'approved' ? 'bg-emerald-100 text-emerald-700' : ($application->status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') }}">{{ ucfirst($application->status) }}</span>
+        @php $displayStatus = $application->application_status ?? 'pending'; @endphp
+        <span class="inline-flex rounded-full px-4 py-1.5 text-sm font-bold {{ $displayStatus === 'approved' ? 'bg-emerald-100 text-emerald-700' : ($displayStatus === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') }}">{{ ucfirst($displayStatus) }}</span>
     </div>
 
     <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -60,14 +61,14 @@
                         @method('PATCH')
                         <input type="hidden" name="status" value="approved">
                         <button type="submit"
-                            @if($application->status === 'approved')
+                            @if(($application->application_status ?? 'pending') === 'approved')
                                 disabled
                                 class="rounded-lg border-2 border-emerald-600 bg-white px-5 py-2 text-sm font-semibold text-emerald-600 cursor-not-allowed"
                             @else
                                 class="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
                             @endif
                         >
-                            @if($application->status === 'approved')
+                            @if(($application->application_status ?? 'pending') === 'approved')
                                 ✓ Approved (Current)
                             @else
                                 Approve
@@ -79,14 +80,14 @@
                         @method('PATCH')
                         <input type="hidden" name="status" value="pending">
                         <button type="submit"
-                            @if($application->status === 'pending')
+                            @if(($application->application_status ?? 'pending') === 'pending')
                                 disabled
                                 class="rounded-lg border-2 border-amber-500 bg-white px-5 py-2 text-sm font-semibold text-amber-500 cursor-not-allowed"
                             @else
                                 class="rounded-lg bg-amber-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-amber-600"
                             @endif
                         >
-                            @if($application->status === 'pending')
+                            @if(($application->application_status ?? 'pending') === 'pending')
                                 ● Pending (Current)
                             @else
                                 Mark Pending
@@ -98,14 +99,14 @@
                         @method('PATCH')
                         <input type="hidden" name="status" value="rejected">
                         <button type="submit"
-                            @if($application->status === 'rejected')
+                            @if(($application->application_status ?? 'pending') === 'rejected')
                                 disabled
                                 class="rounded-lg border-2 border-red-600 bg-white px-5 py-2 text-sm font-semibold text-red-600 cursor-not-allowed"
                             @else
                                 class="rounded-lg bg-red-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-red-700"
                             @endif
                         >
-                            @if($application->status === 'rejected')
+                            @if(($application->application_status ?? 'pending') === 'rejected')
                                 ✗ Rejected (Current)
                             @else
                                 Reject

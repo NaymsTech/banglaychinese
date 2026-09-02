@@ -72,5 +72,14 @@
                 <svg class="h-8 w-8 text-[#0F5132]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </div>
         </a>
+        <a href="{{ route('admin.services.index') }}" class="rounded-2xl bg-white p-6 text-slate-800 shadow-sm border border-slate-200 transition hover:border-emerald-300">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h3 class="text-lg font-bold">Manage Services</h3>
+                    <p class="mt-1 text-sm text-slate-500">{{ $activeServices }} active Study in China package(s).</p>
+                </div>
+                <svg class="h-8 w-8 text-[#0F5132]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </div>
+        </a>
     </div>
 @endsection

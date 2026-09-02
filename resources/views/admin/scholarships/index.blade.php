@@ -47,13 +47,14 @@
                             @endif
                         </td>
                         <td class="px-6 py-4">
-                            <span class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $application->status === 'approved' ? 'bg-emerald-100 text-emerald-700' : ($application->status === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') }}">{{ ucfirst($application->status) }}</span>
+                            @php $displayStatus = $application->application_status ?? 'pending'; @endphp
+                            <span class="inline-flex rounded-full px-3 py-1 text-xs font-bold {{ $displayStatus === 'approved' ? 'bg-emerald-100 text-emerald-700' : ($displayStatus === 'rejected' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700') }}">{{ ucfirst($displayStatus) }}</span>
                         </td>
                         <td class="px-6 py-4 text-sm text-slate-500">{{ $application->created_at->format('M d, Y') }}</td>
                         <td class="px-6 py-4 text-right">
                             <div class="flex items-center justify-end gap-2">
                                 <a href="{{ route('admin.scholarships.show', $application) }}" class="inline-flex items-center rounded-lg bg-[#0F5132] px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-[#0d452c]">View</a>
-                                @if ($application->status !== 'approved')
+                                @if (($application->application_status ?? 'pending') !== 'approved')
                                     <form method="POST" action="{{ route('admin.scholarships.status', $application) }}" class="inline">
                                         @csrf
                                         @method('PATCH')
@@ -61,7 +62,7 @@
                                         <button type="submit" class="inline-flex items-center rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-emerald-700">Approve</button>
                                     </form>
                                 @endif
-                                @if ($application->status !== 'rejected')
+                                @if (($application->application_status ?? 'pending') !== 'rejected')
                                     <form method="POST" action="{{ route('admin.scholarships.status', $application) }}" class="inline">
                                         @csrf
                                         @method('PATCH')

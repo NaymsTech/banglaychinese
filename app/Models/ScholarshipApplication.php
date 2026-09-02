@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ScholarshipApplication extends Model
 {
@@ -13,6 +14,7 @@ class ScholarshipApplication extends Model
         'highest_qualification',
         'gpa_cgpa',
         'desired_program',
+        'interested_service_id',
         'target_intake',
         'hsk_english_level',
         'target_course',
@@ -20,6 +22,7 @@ class ScholarshipApplication extends Model
         'statement_of_purpose',
         'message',
         'status',
+        'application_status',
         'admin_notes',
         'follow_up_date',
         'budget',
@@ -29,4 +32,12 @@ class ScholarshipApplication extends Model
     protected $casts = [
         'follow_up_date' => 'date',
     ];
+
+    /**
+     * The Study in China service this lead is interested in.
+     */
+    public function interestedService(): BelongsTo
+    {
+        return $this->belongsTo(Service::class, 'interested_service_id');
+    }
 }

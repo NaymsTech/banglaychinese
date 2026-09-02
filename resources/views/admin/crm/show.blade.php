@@ -44,6 +44,18 @@
                             <dd class="mt-1 text-sm font-medium text-slate-800">{{ $lead->desired_program ?? '—' }}</dd>
                         </div>
                         <div>
+                            <dt class="text-xs font-semibold uppercase text-slate-400">Interested Service</dt>
+                            <dd class="mt-1 text-sm font-medium text-slate-800">
+                                @if ($lead->interestedService)
+                                    <span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-semibold text-emerald-700">
+                                        {{ $lead->interestedService->name }}
+                                    </span>
+                                @else
+                                    —
+                                @endif
+                            </dd>
+                        </div>
+                        <div>
                             <dt class="text-xs font-semibold uppercase text-slate-400">Preferred Intake</dt>
                             <dd class="mt-1 text-sm font-medium text-slate-800">{{ $lead->target_intake ?? '—' }}</dd>
                         </div>
@@ -136,6 +148,19 @@
                             class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500">
                             @foreach ($statusLabels as $key => $label)
                                 <option value="{{ $key }}" {{ $lead->status == $key ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="interested_service_id" class="block text-sm font-semibold text-slate-700">Interested Service</label>
+                        <select name="interested_service_id" id="interested_service_id"
+                            class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-primary-500 focus:ring-primary-500">
+                            <option value="">— Not selected —</option>
+                            @foreach ($services as $service)
+                                <option value="{{ $service->id }}" {{ $lead->interested_service_id == $service->id ? 'selected' : '' }}>
+                                    {{ $service->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

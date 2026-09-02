@@ -45,6 +45,11 @@
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                         📚 Courses
                     </a>
+                    {{-- Services --}}
+                    <a href="{{ route('admin.services.index') }}" class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-semibold transition {{ request()->routeIs('admin.services*') ? 'bg-primary-700 text-white' : 'hover:bg-primary-900 hover:text-white' }}">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        🎓 Services
+                    </a>
                     {{-- Payments --}}
                     <a href="{{ route('admin.payments.index') }}" class="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-semibold transition {{ request()->routeIs('admin.payments*') ? 'bg-primary-700 text-white' : 'hover:bg-primary-900 hover:text-white' }}">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h2m4 0h4M5 6h14a1 1 0 011 1v10a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1z"/></svg>

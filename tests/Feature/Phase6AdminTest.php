@@ -58,7 +58,7 @@ class Phase6AdminTest extends TestCase
             'target_course' => 'HSK Level 3',
             'educational_background' => 'HSC (Science)',
             'statement_of_purpose' => 'I am applying for a scholarship to support my Chinese language studies.',
-            'status' => 'pending',
+            'status' => 'new',
         ]);
 
         $this->actingAs($admin)
@@ -77,7 +77,7 @@ class Phase6AdminTest extends TestCase
             'target_course' => 'HSK Level 5',
             'educational_background' => 'BBA',
             'statement_of_purpose' => 'I would like to receive a scholarship for advanced Chinese studies.',
-            'status' => 'pending',
+            'status' => 'new',
         ]);
 
         $this->actingAs($admin)
@@ -86,7 +86,7 @@ class Phase6AdminTest extends TestCase
 
         $this->assertDatabaseHas('scholarship_applications', [
             'id' => $application->id,
-            'status' => 'approved',
+            'application_status' => 'approved',
         ]);
     }
 
@@ -100,7 +100,7 @@ class Phase6AdminTest extends TestCase
             'target_course' => 'HSK Level 2',
             'educational_background' => 'SSC',
             'statement_of_purpose' => 'I need financial assistance for my Chinese course.',
-            'status' => 'pending',
+            'status' => 'new',
         ]);
 
         $this->actingAs($student)
@@ -109,7 +109,8 @@ class Phase6AdminTest extends TestCase
 
         $this->assertDatabaseHas('scholarship_applications', [
             'id' => $application->id,
-            'status' => 'pending',
+            'status' => 'new',
+            'application_status' => null,
         ]);
     }
 }

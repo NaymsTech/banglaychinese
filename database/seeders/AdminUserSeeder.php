@@ -16,7 +16,7 @@ class AdminUserSeeder extends Seeder
         $password = env('ADMIN_PASSWORD');
 
         if (! $password && app()->environment('production')) {
-            throw new RuntimeException('ADMIN_PASSWORD must be set in the environment before seeding the admin user in production.');
+            throw new \RuntimeException('ADMIN_PASSWORD must be set in the environment before seeding the admin user in production.');
         }
 
         User::updateOrCreate(

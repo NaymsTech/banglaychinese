@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\Setting;
 use App\Models\User;
 use App\Support\WhatsAppNumber;
+use Database\Seeders\AdminUserSeeder;
 use Database\Seeders\SettingsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
@@ -37,6 +38,36 @@ class ProductionSeedingGuardTest extends TestCase
         $this->assertDatabaseHas('users', ['email' => 'admin@banglaychinese.com', 'is_admin' => true]);
         $this->assertDatabaseHas('settings', ['key' => 'bkash_number', 'value' => '01774148708']);
         $this->assertDatabaseHas('email_providers', ['name' => 'Brevo SMTP']);
+    }
+
+    public function test_admin_user_seeder_throws_when_admin_password_is_missing_in_production(): void
+    {
+        $previous = getenv('ADMIN_PASSWORD');
+        putenv('ADMIN_PASSWORD');
+        unset($_ENV['ADMIN_PASSWORD'], $_SERVER['ADMIN_PASSWORD']);
+
+        $this->app->instance('env', 'production');
+
+        try {
+            try {
+                $this->app->make(AdminUserSeeder::class)->run();
+
+                $this->fail('Expected a RuntimeException when ADMIN_PASSWORD is missing in production.');
+            } catch (\RuntimeException $exception) {
+                $this->assertStringContainsString('ADMIN_PASSWORD must be set', $exception->getMessage());
+            }
+        } finally {
+            if ($previous === false) {
+                putenv('ADMIN_PASSWORD');
+                unset($_ENV['ADMIN_PASSWORD'], $_SERVER['ADMIN_PASSWORD']);
+            } else {
+                putenv("ADMIN_PASSWORD={$previous}");
+                $_ENV['ADMIN_PASSWORD'] = $previous;
+                $_SERVER['ADMIN_PASSWORD'] = $previous;
+            }
+
+            $this->app->instance('env', 'testing');
+        }
     }
 
     public function test_local_seeding_may_still_create_local_only_demo_data(): void

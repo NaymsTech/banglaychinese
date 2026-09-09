@@ -121,13 +121,23 @@ trait ManagesLegalCmsPage
 
         $merged = array_replace($defaults, $stored);
 
-        foreach ($merged['sections'] ?? [] as &$section) {
+        // Normalize every default/stored paragraph array into the plain-text
+        // body the editor works with. Iterate a real variable: the `?? []`
+        // expression yields a temporary copy, so by-reference writes to it are
+        // discarded and the bodies would stay arrays (breaking save).
+        $sections = $merged['sections'] ?? [];
+
+        foreach ($sections as &$section) {
             if (! is_array($section)) {
                 continue;
             }
+
             $section['body'] = self::paragraphsToString($section['body'] ?? []);
         }
+
         unset($section);
+
+        $merged['sections'] = $sections;
 
         return $merged;
     }
@@ -144,8 +154,18 @@ trait ManagesLegalCmsPage
         return implode("\n\n", array_map('trim', $paragraphs));
     }
 
-    protected static function paragraphsToArray(?string $body): array
+    /**
+     * @return array<int, string>
+     */
+    protected static function paragraphsToArray(array|string|null $body): array
     {
+        if (is_array($body)) {
+            return array_values(array_filter(array_map(
+                static fn (mixed $paragraph): string => trim((string) $paragraph),
+                $body
+            )));
+        }
+
         $body = trim((string) $body);
 
         if ($body === '') {

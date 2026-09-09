@@ -66,33 +66,14 @@
     @endif
 
     <!-- Details + Enrollment -->
-    <section class="bg-white py-16 sm:py-20">
-        <div class="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
-            <div class="lg:col-span-2">
-                <div class="prose prose-emerald max-w-none prose-headings:font-extrabold prose-headings:text-slate-900">
-                    {!! $course->description !!}
-                </div>
-
-                @if($course->modules->isNotEmpty())
-                    <div class="mt-12">
-                        <h2 class="text-2xl font-extrabold text-slate-900">কোর্স মডিউলসমূহ</h2>
-                        <div class="mt-6 space-y-4">
-                            @foreach($course->modules as $module)
-                                <div class="flex items-start gap-4 rounded-2xl bg-slate-50 p-5 ring-1 ring-slate-200">
-                                    <span class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-[#0F5132] text-sm font-extrabold text-white">{{ $loop->iteration }}</span>
-                                    <div>
-                                        <h3 class="font-bold text-slate-900">{{ $module->title }}</h3>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-            </div>
-
-            <!-- Enrollment sidebar -->
-            <div>
-                <div class="sticky top-20 rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200">
+    <!-- The enrollment panel comes first in the DOM so it sits above the course
+         description on mobile; the description is reordered back to the left on
+         desktop where the panel becomes the sticky right-hand column. -->
+    <section class="bg-white py-14 sm:py-20">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-3 lg:gap-12 lg:px-8">
+            <!-- Enrollment / purchase -->
+            <div class="min-w-0 lg:order-2">
+                <div class="rounded-3xl bg-slate-50 p-6 ring-1 ring-slate-200 lg:sticky lg:top-20">
                     <h2 class="text-lg font-extrabold text-slate-900">এনরোল করুন</h2>
                     <p class="mt-2 text-sm text-slate-500">আপনার পছন্দের পেমেন্ট পদ্ধতিতে পেমেন্ট করে কোর্সটি শুরু করুন।</p>
 
@@ -129,6 +110,38 @@
                         এনরোল করার পর আমাদের টিম ২৪ ঘণ্টার মধ্যে আপনার সাথে যোগাযোগ করবে।
                     </div>
                 </div>
+            </div>
+
+            <!-- Course description + modules -->
+            <div class="min-w-0 lg:order-1 lg:col-span-2">
+                @if(filled($course->description))
+                    @php
+                        $descriptionIsRich = (bool) preg_match('/<(?:p|h[1-6]|ul|ol|li|blockquote|pre|table|div|br|strong|em|b|i)\b/i', (string) $course->description);
+                    @endphp
+                    <div class="course-content">
+                        @if($descriptionIsRich)
+                            {!! $course->description !!}
+                        @else
+                            <p>{!! nl2br(e($course->description)) !!}</p>
+                        @endif
+                    </div>
+                @endif
+
+                @if($course->modules->isNotEmpty())
+                    <div class="mt-12">
+                        <h2 class="text-2xl font-extrabold text-slate-900">কোর্স মডিউলসমূহ</h2>
+                        <div class="mt-6 space-y-4">
+                            @foreach($course->modules as $module)
+                                <div class="flex items-start gap-4 rounded-2xl bg-slate-50 p-5 ring-1 ring-slate-200">
+                                    <span class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-[#0F5132] text-sm font-extrabold text-white">{{ $loop->iteration }}</span>
+                                    <div>
+                                        <h3 class="font-bold text-slate-900">{{ $module->title }}</h3>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>

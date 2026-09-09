@@ -7,10 +7,12 @@ use App\Filament\Pages\FaqCms;
 use App\Filament\Pages\PrivacyPolicyCms;
 use App\Filament\Pages\RefundPolicyCms;
 use App\Filament\Pages\TermsAndConditionsCms;
+use App\Http\Controllers\StaticPageController;
 use App\Models\Course;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\User;
+use App\Support\LegalPagesContent;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -98,6 +100,106 @@ class ContentManagementIntegrationTest extends TestCase
             FaqCms::class,
         ] as $page) {
             $this->actingAs($admin)->get($page::getUrl())->assertOk();
+        }
+    }
+
+    public function test_saving_faq_after_editing_only_the_title_keeps_and_persists_the_default_sections(): void
+    {
+        // Regression: saving untouched repeatable sections used to fail with a
+        // TypeError because their body values stayed paragraph arrays.
+        Livewire::actingAs($this->admin())
+            ->test(FaqCms::class)
+            ->fillForm(['title' => 'FAQ — Edited Title'])
+            ->call('save')
+            ->assertHasNoFormErrors();
+
+        $defaults = StaticPageController::defaultContent('faq');
+        $stored = json_decode((string) Setting::where('key', 'legal_page_faq')->value('value'), true);
+
+        $this->assertSame('FAQ — Edited Title', $stored['title']);
+        $this->assertSame($defaults['sections'], $stored['sections']);
+
+        // A fresh visit hydrates the stored paragraph arrays back into the
+        // editable plain-text bodies.
+        $reload = Livewire::actingAs($this->admin())->test(FaqCms::class);
+
+        $this->assertSame('FAQ — Edited Title', $reload->get('data.title'));
+        $this->assertCount(count($defaults['sections']), $reload->get('data.sections'));
+        $this->assertTrue(collect($reload->get('data.sections'))
+            ->every(fn (array $section): bool => is_string($section['body'] ?? null) && $section['body'] !== ''));
+
+        // The public resolver returns the override on top of the defaults.
+        $resolved = LegalPagesContent::resolve('faq', $defaults);
+
+        $this->assertSame('FAQ — Edited Title', $resolved['title']);
+        $this->assertSame($defaults['sections'], $resolved['sections']);
+    }
+
+    public function test_repeatable_sections_save_and_reload_for_all_four_legal_pages(): void
+    {
+        $pages = [
+            TermsAndConditionsCms::class => 'terms-and-conditions',
+            PrivacyPolicyCms::class => 'privacy-policy',
+            RefundPolicyCms::class => 'refund-and-returns-policy',
+            FaqCms::class => 'faq',
+        ];
+
+        foreach ($pages as $page => $slug) {
+            $key = 'legal_page_'.$slug;
+            $marker = 'CMS Heading '.$slug;
+            $second = 'CMS Second Heading '.$slug;
+
+            Livewire::actingAs($this->admin())
+                ->test($page)
+                ->fillForm([
+                    'title' => 'Saved Title '.$slug,
+                    'intro' => 'Saved intro '.$slug,
+                    'updated_at' => 'Updated '.$slug,
+                    'sections' => [
+                        ['heading' => $marker, 'body' => "First paragraph.\n\nSecond paragraph."],
+                        ['heading' => $second, 'body' => 'Single paragraph body.'],
+                    ],
+                ])
+                ->call('save')
+                ->assertHasNoFormErrors();
+
+            $stored = json_decode((string) Setting::where('key', $key)->value('value'), true);
+
+            $this->assertSame('Saved Title '.$slug, $stored['title']);
+            $this->assertSame('Saved intro '.$slug, $stored['intro']);
+            $this->assertSame('Updated '.$slug, $stored['updated_at']);
+            $this->assertSame(
+                [
+                    ['heading' => $marker, 'body' => ['First paragraph.', 'Second paragraph.']],
+                    ['heading' => $second, 'body' => ['Single paragraph body.']],
+                ],
+                $stored['sections']
+            );
+            $this->assertSame(1, Setting::where('key', $key)->count());
+
+            // Reloading the CMS page keeps the saved values, including every
+            // repeatable row (Filament Repeater items use UUID keys, so match
+            // by content, not by array index).
+            $reload = Livewire::actingAs($this->admin())->test($page);
+
+            $this->assertSame('Saved Title '.$slug, $reload->get('data.title'));
+            $sections = collect($reload->get('data.sections'));
+            $this->assertCount(2, $sections);
+            $this->assertSame([$marker, $second], $sections->pluck('heading')->values()->all());
+            $this->assertSame("First paragraph.\n\nSecond paragraph.", $sections->first()['body']);
+
+            // The public resolver and the public page use the saved override.
+            $defaults = StaticPageController::defaultContent($slug);
+            $resolved = LegalPagesContent::resolve($slug, $defaults);
+
+            $this->assertSame('Saved Title '.$slug, $resolved['title']);
+            $this->assertSame($marker, $resolved['sections'][0]['heading']);
+
+            $this->get(route('pages.show', $slug))
+                ->assertOk()
+                ->assertSee($marker)
+                ->assertSee('First paragraph.')
+                ->assertSee('Second paragraph.');
         }
     }
 

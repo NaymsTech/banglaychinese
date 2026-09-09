@@ -101,13 +101,45 @@ class BanglayChineseSeeder extends Seeder
             [
                 'title' => 'Chinese Speaking Mastery',
                 'slug' => 'chinese-speaking-mastery',
-                'description' => 'আত্মবিশ্বাসের সঙ্গে সাবলীল চাইনিজ বলুন। '
-                    .'Chinese Speaking Mastery প্রোগ্রামটি তৈরি করা হয়েছে সেই বাংলাদেশি শিক্ষার্থীদের জন্য '
-                    .'যারা HSKK + HSK4 প্রস্তুতির পাশাপাশি real-world conversation-এ দক্ষ হতে চান। '
-                    .'AI word map ও daily-life scenario practice-এর মাধ্যমে vocabulary retention ও speaking fluency নিশ্চিত করে।',
+                'description' => <<<'HTML'
+<h2>আত্মবিশ্বাসের সঙ্গে সাবলীল চাইনিজ বলুন</h2>
+<p><strong>Chinese Speaking Mastery প্রোগ্রামটি তৈরি করা হয়েছে সেই বাংলাদেশি শিক্ষার্থীদের জন্য যারা বাস্তব কথোপকথনে Chinese দক্ষতা গড়ে তুলতে চান। স্ট্রাকচার্ড লাইভ ক্লাস, ছোট ব্যাচ সিস্টেম এবং কার্যকর প্রগ্রেস ট্র্যাকিংয়ের মাধ্যমে আপনি পাবেন এক টেকসই ভাষা ভিত্তি ও ভবিষ্যতের HSK সাফল্যের রোডম্যাপ।</strong></p>
+<p><strong>অধিকাংশ শিক্ষার্থী চাইনিজ শুনে বুঝতে  পারলেও কথা বলার সময় জড়তা অনুভব করে। Chinese Speaking Mastery হলো এমন একটি নিবিড় প্রশিক্ষণ যা আপনার উচ্চারণের ত্রুটি দূর করে আপনাকে সাবলীল ভাবে  কথা বলতে সাহায্য করবে। এটি কোনো সাধারণ কোর্স নয়, বরং আপনার Verbal Skills বৃদ্ধির একটি Professional Lab।</strong></p>
+<h3>এই প্রোগ্রাম যাদের জন্য</h3>
+<ul>
+<li><strong>HSK Learners:  যারা তাদের HSKK (Oral) পরীক্ষার স্কোর ইমপ্রুভ করতে চান।</strong></li>
+<li><strong>Scholarship Aspirants:  যারা চীনা বিশ্ববিদ্যালয়ের Admission Interview-তে সেরা পারফরম্যান্স দিতে চান।</strong></li>
+<li><strong>সবাই যারা চাইনিজ শেখাকে বিনিয়োগ হিসেবে দেখেন</strong></li>
+<li><strong>যারা ভবিষ্যতে HSK পরীক্ষা ও বিশ্ববিদ্যালয় অ্যাডমিশনে আগ্রহী</strong></li>
+<li><strong>যারা স্পষ্ট গাইডলাইন ও দায়িত্বশীল প্রশিক্ষণ চান</strong></li>
+<li><strong>যারা নৈমিত্তিক লার্নিং নয়, ফলাফল চান</strong></li>
+</ul>
+<h3>আপনি যা শিখবেন</h3>
+<ul>
+<li><strong>Tone Correction: চাইনিজ ভাষার ৪টি Tones-এর নিখুঁত প্রয়োগ নিশ্চিত করা।</strong></li>
+<li><strong>Spontaneous Response: অনুবাদ না করে সরাসরি চাইনিজ ভাষায় চিন্তা ও উত্তর দেওয়ার Natural Ability।</strong></li>
+<li><strong>দৈনন্দিন কথোপকথনের জন্য core speaking skills</strong></li>
+<li><strong>পিনইন (Pinyin) উচ্চারণ ও টোনের পারফেকশন</strong></li>
+<li><strong>বাস্তব Chinese কমিউনিকেশনের আত্মবিশ্বাস</strong></li>
+</ul>
+<h3>প্রোগ্রামের কাঠামো</h3>
+<ul>
+<li><strong>4 মাস (সপ্তাহে  ২-৩ দিন)</strong></li>
+<li><strong>সাপ্তাহিক speaking lab ও অ্যাসাইনমেন্ট</strong></li>
+<li><strong>PDF মেটেরিয়াল, অডিও প্র্যাকটিস ও প্রগ্রেস ট্র্যাকিং সাপোর্ট</strong></li>
+<li><strong>মক স্পিকিং অ্যাসেসমেন্ট ও ফিডব্যাক</strong></li>
+</ul>
+<h3>কেন Banglay Chinese</h3>
+<ul>
+<li><strong>স্পষ্ট রোডম্যাপ: Speaking → HSK → Admission Success</strong></li>
+<li><strong>বিশ্বস্ত গাইডেন্স ও প্রিমিয়াম সার্ভিস স্ট্যান্ডার্ড</strong></li>
+</ul>
+<h3>Program Fee</h3>
+<p><strong>মোট: ৳১৬, ০০০</strong></p>
+HTML,
                 'hsk_level' => 4,
                 'price' => 16000,
-                'duration_months' => 3,
+                'duration_months' => 4,
                 'category_slug' => 'speaking-fluency',
                 'is_published' => true,
                 'is_featured' => true,

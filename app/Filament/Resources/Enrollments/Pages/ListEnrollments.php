@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Enrollments\Pages;
 
 use App\Filament\Resources\Enrollments\EnrollmentResource;
+use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListEnrollments extends ListRecords
@@ -12,7 +13,7 @@ class ListEnrollments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Enrollments are created by students during checkout — not by admins.
+            CreateAction::make(),
         ];
     }
 }

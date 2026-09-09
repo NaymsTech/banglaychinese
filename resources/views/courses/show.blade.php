@@ -1,6 +1,7 @@
 <x-app-layout
     :metaTitle="$metaTitle"
     :metaDescription="$metaDescription"
+    :metaImage="$metaImage ?? null"
 >
     <!-- Hero -->
     <section class="bg-gradient-to-br from-[#0F5132] to-[#052e16] py-14 text-white sm:py-20">
@@ -24,8 +25,8 @@
                         @if($course->hsk_level)
                             <span class="rounded-full bg-white/10 px-3 py-1">HSK {{ $course->hsk_level }}</span>
                         @endif
-                        @if($course->duration_weeks)
-                            <span class="rounded-full bg-white/10 px-3 py-1">{{ $course->duration_weeks }} সপ্তাহ</span>
+                        @if($course->duration_months)
+                            <span class="rounded-full bg-white/10 px-3 py-1">{{ $course->duration_months }} মাস</span>
                         @endif
                         @if($course->is_featured)
                             <span class="rounded-full bg-amber-400 px-3 py-1 font-bold text-amber-950">★ Featured</span>
@@ -106,22 +107,20 @@
                                 </a>
                                 <p class="text-center text-xs text-slate-400">You are already enrolled in this course.</p>
                             @elseif($course->price > 0)
-                                <a href="{{ route('checkout.show', $course->slug) }}" class="block w-full rounded-full bg-[#0F5132] px-6 py-3 text-center text-sm font-bold text-white transition hover:bg-[#0d452c]">
+                                <a href="{{ route('checkout.unified', ['type' => 'course', 'slug' => $course->slug]) }}" class="block w-full rounded-full bg-[#0F5132] px-6 py-3 text-center text-sm font-bold text-white transition hover:bg-[#0d452c]">
                                     Enroll Now – ৳{{ number_format($course->price) }}
                                 </a>
                             @else
                                 <form method="POST" action="{{ route('courses.enroll', $course->slug) }}" class="space-y-4">
                                     @csrf
                                     <input type="hidden" name="payment_method" value="free">
-                                    <input type="hidden" name="transaction_id" value="free-{{ time() }}">
-                                    <input type="hidden" name="sender_number" value="01{{ rand(30000000, 99999999) }}">
                                     <button type="submit" class="block w-full rounded-full bg-[#0F5132] px-6 py-3 text-center text-sm font-bold text-white transition hover:bg-[#0d452c]">
                                         Enroll for Free
                                     </button>
                                 </form>
                             @endif
                         @else
-                            <a href="{{ route('login', ['redirect' => route('checkout.show', $course->slug)]) }}" class="block w-full rounded-full bg-[#0F5132] px-6 py-3 text-center text-sm font-bold text-white transition hover:bg-[#0d452c]">Login to Enroll</a>
+                            <a href="{{ route('login', ['redirect' => route('checkout.unified', ['type' => 'course', 'slug' => $course->slug])]) }}" class="block w-full rounded-full bg-[#0F5132] px-6 py-3 text-center text-sm font-bold text-white transition hover:bg-[#0d452c]">Login to Enroll</a>
                             <a href="{{ route('register') }}" class="block w-full rounded-full border-2 border-[#0F5132] px-6 py-3 text-center text-sm font-bold text-[#0F5132] transition hover:bg-emerald-50">Create Account</a>
                         @endif
                     </div>

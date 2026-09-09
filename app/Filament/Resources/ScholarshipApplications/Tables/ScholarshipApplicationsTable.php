@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\ScholarshipApplications\Tables;
 
 use App\Filament\Resources\ScholarshipApplications\Schemas\ScholarshipApplicationForm;
+use App\Models\ScholarshipApplication;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -65,6 +66,13 @@ class ScholarshipApplicationsTable
                         'rejected' => 'danger',
                         default => 'warning',
                     }),
+                TextColumn::make('journey_status')
+                    ->label('Journey')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => ScholarshipApplication::JOURNEY_STATUSES[$state]
+                        ?? str($state)->replace('_', ' ')->title())
+                    ->color(fn (string $state): string => ScholarshipApplication::JOURNEY_STATUS_COLORS[$state] ?? 'gray')
+                    ->sortable(),
                 TextColumn::make('follow_up_date')
                     ->date('d M Y')
                     ->sortable()
@@ -78,6 +86,9 @@ class ScholarshipApplicationsTable
                 SelectFilter::make('status')
                     ->label('CRM stage')
                     ->options(ScholarshipApplicationForm::CRM_STATUSES),
+                SelectFilter::make('journey_status')
+                    ->label('Application journey')
+                    ->options(ScholarshipApplication::JOURNEY_STATUSES),
                 SelectFilter::make('application_status')
                     ->label('Scholarship outcome')
                     ->options([
@@ -97,6 +108,21 @@ class ScholarshipApplicationsTable
                     ->label('Service')
                     ->searchable()
                     ->preload(),
+                SelectFilter::make('submitted')
+                    ->label('Submitted')
+                    ->options([
+                        '7_days' => 'Last 7 days',
+                        '30_days' => 'Last 30 days',
+                        '90_days' => 'Last 90 days',
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return match ($data['value'] ?? null) {
+                            '7_days' => $query->where('created_at', '>=', now()->subDays(7)),
+                            '30_days' => $query->where('created_at', '>=', now()->subDays(30)),
+                            '90_days' => $query->where('created_at', '>=', now()->subDays(90)),
+                            default => $query,
+                        };
+                    }),
             ])
             ->recordActions([
                 EditAction::make(),

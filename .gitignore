@@ -3,6 +3,8 @@
 .env
 .env.backup
 .env.production
+.env.*
+!.env.example
 .phpactor.json
 .phpunit.result.cache
 /.codex
@@ -23,3 +25,21 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Local database dumps and local SQLite files (development only)
+*.sql
+*.sql.gz
+*.sqlite
+*.sqlite3
+*.sqlite.backup*
+/database/*.sqlite
+/database/*.sqlite3
+*.db
+*.db3
+
+# Local backups and uploads from manual testing
+/storage/app/backups/
+/public/uploads/
+
+# Storage symlink — created on the server with `php artisan storage:link`
+/public/storage

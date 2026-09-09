@@ -70,61 +70,61 @@ class BanglayChineseSeeder extends Seeder
         $products = [
             // ── Language Courses ──────────────────────────────────────────
             [
-                'title'              => 'Fun Chinese for Kids',
-                'slug'               => 'fun-chinese-for-kids',
-                'description'        => 'Fun Chinese for Kids: আপনার সন্তানের জন্য চাইনিজের প্রথম ধাপ। '
-                    . 'Fun Chinese for Kids প্রোগ্রামটি ডিজাইন করা হয়েছে বাংলাদেশি বাচ্চাদের জন্য, '
-                    . 'যেখানে খেলা, গান ও গল্পের মাধ্যমে HSK ফাউন্ডেশন তৈরি করা হয়। '
-                    . 'ছোট গ্রুপে interactive ক্লাস যাতে প্রতিটি শিক্ষার্থী মনোযোগ পায় এবং মজার মাধ্যমে শেখে। '
-                    . 'বয়স: ৮–১৩ বছর।',
-                'hsk_level'          => 1,
-                'price'              => 12000,
-                'duration_weeks'     => 8,
-                'category_slug'      => 'kids-program',
-                'is_published'       => true,
-                'is_featured'        => false,
+                'title' => 'Fun Chinese for Kids',
+                'slug' => 'fun-chinese-for-kids',
+                'description' => 'Fun Chinese for Kids: আপনার সন্তানের জন্য চাইনিজের প্রথম ধাপ। '
+                    .'Fun Chinese for Kids প্রোগ্রামটি ডিজাইন করা হয়েছে বাংলাদেশি বাচ্চাদের জন্য, '
+                    .'যেখানে খেলা, গান ও গল্পের মাধ্যমে HSK ফাউন্ডেশন তৈরি করা হয়। '
+                    .'ছোট গ্রুপে interactive ক্লাস যাতে প্রতিটি শিক্ষার্থী মনোযোগ পায় এবং মজার মাধ্যমে শেখে। '
+                    .'বয়স: ৮–১৩ বছর।',
+                'hsk_level' => 1,
+                'price' => 12000,
+                'duration_months' => 2,
+                'category_slug' => 'kids-program',
+                'is_published' => true,
+                'is_featured' => false,
             ],
             [
-                'title'              => 'HSK Standard Track',
-                'slug'               => 'hsk-standard-track',
-                'description'        => 'HSK Standard Track: টেকসই গতিতে নিশ্চিত প্রস্তুতি। '
-                    . 'HSK Standard Track হলো আমাদের ফ্ল্যাগশিপ একাডেমিক প্রোগ্রাম। Official HSK Curriculum অনুসরণ করে তৈরি '
-                    . 'এই track-এ রয়েছে structured lessons, regular mock tests, এবং China admission preparation — '
-                    . 'যাতে আপনি নির্ধারিত সময়ের মধ্যে HSK 1–4 শেষ করে scholarship-এর জন্য প্রস্তুত হতে পারেন।',
-                'hsk_level'          => 4,
-                'price'              => 12000,
-                'duration_weeks'     => 16,
-                'category_slug'      => 'hsk-preparation',
-                'is_published'       => true,
-                'is_featured'        => true,
+                'title' => 'HSK Standard Track',
+                'slug' => 'hsk-standard-track',
+                'description' => 'HSK Standard Track: টেকসই গতিতে নিশ্চিত প্রস্তুতি। '
+                    .'HSK Standard Track হলো আমাদের ফ্ল্যাগশিপ একাডেমিক প্রোগ্রাম। Official HSK Curriculum অনুসরণ করে তৈরি '
+                    .'এই track-এ রয়েছে structured lessons, regular mock tests, এবং China admission preparation — '
+                    .'যাতে আপনি নির্ধারিত সময়ের মধ্যে HSK 1–4 শেষ করে scholarship-এর জন্য প্রস্তুত হতে পারেন।',
+                'hsk_level' => 4,
+                'price' => 12000,
+                'duration_months' => 4,
+                'category_slug' => 'hsk-preparation',
+                'is_published' => true,
+                'is_featured' => true,
             ],
             [
-                'title'              => 'Chinese Speaking Mastery',
-                'slug'               => 'chinese-speaking-mastery',
-                'description'        => 'আত্মবিশ্বাসের সঙ্গে সাবলীল চাইনিজ বলুন। '
-                    . 'Chinese Speaking Mastery প্রোগ্রামটি তৈরি করা হয়েছে সেই বাংলাদেশি শিক্ষার্থীদের জন্য '
-                    . 'যারা HSKK + HSK4 প্রস্তুতির পাশাপাশি real-world conversation-এ দক্ষ হতে চান। '
-                    . 'AI word map ও daily-life scenario practice-এর মাধ্যমে vocabulary retention ও speaking fluency নিশ্চিত করে।',
-                'hsk_level'          => 4,
-                'price'              => 16000,
-                'duration_weeks'     => 12,
-                'category_slug'      => 'speaking-fluency',
-                'is_published'       => true,
-                'is_featured'        => true,
+                'title' => 'Chinese Speaking Mastery',
+                'slug' => 'chinese-speaking-mastery',
+                'description' => 'আত্মবিশ্বাসের সঙ্গে সাবলীল চাইনিজ বলুন। '
+                    .'Chinese Speaking Mastery প্রোগ্রামটি তৈরি করা হয়েছে সেই বাংলাদেশি শিক্ষার্থীদের জন্য '
+                    .'যারা HSKK + HSK4 প্রস্তুতির পাশাপাশি real-world conversation-এ দক্ষ হতে চান। '
+                    .'AI word map ও daily-life scenario practice-এর মাধ্যমে vocabulary retention ও speaking fluency নিশ্চিত করে।',
+                'hsk_level' => 4,
+                'price' => 16000,
+                'duration_months' => 3,
+                'category_slug' => 'speaking-fluency',
+                'is_published' => true,
+                'is_featured' => true,
             ],
             [
-                'title'              => 'HSK Intensive Program',
-                'slug'               => 'hsk-intensive-program',
-                'description'        => 'HSK Intensive: দ্রুত গতিতে সিরিয়াস প্রস্তুতি। '
-                    . 'HSK Intensive Program তাদের জন্য, যারা কম সময়ে স্ট্রাকচার্ড ও ফলাফল-কেন্দ্রিক প্রস্তুতি নিতে চান। '
-                    . 'Accelerated lessons, priority feedback, এবং scholarship application guidance সহ — '
-                    . 'যাতে upcoming deadline-এর আগেই HSK 1–4 complete করে China admission-এর জন্য আবেদন করতে পারেন।',
-                'hsk_level'          => 4,
-                'price'              => 20000,
-                'duration_weeks'     => 8,
-                'category_slug'      => 'hsk-preparation',
-                'is_published'       => true,
-                'is_featured'        => true,
+                'title' => 'HSK Intensive Program',
+                'slug' => 'hsk-intensive-program',
+                'description' => 'HSK Intensive: দ্রুত গতিতে সিরিয়াস প্রস্তুতি। '
+                    .'HSK Intensive Program তাদের জন্য, যারা কম সময়ে স্ট্রাকচার্ড ও ফলাফল-কেন্দ্রিক প্রস্তুতি নিতে চান। '
+                    .'Accelerated lessons, priority feedback, এবং scholarship application guidance সহ — '
+                    .'যাতে upcoming deadline-এর আগেই HSK 1–4 complete করে China admission-এর জন্য আবেদন করতে পারেন।',
+                'hsk_level' => 4,
+                'price' => 20000,
+                'duration_months' => 2,
+                'category_slug' => 'hsk-preparation',
+                'is_published' => true,
+                'is_featured' => true,
             ],
 
             // Study in China service packages now live in the dedicated `services`
@@ -142,14 +142,14 @@ class BanglayChineseSeeder extends Seeder
             Course::updateOrCreate(
                 ['slug' => $product['slug']],
                 [
-                    'title'          => $product['title'],
-                    'description'    => $product['description'],
-                    'hsk_level'      => $product['hsk_level'],
-                    'price'          => $product['price'],
-                    'duration_weeks' => $product['duration_weeks'] ?? null,
-                    'category_id'    => $categoryId,
-                    'is_published'   => $product['is_published'],
-                    'is_featured'    => $product['is_featured'],
+                    'title' => $product['title'],
+                    'description' => $product['description'],
+                    'hsk_level' => $product['hsk_level'],
+                    'price' => $product['price'],
+                    'duration_months' => $product['duration_months'] ?? null,
+                    'category_id' => $categoryId,
+                    'is_published' => $product['is_published'],
+                    'is_featured' => $product['is_featured'],
                 ]
             );
         }

@@ -4,12 +4,15 @@ namespace App\Filament\Resources\MentorshipBookings\Tables;
 
 use App\Models\MentorshipBooking;
 use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
 use Filament\Actions\EditAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Collection;
 
 class MentorshipBookingsTable
 {
@@ -44,6 +47,11 @@ class MentorshipBookingsTable
                     ->badge()
                     ->formatStateUsing(fn ($state): string => MentorshipBooking::STATUS_OPTIONS[$state] ?? $state)
                     ->color(fn ($state): string => self::statusColors()[$state] ?? 'gray'),
+                TextColumn::make('notes')
+                    ->limit(60)
+                    ->tooltip(fn ($state) => $state)
+                    ->placeholder('—')
+                    ->toggleable(),
                 TextColumn::make('meeting_link')
                     ->label('Meeting link')
                     ->url(fn ($state): ?string => filled($state) ? $state : null)
@@ -112,6 +120,59 @@ class MentorshipBookingsTable
                             ->title('Booking cancelled.')
                             ->send();
                     }),
+            ])
+            ->selectable()
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    BulkAction::make('bulkComplete')
+                        ->label('Mark as completed')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->action(function (Collection $records): void {
+                            $eligible = $records->filter(
+                                fn (MentorshipBooking $booking): bool => in_array($booking->status, [
+                                    MentorshipBooking::STATUS_PENDING,
+                                    MentorshipBooking::STATUS_CONFIRMED,
+                                ], true),
+                            );
+
+                            $count = $eligible->count();
+
+                            MentorshipBooking::whereIn('id', $eligible->pluck('id'))
+                                ->update(['status' => MentorshipBooking::STATUS_COMPLETED]);
+
+                            Notification::make()
+                                ->success()
+                                ->title($count.' booking'.($count === 1 ? '' : 's').' marked as completed.')
+                                ->send();
+                        }),
+                    BulkAction::make('bulkCancel')
+                        ->label('Cancel bookings')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->modalHeading('Cancel selected bookings?')
+                        ->modalDescription('Only pending or confirmed bookings will be cancelled.')
+                        ->modalSubmitActionLabel('Cancel bookings')
+                        ->action(function (Collection $records): void {
+                            $eligible = $records->filter(
+                                fn (MentorshipBooking $booking): bool => in_array($booking->status, [
+                                    MentorshipBooking::STATUS_PENDING,
+                                    MentorshipBooking::STATUS_CONFIRMED,
+                                ], true),
+                            );
+
+                            $count = $eligible->count();
+
+                            MentorshipBooking::whereIn('id', $eligible->pluck('id'))
+                                ->update(['status' => MentorshipBooking::STATUS_CANCELLED]);
+
+                            Notification::make()
+                                ->success()
+                                ->title($count.' booking'.($count === 1 ? '' : 's').' cancelled.')
+                                ->send();
+                        }),
+                ]),
             ])
             ->defaultSort('scheduled_at', 'desc');
     }

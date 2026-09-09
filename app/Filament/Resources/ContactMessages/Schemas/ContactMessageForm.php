@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources\ContactMessages\Schemas;
 
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
 
@@ -23,12 +23,14 @@ class ContactMessageForm
                 TextInput::make('topic')
                     ->disabled(),
                 Textarea::make('message')
-                    ->rows(6)
+                    ->rows(8)
                     ->disabled()
+                    ->helperText('Original message submitted through the public contact form.')
                     ->columnSpanFull(),
                 Toggle::make('is_read')
                     ->label('Marked as read')
-                    ->disabled(),
+                    ->helperText('Track follow-up: unread messages stand out in the list.')
+                    ->columnSpanFull(),
             ]);
     }
 }

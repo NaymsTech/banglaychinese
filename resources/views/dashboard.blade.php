@@ -23,6 +23,10 @@
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                         Browse Courses
                     </a>
+                    <a href="{{ route('dashboard.index') }}#downloads" class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-[#F0FDF4] hover:text-[#0F5132]">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        My Downloads
+                    </a>
                     <a href="{{ route('study-in-china') }}" class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-semibold text-slate-600 transition hover:bg-[#F0FDF4] hover:text-[#0F5132]">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0-6l-6.16-3.42M19 11v4"/></svg>
                         Scholarship
@@ -105,8 +109,8 @@
                                 </p>
                                 <div class="mt-4 flex items-center gap-4 text-xs font-semibold text-slate-500">
                                     <span>📚 {{ $item->total_lessons }} lessons</span>
-                                    @if($item->course->duration_weeks)
-                                        <span>⏱️ {{ $item->course->duration_weeks }} weeks</span>
+                                    @if($item->course->duration_months)
+                                        <span>⏱️ {{ $item->course->duration_months }} {{ $item->course->duration_months == 1 ? 'month' : 'months' }}</span>
                                     @endif
                                     @if($item->course->category)
                                         <span class="rounded-full bg-[#F0FDF4] px-3 py-1 text-xs font-bold text-[#0F5132]">{{ $item->course->category->name }}</span>
@@ -174,6 +178,18 @@
                                             <span>💰 ৳{{ number_format($item->course->price) }}</span>
                                         @endif
                                     </div>
+                                    @if($item->payment_paid > 0 || $item->payment_due > 0)
+                                        <div class="mt-3 inline-flex flex-wrap items-center gap-2 rounded-xl bg-white/80 px-3 py-2 text-xs font-bold">
+                                            @if($item->payment_paid > 0)
+                                                <span class="text-emerald-700">Paid: ৳{{ number_format($item->payment_paid, 2) }}</span>
+                                            @endif
+                                            @if($item->payment_due > 0)
+                                                <span class="text-amber-700">Due: ৳{{ number_format($item->payment_due, 2) }}</span>
+                                            @else
+                                                <span class="text-emerald-700">Due: ৳0.00</span>
+                                            @endif
+                                        </div>
+                                    @endif
                                 </div>
 
                                 <div class="w-full sm:w-56 shrink-0">
@@ -193,6 +209,50 @@
                         </div>
                     @endforeach
                 @endif
+
+                {{-- My Downloads --}}
+                <h2 id="downloads" class="mt-12 scroll-mt-24 text-xl font-extrabold text-slate-800">My Downloads</h2>
+                <p class="mt-1 text-sm text-slate-500">আপনার অনুমোদিত ডিজিটাল প্রোডাক্ট — ডাউনলোড করুন যেকোনো সময়।</p>
+
+                @forelse($approvedDownloads as $download)
+                    <div class="mt-6 rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm sm:p-8">
+                        <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                            <div class="flex items-center gap-4">
+                                @if($download->product->cover_image)
+                                    <img src="{{ asset('storage/'.$download->product->cover_image) }}" alt="{{ $download->product->title }}" class="h-16 w-16 flex-none rounded-xl object-cover">
+                                @else
+                                    <div class="flex h-16 w-16 flex-none items-center justify-center rounded-xl bg-emerald-50 text-2xl">📘</div>
+                                @endif
+                                <div>
+                                    <h3 class="font-bold text-slate-800">{{ $download->product->title }}</h3>
+                                    <div class="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-semibold text-slate-500">
+                                        @if($download->product->category)
+                                            <span class="rounded-full bg-[#F0FDF4] px-2.5 py-0.5 font-bold text-[#0F5132]">{{ $download->product->category }}</span>
+                                        @endif
+                                        <span>Purchased: {{ $download->created_at->format('d M Y') }}</span>
+                                        @if($download->unifiedOrder)
+                                            <span>৳{{ number_format((float) $download->unifiedOrder->total_amount, 2) }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="{{ route('dashboard.downloads.download', $download) }}"
+                               class="inline-flex flex-none items-center justify-center gap-2 rounded-full bg-[#0F5132] px-6 py-2.5 text-sm font-bold text-white transition hover:bg-[#0d452c]">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                Download PDF
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="mt-6 rounded-2xl border border-dashed border-emerald-200 bg-white p-10 text-center">
+                        <svg class="mx-auto h-12 w-12 text-emerald-300" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <h3 class="mt-4 text-lg font-bold text-slate-800">No downloads yet</h3>
+                        <p class="mt-2 text-sm text-slate-500">আপনার কেনা ডিজিটাল প্রোডাক্ট অনুমোদিত হলে এখানে দেখা যাবে।</p>
+                        <a href="{{ route('shop.index') }}" class="mt-6 inline-flex items-center rounded-full bg-[#0F5132] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#0d452c]">
+                            Browse the Shop →
+                        </a>
+                    </div>
+                @endforelse
             </main>
         </div>
     </div>

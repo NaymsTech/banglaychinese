@@ -6,8 +6,14 @@ use App\Http\Requests\StoreEnrollmentRequest;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Enrollment;
+use App\Models\Lead;
 use App\Models\Service;
+use App\Services\CheckoutOrderWriter;
+use App\Services\EnrollmentApprovalService;
+use App\Services\LeadCaptureService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class CourseController extends Controller
 {
@@ -49,19 +55,38 @@ class CourseController extends Controller
             ->take(3)
             ->get();
 
-        $metaTitle = $course->title.' | Banglay Chinese';
-        $metaDescription = $course->description;
+        $metaTitle = filled($course->meta_title)
+            ? $course->meta_title
+            : $course->title.' | Banglay Chinese';
+        $metaDescription = filled($course->meta_description)
+            ? $course->meta_description
+            : str()->limit(strip_tags((string) $course->description), 160);
+        $metaImage = filled($course->og_image)
+            ? asset('storage/'.$course->og_image)
+            : (filled($course->thumbnail) ? asset('storage/'.$course->thumbnail) : null);
 
-        return view('courses.show', compact('course', 'related', 'metaTitle', 'metaDescription'));
+        return view('courses.show', compact('course', 'related', 'metaTitle', 'metaDescription', 'metaImage'));
     }
 
-    public function enroll(StoreEnrollmentRequest $request, Course $course)
+    public function enroll(StoreEnrollmentRequest $request, Course $course, LeadCaptureService $leads)
     {
-        if (! $course->is_published) {
-            abort(404);
-        }
+        abort_unless($course->is_published, 404);
 
         $user = $request->user();
+
+        // Free enrollment is a legitimate zero-price sale. It must never be
+        // usable as a way to register a paid course without paying: the
+        // authoritative course price is checked server-side here, so a
+        // hand-crafted `payment_method=free` submission against a paid course
+        // is rejected before any record is created.
+        $paymentMethod = $request->validated('payment_method');
+        $isFree = $paymentMethod === 'free';
+
+        if ($isFree && (float) $course->price > 0) {
+            return back()->withErrors([
+                'payment_method' => 'এই কোর্সটি ফ্রি নয় — ফ্রি এনরোলমেন্ট শুধুমাত্র ফ্রি কোর্সের জন্য প্রযোজ্য।',
+            ]);
+        }
 
         $existing = Enrollment::where('user_id', $user->id)
             ->where('course_id', $course->id)
@@ -71,22 +96,90 @@ class CourseController extends Controller
             return back()->with('status', 'আপনি ইতিমধ্যে এই কোর্সে এনরোল করেছেন।');
         }
 
+        $enrollment = null;
+
         try {
-            DB::transaction(function () use ($request, $user, $course) {
-                // Price is always pulled from the database — never trusted from client input.
-                Enrollment::create([
+            DB::transaction(function () use ($request, $user, $course, $isFree, &$enrollment) {
+                $snapshot = [
                     'user_id' => $user->id,
                     'course_id' => $course->id,
+                    'student_name' => $user->name,
+                    'student_email' => $user->email,
+                    'student_phone' => $user->phone,
+                ];
+
+                if ($isFree) {
+                    // Price is always pulled from the database — never trusted
+                    // from client input. A free course is immediately active:
+                    // zero price, nothing paid, nothing due, no payment review.
+                    $enrollment = Enrollment::create($snapshot + [
+                        'amount' => 0,
+                        'amount_paid' => 0,
+                        'amount_due' => 0,
+                        'payment_status' => Enrollment::PAYMENT_STATUS_PAID,
+                        'enrollment_status' => 'in_progress',
+                        'status' => 'active',
+                        'price_paid' => 0,
+                        'payment_method' => 'free',
+                        'transaction_id' => null,
+                        'sender_number' => null,
+                        'paid_at' => null,
+                    ]);
+
+                    app(CheckoutOrderWriter::class)->recordFreeEnrollmentSale($enrollment);
+
+                    return;
+                }
+
+                $enrollment = Enrollment::create($snapshot + [
+                    'amount' => $course->price,
+                    'amount_paid' => 0,
+                    'amount_due' => $course->price,
+                    'payment_status' => 'pending',
+                    'enrollment_status' => 'pending',
                     'status' => 'pending',
                     'price_paid' => $course->price,
                     'payment_method' => $request->validated('payment_method'),
                     'transaction_id' => $request->validated('transaction_id'),
                     'sender_number' => $request->validated('sender_number'),
                 ]);
+
+                // Shadow-write the unified sale in the same transaction: a
+                // failure rolls the enrollment back with it.
+                app(CheckoutOrderWriter::class)->recordEnrollmentSale($enrollment);
             });
-        } catch (\Throwable $e) {
+        } catch (Throwable $exception) {
+            Log::warning('Course enrollment failed.', [
+                'course_id' => $course->getKey(),
+                'user_id' => $user->getKey(),
+                'error' => $exception->getMessage(),
+            ]);
+
             return back()->withErrors(['enroll' => 'এনরোলমেন্ট সফল হয়নি। আবার চেষ্টা করুন।']);
         }
+
+        $leads->capture([
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'whatsapp_number' => $user->phone,
+            'source' => Lead::SOURCE_CHECKOUT,
+            'interest' => Lead::INTEREST_COURSES,
+            'notes' => 'Course: '.$course->title,
+        ]);
+
+        if ($isFree) {
+            // A free course is active immediately: no "payment pending" email,
+            // no reminder, no verification. The single confirmation email is
+            // marker-guarded so it can never be sent twice.
+            app(EnrollmentApprovalService::class)->notifyFreeEnrollmentConfirmation($enrollment);
+
+            return back()->with('status', 'আপনি সফলভাবে কোর্সে ভর্তি হয়েছেন — শুভকামনা!');
+        }
+
+        // Queued only after the enrollment transaction has committed; a failed
+        // queue attempt is logged by the service and never breaks enrollment.
+        app(EnrollmentApprovalService::class)->notifyOrderReceived($enrollment);
 
         return redirect()->route('checkout.confirmation')
             ->with('transaction_id', $request->validated('transaction_id'));

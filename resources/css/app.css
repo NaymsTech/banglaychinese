@@ -2,6 +2,11 @@
 
 @plugin "@tailwindcss/forms";
 
+/* Hide elements before Alpine.js initialises (e.g. toggled icons/drawers). */
+[x-cloak] {
+    display: none !important;
+}
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../../resources/views/**/*.blade.php';
@@ -108,3 +113,36 @@ body {
 .font-chinese .font-extrabold {
     font-weight: 500;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Motion Preferences
+|--------------------------------------------------------------------------
+| Smooth anchor scrolling site-wide; disabled for users who prefer reduced
+| motion.
+*/
+html {
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/*
+|--------------------------------------------------------------------------
+| Footer deco pattern
+|--------------------------------------------------------------------------
+| Faint geometric grid layered over the footer's dark gradient. Rendered as a
+| plain CSS rule (Tailwind cannot parse this double-linear-gradient arbitrary
+| value reliably).
+*/
+.footer-pattern {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 48px 48px;
+}
+

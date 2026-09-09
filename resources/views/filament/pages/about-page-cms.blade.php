@@ -2,8 +2,9 @@
     <x-filament::section>
         <x-slot name="heading">About page content</x-slot>
         <x-slot name="description">
-            Expand a group below to edit its content. JSON fields are validated on save.
-            Image and JSON-based sections are edited here; labels and order are stored too.
+            Edit the About page copy section by section, in the same order as the
+            public page. Lists are managed as repeatable rows; long text supports
+            rich formatting. Changes appear on the public page immediately after saving.
         </x-slot>
 
         <form wire:submit="save" class="space-y-6">

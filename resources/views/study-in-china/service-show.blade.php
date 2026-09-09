@@ -45,7 +45,7 @@
             <div class="absolute bottom-10 right-10 w-96 h-96 bg-primary-600/40 rounded-full blur-3xl"></div>
         </div>
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <a href="{{ route('services.index') }}" class="text-primary-100 text-sm font-semibold hover:text-white">
+            <a href="{{ route('study-in-china') }}#services" class="inline-flex min-h-[44px] items-center text-primary-100 text-sm font-semibold hover:text-white">
                 ← All Study in China Services
             </a>
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mt-4 font-bangla">{{ $service->name }}</h1>
@@ -79,8 +79,8 @@
         @endif
 
         {{-- Price & CTA --}}
-        <div class="mt-10 bg-white rounded-2xl shadow-md border border-slate-100 p-8 text-center">
-            <span class="text-5xl font-extrabold text-gray-900">৳{{ number_format($service->price) }}</span>
+        <div class="mt-10 bg-white rounded-2xl shadow-md border border-slate-100 p-5 sm:p-8 text-center">
+            <span class="text-4xl sm:text-5xl font-extrabold text-gray-900">৳{{ number_format($service->price) }}</span>
             <span class="text-gray-500 text-sm block mt-1">one-time payment</span>
             <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a href="{{ route('study-in-china.consultation', ['service' => $service->slug]) }}"

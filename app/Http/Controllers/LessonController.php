@@ -37,13 +37,13 @@ class LessonController extends Controller
             abort(403, 'You must have an active enrollment to access this lesson.');
         }
 
-        if ($enrollment->status === 'pending') {
+        if ($enrollment->enrollment_status === 'pending') {
             return redirect()
                 ->route('dashboard.index')
                 ->with('error', 'আপনার পেমেন্ট বর্তমানে যাচাইকরণের অধীনে রয়েছে।');
         }
 
-        if ($enrollment->status !== 'active') {
+        if (! in_array($enrollment->enrollment_status, ['in_progress', 'completed'], true)) {
             abort(403, 'Your enrollment is not active. Please contact support.');
         }
 
@@ -66,7 +66,7 @@ class LessonController extends Controller
 
         $hasActiveEnrollment = Enrollment::where('user_id', $user->id)
             ->where('course_id', $course->id)
-            ->where('status', 'active')
+            ->whereIn('enrollment_status', ['in_progress', 'completed'])
             ->exists();
 
         abort_unless($hasActiveEnrollment, 403, 'You must have an active enrollment to update lesson progress.');
@@ -107,7 +107,7 @@ class LessonController extends Controller
         $enrollmentStatus = Enrollment::where('user_id', $user->id)
             ->where('course_id', $course->id)
             ->latest()
-            ->value('status');
+            ->value('enrollment_status');
 
         $course = $course->load(['modules.lessons']);
 

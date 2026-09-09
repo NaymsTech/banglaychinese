@@ -1,4 +1,26 @@
 <x-app-layout>
+    @php
+        // Story / why / vision text is edited as HTML in the About CMS
+        // (RichEditor). Plain-text values are still rendered paragraph by
+        // paragraph, so existing content keeps its layout until re-saved.
+        $prose = static function (mixed $content): string {
+            $content = trim((string) $content);
+
+            if ($content === '' || str_contains($content, '<')) {
+                return $content;
+            }
+
+            $paragraphs = array_filter(
+                preg_split('/\n\s*\n/', $content) ?: [],
+                fn (string $paragraph): bool => trim($paragraph) !== ''
+            );
+
+            return implode('', array_map(
+                fn (string $paragraph): string => '<p>' . e(trim($paragraph)) . '</p>',
+                $paragraphs
+            ));
+        };
+    @endphp
     @section('title', 'About Us - BanglayChinese')
 
     {{-- ==================== HERO SECTION ==================== --}}
@@ -97,14 +119,8 @@
                 {{-- Left accent bar --}}
                 <div class="absolute inset-y-6 left-0 w-1 rounded-r-full bg-primary-500/30"></div>
 
-                @php $storyParagraphs = explode("\n\n", $story_content); @endphp
                 <div class="space-y-5 text-base leading-relaxed text-slate-600 sm:text-lg">
-                    @foreach($storyParagraphs as $paragraph)
-                        @php $paragraph = trim($paragraph); @endphp
-                        @if(!empty($paragraph))
-                            <p>{{ $paragraph }}</p>
-                        @endif
-                    @endforeach
+                    {!! $prose($story_content) !!}
                 </div>
             </div>
         </div>
@@ -205,14 +221,8 @@
                 {{-- Left accent --}}
                 <div class="absolute inset-y-6 left-0 w-1 rounded-r-full bg-primary-400/40"></div>
 
-                @php $whyParagraphs = explode("\n\n", $why_content); @endphp
                 <div class="space-y-5 text-base leading-relaxed text-primary-50/90 sm:text-lg">
-                    @foreach($whyParagraphs as $paragraph)
-                        @php $paragraph = trim($paragraph); @endphp
-                        @if(!empty($paragraph))
-                            <p>{{ $paragraph }}</p>
-                        @endif
-                    @endforeach
+                    {!! $prose($why_content) !!}
                 </div>
             </div>
         </div>
@@ -294,14 +304,8 @@
                 {{-- Top accent bar --}}
                 <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary-500 via-accent-500 to-primary-500"></div>
 
-                @php $visionParagraphs = explode("\n\n", $vision_content); @endphp
                 <div class="space-y-4 text-base leading-relaxed text-slate-600 sm:text-lg">
-                    @foreach($visionParagraphs as $paragraph)
-                        @php $paragraph = trim($paragraph); @endphp
-                        @if(!empty($paragraph))
-                            <p>{{ $paragraph }}</p>
-                        @endif
-                    @endforeach
+                    {!! $prose($vision_content) !!}
                 </div>
             </div>
         </div>

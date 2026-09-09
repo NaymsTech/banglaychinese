@@ -19,9 +19,12 @@ class Course extends Model
         'is_published',
         'category_id',
         'is_featured',
-        'duration_weeks',
+        'duration_months',
         'batch_start_date',
         'batch_end_date',
+        'meta_title',
+        'meta_description',
+        'og_image',
     ];
 
     protected $casts = [

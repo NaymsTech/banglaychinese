@@ -53,7 +53,7 @@ class CourseLmsResourceTest extends TestCase
                 'category_id' => (string) $category->id,
                 'price' => 9500,
                 'hsk_level' => '1',
-                'duration_weeks' => 12,
+                'duration_months' => 3,
                 'is_published' => true,
             ])
             ->call('create')
@@ -66,6 +66,30 @@ class CourseLmsResourceTest extends TestCase
             'price' => 9500,
             'is_published' => 1,
         ]);
+    }
+
+    public function test_admin_can_bulk_toggle_publish_from_the_list(): void
+    {
+        $draft = Course::create([
+            'title' => 'HSK 1 Crash Course',
+            'slug' => 'hsk-1-crash-course',
+            'price' => 9500,
+            'is_published' => false,
+        ]);
+
+        $published = Course::create([
+            'title' => 'HSK 2 Intensive',
+            'slug' => 'hsk-2-intensive',
+            'price' => 0,
+            'is_published' => true,
+        ]);
+
+        Livewire::actingAs($this->admin())
+            ->test(ListCourses::class)
+            ->callTableBulkAction('togglePublish', [$draft->id, $published->id]);
+
+        $this->assertSame(1, (int) $draft->fresh()->is_published);
+        $this->assertSame(0, (int) $published->fresh()->is_published);
     }
 
     public function test_full_course_module_lesson_pages_render(): void

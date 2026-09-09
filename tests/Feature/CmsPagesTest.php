@@ -7,8 +7,8 @@ use App\Filament\Pages\Settings;
 use App\Filament\Pages\StudyInChinaCms;
 use App\Models\AboutSection;
 use App\Models\Setting;
-use App\Models\StudyInChinaSection;
 use App\Models\User;
+use App\Services\SettingsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\TestCase;
@@ -49,7 +49,28 @@ class CmsPagesTest extends TestCase
         $this->assertSame('123456789', Setting::where('key', 'facebook_pixel_id')->value('value'));
     }
 
-    public function test_about_cms_page_saves_text_and_rejects_invalid_json(): void
+    public function test_logo_and_favicon_are_rendered_from_settings(): void
+    {
+        // Empty settings fall back to the bundled brand assets.
+        SettingsService::set('site_logo', '');
+        SettingsService::set('site_favicon', '');
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('assets/logo-full.jpeg')
+            ->assertSee('assets/logo.jpeg');
+
+        // Uploaded images are rendered from the public disk instead.
+        SettingsService::set('site_logo', 'settings/logo.png');
+        SettingsService::set('site_favicon', 'settings/favicon.png');
+
+        $this->get('/')
+            ->assertOk()
+            ->assertSee('storage/settings/logo.png')
+            ->assertSee('storage/settings/favicon.png');
+    }
+
+    public function test_about_cms_page_saves_text_and_list_rows(): void
     {
         $heading = AboutSection::create([
             'key' => 'hero_heading',
@@ -73,56 +94,96 @@ class CmsPagesTest extends TestCase
             ->get(AboutPageCms::getUrl())
             ->assertOk();
 
-        // Invalid JSON anywhere must abort the whole save (nothing persisted).
         Livewire::actingAs($this->admin())
             ->test(AboutPageCms::class)
             ->set("data.v_{$heading->id}", 'Updated heading')
-            ->set("data.v_{$cards->id}", '{ not valid json')
-            ->call('save')
-            ->assertNotified();
-
-        $this->assertSame('Original heading', $heading->fresh()->value);
-
-        // Valid JSON + text saves.
-        Livewire::actingAs($this->admin())
-            ->test(AboutPageCms::class)
-            ->set("data.v_{$heading->id}", 'Updated heading')
-            ->set("data.v_{$cards->id}", json_encode([['text' => 'New'], ['text' => 'Another']]))
+            ->set("data.v_{$cards->id}", [
+                ['icon' => '🇨🇳', 'text' => 'Studying in China since 2017'],
+                ['icon' => '💼', 'text' => 'Professional Interpreter'],
+            ])
             ->call('save')
             ->assertNotified('About page content saved successfully.');
 
         $this->assertSame('Updated heading', $heading->fresh()->value);
         $this->assertSame(
-            [['text' => 'New'], ['text' => 'Another']],
+            [
+                ['icon' => '🇨🇳', 'text' => 'Studying in China since 2017'],
+                ['icon' => '💼', 'text' => 'Professional Interpreter'],
+            ],
             json_decode($cards->fresh()->value, true)
         );
     }
 
-    public function test_study_in_china_cms_page_saves(): void
+    public function test_about_prose_fields_render_html_and_legacy_plain_text(): void
     {
-        $row = StudyInChinaSection::create([
-            'key' => 'hero_subtitle',
-            'value' => 'Old subtitle',
-            'type' => 'longtext',
-            'group' => 'hero',
-            'label' => 'Section Subtitle',
-            'sort_order' => 2,
+        AboutSection::create([
+            'key' => 'story_content',
+            'value' => '<p>Rich <strong>story</strong> from the CMS.</p>',
+            'type' => 'text',
+            'group' => 'story',
+            'label' => 'Story Content',
+            'sort_order' => 1,
         ]);
 
+        AboutSection::create([
+            'key' => 'vision_content',
+            'value' => "Paragraph one.\n\nParagraph two.",
+            'type' => 'text',
+            'group' => 'vision',
+            'label' => 'Vision Content',
+            'sort_order' => 1,
+        ]);
+
+        $this->get('/about')
+            ->assertOk()
+            ->assertSee('<strong>story</strong>', false)
+            ->assertDontSee('&lt;strong&gt;', false)
+            ->assertSee('<p>Paragraph one.</p>', false)
+            ->assertSee('<p>Paragraph two.</p>', false);
+    }
+
+    public function test_study_in_china_cms_page_saves_settings_and_lists(): void
+    {
         $this->actingAs($this->admin())
             ->get(StudyInChinaCms::getUrl())
             ->assertOk();
 
         Livewire::actingAs($this->admin())
             ->test(StudyInChinaCms::class)
-            ->set("data.v_{$row->id}", 'চীনে পড়াশোনা করুন নতুন উপায়ে')
-            ->set("data.o_{$row->id}", 5)
+            ->set('data.sic_hero_title', 'চীনে পড়াশোনার নতুন শিরোনাম')
+            ->set('data.sic_faq_items', [
+                ['question' => 'আমি কীভাবে শুরু করব?', 'answer' => '<p><strong>প্রথম ধাপ</strong> consultation ফর্ম জমা দেওয়া।</p>'],
+            ])
             ->call('save')
             ->assertNotified('Study in China content saved successfully.');
 
-        $row->refresh();
+        $this->assertSame('চীনে পড়াশোনার নতুন শিরোনাম', Setting::where('key', 'sic_hero_title')->value('value'));
+        $this->assertSame(
+            [
+                ['question' => 'আমি কীভাবে শুরু করব?', 'answer' => '<p><strong>প্রথম ধাপ</strong> consultation ফর্ম জমা দেওয়া।</p>'],
+            ],
+            json_decode(Setting::where('key', 'sic_faq_items')->value('value'), true)
+        );
+    }
 
-        $this->assertSame('চীনে পড়াশোনা করুন নতুন উপায়ে', $row->value);
-        $this->assertSame(5, $row->sort_order);
+    public function test_study_in_china_page_renders_cms_defaults_and_overrides(): void
+    {
+        // Defaults render before anything is saved.
+        $this->get('/study-in-china')
+            ->assertOk()
+            ->assertSee('চীনে পড়াশোনার স্বপ্নকে একটি পরিষ্কার পরিকল্পনায় পরিণত করুন');
+
+        // Saved settings override the defaults, and RichEditor answers render as HTML.
+        Setting::updateOrCreate(['key' => 'sic_hero_title'], ['value' => 'চীনে পড়াশোনার সিএমএস শিরোনাম']);
+        Setting::updateOrCreate(['key' => 'sic_faq_items'], ['value' => json_encode([
+            ['question' => 'পেজ কি এখন ডাইনামিক?', 'answer' => '<p>হ্যাঁ, <strong>CMS</strong> থেকে আসে।</p>'],
+        ])]);
+
+        $this->get('/study-in-china')
+            ->assertOk()
+            ->assertSee('চীনে পড়াশোনার সিএমএস শিরোনাম')
+            ->assertSee('পেজ কি এখন ডাইনামিক?')
+            ->assertSee('<strong>CMS</strong>', false)
+            ->assertDontSee('&lt;strong&gt;', false);
     }
 }

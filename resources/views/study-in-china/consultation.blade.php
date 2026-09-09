@@ -44,21 +44,10 @@
                         </h2>
                         <p class="mt-2 text-sm text-slate-500">* চিহ্নিত ফিল্ডগুলো আবশ্যক</p>
 
-                        @if(session('success'))
-                        <div class="mt-6 rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-700">
-                            {{ session('success') }}
+                        <div class="mt-6">
+                            <x-form-feedback />
+                            <x-form-feedback type="error" />
                         </div>
-                        @endif
-
-                        @if($errors->any())
-                        <div class="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm font-medium text-red-700">
-                            <ul class="list-disc pl-4 space-y-1">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        @endif
 
                         <form action="{{ route('study-in-china.apply') }}" method="POST" class="mt-6 space-y-5">
                             @csrf
@@ -106,49 +95,49 @@
 
                             {{-- Highest Qualification --}}
                             <div>
-                                <label for="educational_background" class="mb-1.5 block text-sm font-bold text-slate-700">সর্বোচ্চ শিক্ষাগত যোগ্যতা (Highest Qualification) <span class="text-red-500">*</span></label>
-                                <select name="educational_background" id="educational_background" required
+                                <label for="highest_qualification" class="mb-1.5 block text-sm font-bold text-slate-700">সর্বোচ্চ শিক্ষাগত যোগ্যতা (Highest Qualification) <span class="text-red-500">*</span></label>
+                                <select name="highest_qualification" id="highest_qualification" required
                                     class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 transition focus:border-[#0F5132] focus:ring-2 focus:ring-[#0F5132]/20">
                                     <option value="">-- বেছে নিন --</option>
-                                    <option value="SSC" {{ old('educational_background') == 'SSC' ? 'selected' : '' }}>SSC / O-Level</option>
-                                    <option value="HSC" {{ old('educational_background') == 'HSC' ? 'selected' : '' }}>HSC / A-Level</option>
-                                    <option value="Bachelor" {{ old('educational_background') == 'Bachelor' ? 'selected' : '' }}>Bachelor's Degree</option>
-                                    <option value="Master" {{ old('educational_background') == 'Master' ? 'selected' : '' }}>Master's Degree</option>
-                                    <option value="PhD" {{ old('educational_background') == 'PhD' ? 'selected' : '' }}>PhD / Doctorate</option>
+                                    <option value="SSC" {{ old('highest_qualification') == 'SSC' ? 'selected' : '' }}>SSC / O-Level</option>
+                                    <option value="HSC" {{ old('highest_qualification') == 'HSC' ? 'selected' : '' }}>HSC / A-Level</option>
+                                    <option value="Bachelor" {{ old('highest_qualification') == 'Bachelor' ? 'selected' : '' }}>Bachelor's Degree</option>
+                                    <option value="Master" {{ old('highest_qualification') == 'Master' ? 'selected' : '' }}>Master's Degree</option>
+                                    <option value="PhD" {{ old('highest_qualification') == 'PhD' ? 'selected' : '' }}>PhD / Doctorate</option>
                                 </select>
                             </div>
 
                             {{-- GPA / CGPA --}}
                             <div>
-                                <label for="gpa" class="mb-1.5 block text-sm font-bold text-slate-700">GPA / CGPA</label>
-                                <input type="text" name="gpa" id="gpa" value="{{ old('gpa') }}"
+                                <label for="gpa_cgpa" class="mb-1.5 block text-sm font-bold text-slate-700">GPA / CGPA</label>
+                                <input type="text" name="gpa_cgpa" id="gpa_cgpa" value="{{ old('gpa_cgpa') }}"
                                     class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 placeholder-slate-400 transition focus:border-[#0F5132] focus:ring-2 focus:ring-[#0F5132]/20"
                                     placeholder="e.g., 3.80 out of 4.00">
                             </div>
 
                             {{-- Desired Program --}}
                             <div>
-                                <label for="target_course" class="mb-1.5 block text-sm font-bold text-slate-700">কাঙ্ক্ষিত প্রোগ্রাম (Desired Program) <span class="text-red-500">*</span></label>
-                                <select name="target_course" id="target_course" required
+                                <label for="desired_program" class="mb-1.5 block text-sm font-bold text-slate-700">কাঙ্ক্ষিত প্রোগ্রাম (Desired Program) <span class="text-red-500">*</span></label>
+                                <select name="desired_program" id="desired_program" required
                                     class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 transition focus:border-[#0F5132] focus:ring-2 focus:ring-[#0F5132]/20">
                                     <option value="">-- বেছে নিন --</option>
-                                    <option value="Chinese Language" {{ old('target_course') == 'Chinese Language' ? 'selected' : '' }}>Chinese Language Program</option>
-                                    <option value="Bachelors" {{ old('target_course') == 'Bachelors' ? 'selected' : '' }}>Bachelor's Degree</option>
-                                    <option value="Masters" {{ old('target_course') == 'Masters' ? 'selected' : '' }}>Master's Degree</option>
-                                    <option value="PhD" {{ old('target_course') == 'PhD' ? 'selected' : '' }}>PhD / Doctorate</option>
-                                    <option value="Diploma" {{ old('target_course') == 'Diploma' ? 'selected' : '' }}>Diploma / Certificate</option>
+                                    <option value="Chinese Language" {{ old('desired_program') == 'Chinese Language' ? 'selected' : '' }}>Chinese Language Program</option>
+                                    <option value="Bachelors" {{ old('desired_program') == 'Bachelors' ? 'selected' : '' }}>Bachelor's Degree</option>
+                                    <option value="Masters" {{ old('desired_program') == 'Masters' ? 'selected' : '' }}>Master's Degree</option>
+                                    <option value="PhD" {{ old('desired_program') == 'PhD' ? 'selected' : '' }}>PhD / Doctorate</option>
+                                    <option value="Diploma" {{ old('desired_program') == 'Diploma' ? 'selected' : '' }}>Diploma / Certificate</option>
                                 </select>
                             </div>
 
-                            {{-- Preferred Intake --}}
+                            {{-- Target Intake --}}
                             <div>
-                                <label for="preferred_intake" class="mb-1.5 block text-sm font-bold text-slate-700">টার্গেট ইনটেক (Target Intake)</label>
-                                <select name="preferred_intake" id="preferred_intake"
+                                <label for="target_intake" class="mb-1.5 block text-sm font-bold text-slate-700">টার্গেট ইনটেক (Target Intake) <span class="text-red-500">*</span></label>
+                                <select name="target_intake" id="target_intake" required
                                     class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 transition focus:border-[#0F5132] focus:ring-2 focus:ring-[#0F5132]/20">
                                     <option value="">-- বেছে নিন --</option>
-                                    <option value="March 2027" {{ old('preferred_intake') == 'March 2027' ? 'selected' : '' }}>March 2027</option>
-                                    <option value="September 2027" {{ old('preferred_intake') == 'September 2027' ? 'selected' : '' }}>September 2027</option>
-                                    <option value="March 2028" {{ old('preferred_intake') == 'March 2028' ? 'selected' : '' }}>March 2028</option>
+                                    <option value="March 2027" {{ old('target_intake') == 'March 2027' ? 'selected' : '' }}>March 2027</option>
+                                    <option value="September 2027" {{ old('target_intake') == 'September 2027' ? 'selected' : '' }}>September 2027</option>
+                                    <option value="March 2028" {{ old('target_intake') == 'March 2028' ? 'selected' : '' }}>March 2028</option>
                                 </select>
                             </div>
 
@@ -166,6 +155,7 @@
                                 <textarea name="statement_of_purpose" id="statement_of_purpose" rows="4" required
                                     class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm text-slate-700 placeholder-slate-400 transition focus:border-[#0F5132] focus:ring-2 focus:ring-[#0F5132]/20"
                                     placeholder="কেন আপনি চীন-এ পড়তে আগ্রহী? আপনার পছন্দের সাবজেক্ট ও যেকোনো প্রশ্ন উল্লেখ করুন...">{{ old('statement_of_purpose') }}</textarea>
+                                <p class="mt-1 text-xs text-slate-400">অন্তত ৫০ অক্ষরের একটি স্পষ্ট Statement লিখুন — এটি আপনার evaluation-এর জন্য গুরুত্বপূর্ণ।</p>
                             </div>
 
                             {{-- Submit --}}

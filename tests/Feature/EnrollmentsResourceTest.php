@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Filament\Resources\Enrollments\Pages\CreateEnrollment;
 use App\Filament\Resources\Enrollments\Pages\ListEnrollments;
 use App\Models\Course;
 use App\Models\Enrollment;
@@ -22,118 +23,108 @@ class EnrollmentsResourceTest extends TestCase
         ]);
     }
 
-    protected function student(): User
-    {
-        return User::factory()->create(['role' => 'student']);
-    }
-
     protected function course(): Course
     {
         return Course::create([
             'title' => 'HSK 1 Crash Course',
             'slug' => 'hsk-1-crash-course',
             'price' => 9500,
+            'is_published' => true,
         ]);
     }
 
-    public function test_admin_can_view_enrollments_list(): void
+    protected function enrollment(Course $course, array $overrides = []): Enrollment
     {
-        $student = $this->student();
-        $course = $this->course();
+        $user = User::factory()->create();
 
-        Enrollment::create([
-            'user_id' => $student->id,
+        return Enrollment::create(array_merge([
+            'user_id' => $user->id,
             'course_id' => $course->id,
-            'status' => 'pending',
-            'payment_method' => 'bkash',
-            'transaction_id' => 'TRX123',
-            'sender_number' => '01700000000',
-            'price_paid' => 9500,
-        ]);
-
-        $this->actingAs($this->admin())
-            ->get(ListEnrollments::getUrl())
-            ->assertOk()
-            ->assertSee('TRX123')
-            ->assertSee('bKash')
-            ->assertSee('Pending');
+            'student_name' => 'Rahim Uddin',
+            'student_email' => 'rahim@example.com',
+            'student_phone' => '01712345678',
+            'amount' => 9500,
+            'amount_paid' => 0,
+            'amount_due' => 9500,
+            'payment_status' => 'pending',
+            'enrollment_status' => 'pending',
+        ], $overrides));
     }
 
-    public function test_admin_can_approve_a_pending_enrollment(): void
+    public function test_admin_can_open_enrollment_list_and_create_page(): void
     {
-        $enrollment = Enrollment::create([
-            'user_id' => $this->student()->id,
-            'course_id' => $this->course()->id,
-            'status' => 'pending',
-            'payment_method' => 'nagad',
-            'transaction_id' => 'TRX-PENDING-1',
-            'price_paid' => 9500,
+        $admin = $this->admin();
+        $course = $this->course();
+        $this->enrollment($course);
+
+        $this->actingAs($admin)->get(ListEnrollments::getUrl())->assertOk();
+        $this->actingAs($admin)->get(CreateEnrollment::getUrl())->assertOk();
+    }
+
+    public function test_admin_can_create_a_course_enrollment_through_the_form(): void
+    {
+        $course = $this->course();
+        $user = User::factory()->create();
+
+        Livewire::actingAs($this->admin())
+            ->test(CreateEnrollment::class)
+            ->fillForm([
+                'user_id' => (string) $user->id,
+                'course_id' => (string) $course->id,
+                'student_name' => 'Karim Ahmed',
+                'student_email' => 'karim@example.com',
+                'student_phone' => '01812345678',
+                'amount' => 9500,
+                'amount_paid' => 5000,
+                'amount_due' => 4500,
+                'payment_method' => 'bkash',
+                'payment_status' => 'partially_paid',
+                'enrollment_status' => 'pending',
+            ])
+            ->call('create')
+            ->assertHasNoFormErrors();
+
+        $this->assertDatabaseHas('enrollments', [
+            'user_id' => $user->id,
+            'course_id' => $course->id,
+            'student_name' => 'Karim Ahmed',
+            'student_email' => 'karim@example.com',
+            'amount_paid' => 5000,
+            'amount_due' => 4500,
+            'payment_method' => 'bkash',
+            'payment_status' => 'partially_paid',
+            'enrollment_status' => 'pending',
         ]);
+    }
+
+    public function test_mark_as_paid_action_unlocks_the_course(): void
+    {
+        $enrollment = $this->enrollment($this->course());
 
         Livewire::actingAs($this->admin())
             ->test(ListEnrollments::class)
-            ->callTableAction('approve', $enrollment)
-            ->assertNotified();
+            ->callTableAction('markPaid', $enrollment);
 
         $enrollment->refresh();
 
-        $this->assertSame('active', $enrollment->status);
+        $this->assertSame('paid', $enrollment->payment_status);
+        $this->assertSame('in_progress', $enrollment->enrollment_status);
+        $this->assertSame('9500.00', $enrollment->amount_paid);
+        $this->assertSame('0.00', $enrollment->amount_due);
         $this->assertNotNull($enrollment->paid_at);
     }
 
-    public function test_admin_can_reject_a_pending_enrollment_with_reason(): void
+    public function test_bulk_mark_completed_completes_selected_enrollments(): void
     {
-        $enrollment = Enrollment::create([
-            'user_id' => $this->student()->id,
-            'course_id' => $this->course()->id,
-            'status' => 'pending',
-            'payment_method' => 'bkash',
-            'transaction_id' => 'TRX-PENDING-2',
-            'price_paid' => 9500,
-        ]);
+        $course = $this->course();
+        $first = $this->enrollment($course, ['payment_status' => 'paid', 'enrollment_status' => 'in_progress']);
+        $second = $this->enrollment($course, ['payment_status' => 'paid', 'enrollment_status' => 'in_progress']);
 
         Livewire::actingAs($this->admin())
             ->test(ListEnrollments::class)
-            ->callTableAction('reject', $enrollment, data: [
-                'reason' => 'Transaction not found on merchant account.',
-            ])
-            ->assertNotified();
+            ->callTableBulkAction('bulkMarkCompleted', [$first->id, $second->id]);
 
-        $enrollment->refresh();
-
-        $this->assertSame('cancelled', $enrollment->status);
-        $this->assertNull($enrollment->paid_at);
-        $this->assertSame('Transaction not found on merchant account.', $enrollment->rejection_reason);
-    }
-
-    public function test_dashboard_widget_counts_and_revenue(): void
-    {
-        $student = $this->student();
-        $course = $this->course();
-
-        Enrollment::create([
-            'user_id' => $student->id,
-            'course_id' => $course->id,
-            'status' => 'pending',
-            'price_paid' => 9500,
-        ]);
-
-        Enrollment::create([
-            'user_id' => $student->id,
-            'course_id' => $course->id,
-            'status' => 'active',
-            'price_paid' => 1500,
-            'paid_at' => now(),
-        ]);
-
-        $response = $this->actingAs($this->admin())
-            ->get('/admin')
-            ->assertOk();
-
-        $html = $response->getContent();
-
-        $this->assertStringContainsString('Pending Payments', $html);
-        $this->assertStringContainsString('Approved This Month', $html);
-        $this->assertStringContainsString('1,500.00', $html);
+        $this->assertSame('completed', $first->fresh()->enrollment_status);
+        $this->assertSame('completed', $second->fresh()->enrollment_status);
     }
 }

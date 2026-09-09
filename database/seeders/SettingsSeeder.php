@@ -19,9 +19,9 @@ class SettingsSeeder extends Seeder
             // Contact Info
             ['key' => 'whatsapp_number', 'value' => '8618223249514'],
             ['key' => 'contact_email', 'value' => 'info@banglaychinese.com'],
-            ['key' => 'physical_address', 'value' => 'Beijing, China'],
-            ['key' => 'bkash_number', 'value' => '01700000000'],
-            ['key' => 'nagad_number', 'value' => '01700000000'],
+            ['key' => 'physical_address', 'value' => 'Chongqing, China'],
+            ['key' => 'bkash_number', 'value' => '01774148708'],
+            ['key' => 'nagad_number', 'value' => '01774148708'],
 
             // Homepage
             ['key' => 'hero_title', 'value' => 'সরাসরি চীন থেকে এক্সক্লুসিভ মেন্টরশিপে স্কলারশিপ ও চাইনীজ ভাষা শিখুন'],
@@ -40,8 +40,8 @@ class SettingsSeeder extends Seeder
 
             // Study in China / Mentorship
             ['key' => 'study_in_china_whatsapp', 'value' => '8618223249514'],
-            ['key' => 'study_in_china_phone', 'value' => '01300000000'],
-            ['key' => 'study_in_china_office', 'value' => 'Beijing, China'],
+            ['key' => 'study_in_china_phone', 'value' => '8618223249514'],
+            ['key' => 'study_in_china_office', 'value' => 'Chongqing, China'],
 
             // Social Links
             ['key' => 'facebook_url', 'value' => 'https://facebook.com/banglaychinese'],

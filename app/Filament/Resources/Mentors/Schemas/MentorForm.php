@@ -19,9 +19,11 @@ class MentorForm
                     ->required()
                     ->maxLength(255),
                 TextInput::make('expertise')
+                    ->label('Expertise / tags')
                     ->required()
                     ->maxLength(255)
-                    ->placeholder('e.g. HSK 4 Prep, University Application'),
+                    ->placeholder('e.g. HSK 4 Prep, University Application')
+                    ->helperText('Comma-separated areas of expertise shown on the mentor profile.'),
                 Select::make('user_id')
                     ->relationship('user', 'name')
                     ->label('Linked user')

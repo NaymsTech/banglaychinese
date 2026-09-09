@@ -44,8 +44,8 @@
                     ফ্রি
                 @endif
             </span>
-            @if($course->duration_weeks)
-                <span class="rounded-lg bg-emerald-400/90 px-2.5 py-1 text-xs font-bold text-emerald-950">{{ $course->duration_weeks }} সপ্তাহ</span>
+            @if($course->duration_months)
+                <span class="rounded-lg bg-emerald-400/90 px-2.5 py-1 text-xs font-bold text-emerald-950">{{ $course->duration_months }} মাস</span>
             @endif
         </div>
     </div>
@@ -75,12 +75,12 @@
         @if($course->is_featured)
             <div class="mt-4 flex items-center gap-2 rounded-xl bg-green-50 px-3 py-2 text-xs font-semibold text-green-800">
                 <span class="flex h-5 w-5 items-center justify-center rounded-full bg-green-200 text-xs">⚡</span>
-                <span>{{ $course->duration_weeks ? $course->duration_weeks . ' সপ্তাহের ইন্টেন্সিভ প্রোগ্রাম' : 'সর্বোচ্চ চাহিদাসম্পন্ন কোর্স' }}</span>
+                <span>{{ $course->duration_months ? $course->duration_months . ' মাসের ইন্টেন্সিভ প্রোগ্রাম' : 'সর্বোচ্চ চাহিদাসম্পন্ন কোর্স' }}</span>
             </div>
         @endif
 
         {{-- Dual CTA Buttons --}}
-        <div class="mt-4 grid grid-cols-2 gap-3">
+        <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
             <a href="{{ route('courses.show', $course->slug) }}"
                class="inline-flex items-center justify-center gap-1.5 rounded-full border-2 border-primary-800 px-4 py-2.5 text-sm font-bold text-primary-800 transition hover:bg-emerald-50">
                 বিস্তারিত দেখুন

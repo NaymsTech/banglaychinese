@@ -17,6 +17,28 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Emergency Manual Queue Processing
+    |--------------------------------------------------------------------------
+    |
+    | Bounds for the admin-only "Process Pending Emails" fallback. When the
+    | normal queue worker is unavailable an admin may manually drain a limited
+    | number of pending jobs from a browser request; these settings keep that
+    | request short and safe on shared hosting. Normal queue processing is
+    | unaffected and still runs automatically through the server worker.
+    |
+    */
+
+    'emergency' => [
+        // Maximum pending jobs processed per admin click.
+        'max_jobs_per_run' => (int) env('QUEUE_EMERGENCY_MAX_JOBS_PER_RUN', 10),
+
+        // Soft wall-clock budget (seconds) for one manual drain so a single
+        // browser request can never run away.
+        'max_run_seconds' => (int) env('QUEUE_EMERGENCY_MAX_RUN_SECONDS', 50),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Queue Connections
     |--------------------------------------------------------------------------
     |

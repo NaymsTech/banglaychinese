@@ -7,6 +7,40 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ScholarshipApplication extends Model
 {
+    public const JOURNEY_STATUS_NEW = 'new';
+
+    public const JOURNEY_STATUS_DOCUMENTS_REVIEWED = 'documents_reviewed';
+
+    public const JOURNEY_STATUS_APPLIED = 'applied_to_university';
+
+    public const JOURNEY_STATUS_OFFER = 'offer_received';
+
+    public const JOURNEY_STATUS_VISA = 'visa_processing';
+
+    public const JOURNEY_STATUS_APPROVED = 'approved';
+
+    public const JOURNEY_STATUS_REJECTED = 'rejected';
+
+    public const JOURNEY_STATUSES = [
+        self::JOURNEY_STATUS_NEW => 'New',
+        self::JOURNEY_STATUS_DOCUMENTS_REVIEWED => 'Documents Reviewed',
+        self::JOURNEY_STATUS_APPLIED => 'Applied to University',
+        self::JOURNEY_STATUS_OFFER => 'Offer Received',
+        self::JOURNEY_STATUS_VISA => 'Visa Processing',
+        self::JOURNEY_STATUS_APPROVED => 'Approved',
+        self::JOURNEY_STATUS_REJECTED => 'Rejected',
+    ];
+
+    public const JOURNEY_STATUS_COLORS = [
+        self::JOURNEY_STATUS_NEW => 'gray',
+        self::JOURNEY_STATUS_DOCUMENTS_REVIEWED => 'info',
+        self::JOURNEY_STATUS_APPLIED => 'purple',
+        self::JOURNEY_STATUS_OFFER => 'warning',
+        self::JOURNEY_STATUS_VISA => 'sky',
+        self::JOURNEY_STATUS_APPROVED => 'success',
+        self::JOURNEY_STATUS_REJECTED => 'danger',
+    ];
+
     protected $fillable = [
         'name',
         'email',
@@ -23,6 +57,7 @@ class ScholarshipApplication extends Model
         'message',
         'status',
         'application_status',
+        'journey_status',
         'admin_notes',
         'follow_up_date',
         'budget',

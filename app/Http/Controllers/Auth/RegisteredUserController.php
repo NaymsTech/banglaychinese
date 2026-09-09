@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Lead;
 use App\Models\User;
+use App\Rules\BangladeshiPhone;
+use App\Services\LeadCaptureService;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,18 +31,29 @@ class RegisteredUserController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, LeadCaptureService $leads): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'phone' => ['nullable', 'string', new BangladeshiPhone],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
+        ]);
+
+        $leads->capture([
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'name' => $user->name,
+            'whatsapp_number' => $user->phone,
+            'source' => Lead::SOURCE_REGISTRATION,
+            'interest' => Lead::INTEREST_GENERAL,
         ]);
 
         event(new Registered($user));

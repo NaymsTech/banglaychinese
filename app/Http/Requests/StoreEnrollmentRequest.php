@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreEnrollmentRequest extends FormRequest
 {
@@ -20,9 +21,17 @@ class StoreEnrollmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_method' => ['required', 'string', 'in:bkash,nagad'],
-            'transaction_id' => ['required', 'string', 'min:8', 'max:64'],
-            'sender_number' => ['required', 'regex:/^(?:\+88|88)?(01[3-9]\d{8})$/'],
+            'payment_method' => ['required', 'in:bkash,nagad,free'],
+            'transaction_id' => [
+                Rule::requiredIf(fn (): bool => $this->input('payment_method') !== 'free'),
+                'string',
+                'min:8',
+                'max:64',
+            ],
+            'sender_number' => [
+                Rule::requiredIf(fn (): bool => $this->input('payment_method') !== 'free'),
+                'regex:/^(?:\+88|88)?(01[3-9]\d{8})$/',
+            ],
         ];
     }
 
@@ -35,7 +44,7 @@ class StoreEnrollmentRequest extends FormRequest
     {
         return [
             'payment_method.required' => 'পেমেন্ট পদ্ধতি নির্বাচন করুন।',
-            'payment_method.in' => 'শুধুমাত্র বিকাশ (bKash) অথবা নগদ (Nagad) পেমেন্ট গ্রহণযোগ্য।',
+            'payment_method.in' => 'শুধুমাত্র বিকাশ (bKash), নগদ (Nagad) অথবা ফ্রি এনরোলমেন্ট গ্রহণযোগ্য।',
             'transaction_id.required' => 'ট্রানজেকশন আইডি প্রদান করুন।',
             'transaction_id.min' => 'ট্রানজেকশন আইডি কমপক্ষে ৮ অক্ষরের হতে হবে।',
             'transaction_id.max' => 'ট্রানজেকশন আইডি সর্বোচ্চ ৬৪ অক্ষরের হতে হবে।',

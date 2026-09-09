@@ -2,10 +2,11 @@
 
 namespace App\Filament\Resources\ScholarshipApplications\Schemas;
 
+use App\Models\ScholarshipApplication;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -98,6 +99,12 @@ class ScholarshipApplicationForm
                                 'rejected' => 'Rejected',
                             ])
                             ->placeholder('Pending (no decision)'),
+                        Select::make('journey_status')
+                            ->label('Application journey')
+                            ->options(ScholarshipApplication::JOURNEY_STATUSES)
+                            ->default(ScholarshipApplication::JOURNEY_STATUS_NEW)
+                            ->required()
+                            ->helperText('Where is this student in the application journey?'),
                         DatePicker::make('follow_up_date')
                             ->label('Follow-up date'),
                         Textarea::make('admin_notes')

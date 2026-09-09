@@ -6,10 +6,11 @@ use App\Models\ContactMessage;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
+use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Notifications\Notification;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Collection;
@@ -38,10 +39,13 @@ class ContactMessagesTable
                     ->limit(80)
                     ->tooltip(fn ($state) => $state)
                     ->toggleable(isToggledHiddenByDefault: true),
-                IconColumn::make('is_read')
+                ToggleColumn::make('is_read')
                     ->label('Read')
-                    ->icon(fn (bool $state): string => $state ? 'heroicon-o-eye' : 'heroicon-o-eye-slash')
-                    ->color(fn (bool $state): string => $state ? 'success' : 'gray'),
+                    ->onColor('success')
+                    ->offColor('warning')
+                    ->onIcon('heroicon-o-check')
+                    ->offIcon('heroicon-o-clock')
+                    ->tooltip('Mark as read / unread'),
                 TextColumn::make('created_at')
                     ->label('Received')
                     ->dateTime('d M Y, g:i A')
@@ -74,9 +78,13 @@ class ContactMessagesTable
 
                             Notification::make()
                                 ->success()
-                                ->title("{$count} message" . ($count === 1 ? '' : 's') . ' marked as read.')
+                                ->title("{$count} message".($count === 1 ? '' : 's').' marked as read.')
                                 ->send();
                         }),
+                    DeleteBulkAction::make()
+                        ->requiresConfirmation()
+                        ->modalHeading('Delete selected messages?')
+                        ->modalDescription('The selected contact messages will be permanently removed.'),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');

@@ -4,7 +4,7 @@
 
 - **PHP 8.3+** (with extensions: `bcmath`, `ctype`, `curl`, `fileinfo`, `gd`, `json`, `mbstring`, `openssl`, `pdo`, `tokenizer`, `xml`)
 - **Composer 2.x**
-- **Node.js 18+** and npm
+- **Node.js `^20.19` or `>=22.12`** and npm (required by Vite 8)
 - **MySQL 8.0** / PostgreSQL 15 / SQLite (for local dev)
 - **Nginx** or Apache (Nginx config provided below)
 
@@ -41,10 +41,12 @@ Edit `.env` with your production values:
 | `APP_ENV` | production |
 | `APP_DEBUG` | false |
 | `APP_URL` | https://yourdomain.com |
+| `ADMIN_PASSWORD` | Set a strong password; required by `AdminUserSeeder` when seeding in production |
 | `DB_CONNECTION` | mysql (or pgsql) |
 | `DB_HOST` / `DB_PORT` / `DB_DATABASE` / `DB_USERNAME` / `DB_PASSWORD` | Your database credentials |
 | `SESSION_SECURE_COOKIE` | true |
 | `LOG_LEVEL` | error (recommended: `error` or `warning`) |
+| `MAIL_*` (Brevo SMTP) | Used **only** by `EmailSystemSeeder` to create the initial encrypted "Brevo SMTP" provider row (see `.env.example`) |
 
 ---
 
@@ -52,13 +54,22 @@ Edit `.env` with your production values:
 
 ```bash
 php artisan migrate
-php artisan db:seed
+php artisan db:seed --force
 ```
 
-This seeds:
-- `SettingsSeeder` — default site settings (site name, WhatsApp, email, hero text, stats)
-- `AdminUserSeeder` — admin user (check `database/seeders/AdminUserSeeder.php` for credentials)
-- `BanglayChineseSeeder` — sample courses, lessons, blog posts
+Production seeding is environment-aware and safe (`--force` is required in
+production). It seeds ONLY essential production data:
+
+- `SettingsSeeder` — site settings incl. confirmed contact values (bKash/Nagad `01774148708`, WhatsApp `+86 182-2324-9514`, address `Chongqing, China`)
+- `AdminUserSeeder` — production admin (`ADMIN_PASSWORD` env required; seeding aborts without it)
+- `BanglayChineseSeeder` — the real course & category catalog
+- `ServiceSeeder` — Study-in-China service packages
+- `AboutPageSeeder` — about-page content
+- `EmailSystemSeeder` — email branding, the initial Brevo provider, and the 11 email templates
+
+No demo users, customers, orders, payments, dummy resources or test content
+are created in production. Demo/test seeders (e.g. `FreeResourceSeeder`) only
+run under `app()->isLocal()`.
 
 ---
 
@@ -68,7 +79,8 @@ This seeds:
 # Cache routes & config
 php artisan optimize
 
-# Create storage symlink (for uploaded files)
+# Create storage symlink (for uploaded files). Must be run ON the server after
+# deployment — the symlink is git-ignored and must never be committed.
 php artisan storage:link
 ```
 
@@ -147,6 +159,30 @@ chmod -R 775 /var/www/banglaychinese/bootstrap/cache
 
 ---
 
+## Step 8 — Queue & Scheduled Tasks (Hostinger)
+
+Hostinger shared hosting has no persistent process daemon, so the database
+email queue cannot rely on a long-running `queue:work --daemon`. Instead the
+application runs a short-lived queue worker from Laravel's scheduler
+(`routes/console.php`) every minute: it processes the `database` queue, stops
+when the queue is empty, never overlaps itself, and preserves each job's own
+3-attempt retry behaviour.
+
+Add a **single cron job** in Hostinger (Cron Jobs) that runs every minute:
+
+```bash
+* * * * * php /path/to/artisan schedule:run >> /dev/null 2>&1
+```
+
+Use the absolute path to the `artisan` file on your account (e.g.
+`/home/USER/domains/DOMAIN/public_html/artisan`). This one cron keeps both the
+scheduled commands (course payment reminders) and the queued email worker
+running. Verify with `php artisan schedule:list`, then send a test email from
+Filament (Email Templates → Send Test) and confirm the EmailLog moves from
+`queued` to `sent`.
+
+---
+
 ## Post-Deployment Checklist
 
 - [ ] `.env` has `APP_DEBUG=false` and `APP_ENV=production`
@@ -157,16 +193,15 @@ chmod -R 775 /var/www/banglaychinese/bootstrap/cache
 - [ ] Nginx config is active and tested
 - [ ] SSL certificate is valid and auto-renewal is configured
 - [ ] Visit `/` — homepage loads correctly
-- [ ] Visit `/contact` — contact form works and redirects to WhatsApp
+- [ ] Visit `/contact` — contact form stores the message and sends the acknowledgement email
 - [ ] Visit `/courses` — course listings display
 - [ ] Visit `/blog` — blog index works
 - [ ] Visit `/about` — about page loads
-- [ ] Visit `/scholarship` — scholarship page loads
-- [ ] 404 page shows Bengali error text for invalid URLs
-- [ ] Admin login works at `/login`
-- [ ] Admin dashboard at `/admin` is accessible to admin users
+- [ ] Visit `/study-in-china` — Study in China page loads
+- [ ] 404 page shows the application error page for invalid URLs
+- [ ] Admin panel is accessible at `/admin` to admin users
 - [ ] Rate limiting triggers Bengali message on excessive submissions
-- [ ] Queue worker is running (if using queues): `php artisan queue:work --daemon`
+- [ ] Hostinger cron runs `php artisan schedule:run` every minute (see Step 8) so queued email jobs are processed automatically
 
 ---
 

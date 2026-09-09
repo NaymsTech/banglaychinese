@@ -1,6 +1,30 @@
+@php
+    // The FAQ accordion below renders each section (heading + paragraphs), so
+    // this schema mirrors exactly the questions and answers visible on page.
+    $faqJsonLd = json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'FAQPage',
+        'mainEntity' => array_map(static function (array $faq): array {
+            $body = is_array($faq['body'] ?? null)
+                ? implode(' ', array_map('strip_tags', $faq['body']))
+                : trim(strip_tags((string) ($faq['body'] ?? '')));
+
+            return [
+                '@type' => 'Question',
+                'name' => trim(strip_tags((string) ($faq['heading'] ?? ''))),
+                'acceptedAnswer' => [
+                    '@type' => 'Answer',
+                    'text' => $body,
+                ],
+            ];
+        }, $sections),
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG);
+@endphp
+
 <x-app-layout
     :metaTitle="$meta_title"
     :metaDescription="$meta_description"
+    :faqJsonLd="$faqJsonLd"
 >
     {{-- ===== HERO ===== --}}
     <section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-emerald-950 to-gray-900 text-white">

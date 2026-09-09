@@ -1,4 +1,4 @@
-<x-app-layout :metaTitle="$metaTitle">
+<x-app-layout :metaTitle="$metaTitle" :robots="'noindex, nofollow'">
     <section class="bg-gradient-to-br from-[#0F5132] to-[#052e16] py-10 text-white sm:py-14">
         <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <nav class="mb-4 text-sm text-emerald-200">

@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\Products\Tables;
 
+use App\Filament\Actions\DeleteProductAction;
 use App\Models\Product;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -64,7 +64,7 @@ class ProductsTable
             ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteProductAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

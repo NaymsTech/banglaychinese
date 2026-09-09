@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :robots="'noindex, nofollow'">
     <div class="min-h-screen bg-[#F0FDF4]">
         {{-- Dashboard Sidebar --}}
         <div class="flex">

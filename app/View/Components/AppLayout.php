@@ -12,10 +12,10 @@ class AppLayout extends Component
         public ?string $metaDescription = null,
         public ?string $canonicalUrl = null,
         public ?string $metaImage = null,
+        public ?string $robots = null,
         public ?string $courseJsonLd = null,
         public ?string $faqJsonLd = null,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the view / contents that represents the component.

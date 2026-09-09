@@ -1,4 +1,4 @@
-<x-app-layout :metaTitle="'Payment Submitted | ' . config('app.name', 'Banglay Chinese')">
+<x-app-layout :metaTitle="'Payment Submitted | ' . config('app.name', 'Banglay Chinese')" :robots="'noindex, nofollow'">
     <section class="bg-white py-16 sm:py-24">
         <div class="mx-auto max-w-lg px-4 text-center sm:px-6 lg:px-8">
             {{-- Success Icon --}}

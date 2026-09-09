@@ -11,6 +11,7 @@ use App\Models\Service;
 use App\Services\CheckoutOrderWriter;
 use App\Services\EnrollmentApprovalService;
 use App\Services\LeadCaptureService;
+use App\Services\SettingsService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -65,7 +66,31 @@ class CourseController extends Controller
             ? asset('storage/'.$course->og_image)
             : (filled($course->thumbnail) ? asset('storage/'.$course->thumbnail) : null);
 
-        return view('courses.show', compact('course', 'related', 'metaTitle', 'metaDescription', 'metaImage'));
+        $courseSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Course',
+            'name' => $course->title,
+            'description' => trim(strip_tags((string) $course->description)),
+            'url' => route('courses.show', ['slug' => $course->slug]),
+            'provider' => [
+                '@type' => 'EducationalOrganization',
+                'name' => SettingsService::get('site_name', 'Banglay Chinese'),
+                'url' => url('/'),
+            ],
+            'offers' => [
+                '@type' => 'Offer',
+                'price' => (string) round((float) $course->price, 2),
+                'priceCurrency' => 'BDT',
+            ],
+        ];
+
+        if (filled($course->thumbnail)) {
+            $courseSchema['image'] = asset('storage/'.$course->thumbnail);
+        }
+
+        $courseJsonLd = json_encode($courseSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG);
+
+        return view('courses.show', compact('course', 'related', 'metaTitle', 'metaDescription', 'metaImage', 'courseJsonLd'));
     }
 
     public function enroll(StoreEnrollmentRequest $request, Course $course, LeadCaptureService $leads)

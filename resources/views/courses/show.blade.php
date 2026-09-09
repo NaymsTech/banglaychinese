@@ -2,6 +2,7 @@
     :metaTitle="$metaTitle"
     :metaDescription="$metaDescription"
     :metaImage="$metaImage ?? null"
+    :courseJsonLd="$courseJsonLd"
 >
     <!-- Hero -->
     <section class="bg-gradient-to-br from-[#0F5132] to-[#052e16] py-14 text-white sm:py-20">

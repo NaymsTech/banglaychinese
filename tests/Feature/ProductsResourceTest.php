@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Filament\Resources\Products\Pages\CreateProduct;
+use App\Filament\Resources\Products\Pages\EditProduct;
 use App\Filament\Resources\Products\Pages\ListProducts;
+use App\Models\DigitalOrder;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -101,5 +103,68 @@ class ProductsResourceTest extends TestCase
             ->get(ListProducts::getUrl())
             ->assertOk()
             ->assertSee($product->title);
+    }
+
+    public function test_product_with_digital_orders_cannot_be_deleted_and_admin_is_informed(): void
+    {
+        $product = $this->product();
+        $order = $this->digitalOrder($product);
+
+        Livewire::actingAs($this->admin())
+            ->test(ListProducts::class)
+            ->callTableAction('delete', $product)
+            ->assertNotified('Product could not be deleted');
+
+        $this->assertModelExists($product);
+        $this->assertModelExists($order);
+    }
+
+    public function test_product_without_digital_orders_can_be_deleted_from_the_list(): void
+    {
+        $product = $this->product();
+
+        Livewire::actingAs($this->admin())
+            ->test(ListProducts::class)
+            ->callTableAction('delete', $product);
+
+        $this->assertModelMissing($product);
+    }
+
+    public function test_product_with_digital_orders_cannot_be_deleted_from_the_edit_page(): void
+    {
+        $product = $this->product();
+        $order = $this->digitalOrder($product);
+
+        Livewire::actingAs($this->admin())
+            ->test(EditProduct::class, ['record' => $product->getKey()])
+            ->callAction('delete')
+            ->assertNotified('Product could not be deleted');
+
+        $this->assertModelExists($product);
+        $this->assertModelExists($order);
+    }
+
+    public function test_product_without_digital_orders_can_be_deleted_from_the_edit_page(): void
+    {
+        $product = $this->product();
+
+        Livewire::actingAs($this->admin())
+            ->test(EditProduct::class, ['record' => $product->getKey()])
+            ->callAction('delete');
+
+        $this->assertModelMissing($product);
+    }
+
+    protected function digitalOrder(Product $product, array $overrides = []): DigitalOrder
+    {
+        return DigitalOrder::create(array_merge([
+            'product_id' => $product->id,
+            'student_name' => 'Rahim Uddin',
+            'student_email' => 'rahim@example.com',
+            'student_phone' => '01712345678',
+            'trx_id' => 'TRX987654321',
+            'amount' => 800,
+            'status' => DigitalOrder::STATUS_PENDING,
+        ], $overrides));
     }
 }

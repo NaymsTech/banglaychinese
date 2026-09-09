@@ -8,6 +8,15 @@
     $gaId = SettingsService::get('google_analytics_id');
     $fbPixelId = SettingsService::get('facebook_pixel_id');
     $siteName = SettingsService::get('site_name', 'Banglay Chinese');
+    // <title> must contain the site name exactly once: pages may pass a full
+    // title that already includes the brand, a partial title that does not,
+    // or nothing (falls back to the bare site name).
+    $rawPageTitle = trim((string) ($metaTitle ?? ''));
+    $htmlTitle = $rawPageTitle === ''
+        ? (string) $siteName
+        : (str_contains($rawPageTitle, (string) $siteName)
+            ? $rawPageTitle
+            : $rawPageTitle.' | '.(string) $siteName);
     $metaDesc = SettingsService::get('meta_description', 'Banglay Chinese — Best learn Chinese for Bangladeshi students. HSK 1–4 preparation, live speaking classes, and China scholarship mentorship in Bengali.');
     $siteTagline = SettingsService::get('site_tagline', 'বাংলায় চাইনিজ ভাষা শেখার সেরা প্লাটফর্ম');
     $facebookUrl = SettingsService::get('facebook_url', 'https://facebook.com/banglaychinese');
@@ -56,12 +65,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@700&family=Anek+Bangla:wght@600;700&family=Hind+Siliguri:wght@400&family=Noto+Sans+SC:wght@400;500&display=swap" rel="stylesheet">
 
-    <title>{{ $metaTitle ?? $siteName }} | {{ $siteName }}</title>
+    <title>{{ $htmlTitle }}</title>
 
     <meta name="description" content="{{ $metaDescription ?? $metaDesc }}">
     <meta name="keywords" content="learn chinese, bangla to chinese, HSK preparation, study in china for bangladeshi, china scholarship, chinese language course">
     <meta name="author" content="{{ $siteName }}">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="{{ $robots ?? 'index, follow' }}">
     <meta name="theme-color" content="#0F5132">
     <link rel="canonical" href="{{ $canonicalUrl ?? url()->current() }}">
 
